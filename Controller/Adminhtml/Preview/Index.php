@@ -16,17 +16,31 @@ class Index extends \Magento\Backend\App\Action {
 
 	protected $resultPageFactory;
 
+	protected $_emailCatcher;	
 	
 	public function __construct(
 		\Magento\Framework\App\Action\Context $context,
-		\Magento\Framework\View\Result\PageFactory $resultPageFactory
+		\Magento\Framework\View\Result\PageFactory $resultPageFactory,
+		\Experius\EmailCatcher\Model\EmailcatcherFactory $emailCatcher
 	){
+		
 		$this->resultPageFactory = $resultPageFactory;
+		
+		$this->_emailCatcher = $emailCatcher;
+		
 		parent::__construct($context);
 	}
 
 	
 	public function execute(){
-		return $this->resultPageFactory->create();
+		
+		$id = $this->getRequest()->getParam('emailcatcher_id');
+        if($id){
+            
+            $model = $this->_emailCatcher->create();
+            $email = $model->load($id);
+                        
+            echo $email->getBody();
+		}
 	}
 }
