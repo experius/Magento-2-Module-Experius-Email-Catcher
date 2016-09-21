@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+	<router id="admin">
+		<route frontName="experius_emailcatcher" id="experius_emailcatcher">
+			<module before="Magento_Backend" name="Experius_EmailCatcher"/>
+		</route>
+	</router>
+</config>

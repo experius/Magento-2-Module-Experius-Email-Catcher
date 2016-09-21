@@ -1,0 +1,20 @@
+{
+    "name": "experius/emailcatcher",
+    "description": "",
+    "authors": [
+        {
+            "name": "Mage2Gen",
+            "email": "mail@mage2gen"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Experius\\EmailCatcher\\": ""
+        }
+    }
+}

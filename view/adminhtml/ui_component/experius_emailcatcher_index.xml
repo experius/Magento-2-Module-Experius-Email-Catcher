@@ -1,0 +1,128 @@
+<?xml version="1.0" ?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+	<argument name="context" xsi:type="configurableObject">
+		<argument name="class" xsi:type="string">Magento\Framework\View\Element\UiComponent\Context</argument>
+		<argument name="namespace" xsi:type="string">experius_emailcatcher_index</argument>
+	</argument>
+	<argument name="data" xsi:type="array">
+		<item name="js_config" xsi:type="array">
+			<item name="provider" xsi:type="string">experius_emailcatcher_index.experius_emailcatcher_grid_data_source</item>
+			<item name="deps" xsi:type="string">experius_emailcatcher_index.experius_emailcatcher_grid_data_source</item>
+		</item>
+		<item name="spinner" xsi:type="string">experius_emailcatcher_columns</item>
+	</argument>
+	<dataSource name="experius_emailcatcher_grid_data_source">
+		<argument name="dataProvider" xsi:type="configurableObject">
+			<argument name="class" xsi:type="string">Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider</argument>
+			<argument name="name" xsi:type="string">experius_emailcatcher_grid_data_source</argument>
+			<argument name="primaryFieldName" xsi:type="string">emailcatcher_id</argument>
+			<argument name="requestFieldName" xsi:type="string">id</argument>
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
+					<item name="update_url" path="mui/index/render" xsi:type="url"/>
+					<item name="storageConfig" xsi:type="array">
+						<item name="indexField" xsi:type="string">emailcatcher_id</item>
+					</item>
+				</item>
+			</argument>
+		</argument>
+	</dataSource>
+	<listingToolbar name="listing_top">
+		<argument name="data" xsi:type="array">
+			<item name="config" xsi:type="array">
+				<item name="sticky" xsi:type="boolean">true</item>
+			</item>
+		</argument>
+		<bookmark name="bookmark"/>
+		<columnsControls name="columns_controls"/>
+		<filters name="listing_filters"/>
+		<paging name="listing_paging"/>
+	</listingToolbar>
+	<columns name="experius_emailcatcher_columns">
+		<argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="childDefaults" xsi:type="array">
+                    <item name="fieldAction" xsi:type="array">
+                        <item name="provider" xsi:type="string">sales_order_grid.sales_order_grid.sales_order_columns.actions</item>
+                        <item name="target" xsi:type="string">applyAction</item>
+                        <item name="params" xsi:type="array">
+                            <item name="0" xsi:type="string">view</item>
+                            <item name="1" xsi:type="string">${ $.$data.rowIndex }</item>
+                        </item>
+                    </item>
+                </item>
+            </item>
+        </argument>
+		<selectionsColumn name="ids">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="indexField" xsi:type="string">emailcatcher_id</item>
+				</item>
+			</argument>
+		</selectionsColumn>
+		<column name="emailcatcher_id">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="filter" xsi:type="string">text</item>
+					<item name="sorting" xsi:type="string">asc</item>
+					<item name="label" translate="true" xsi:type="string">ID</item>
+				</item>
+			</argument>
+		</column>
+		<column name="to">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="filter" xsi:type="string">text</item>
+					<item name="sorting" xsi:type="string">asc</item>
+					<item name="label" translate="true" xsi:type="string">to</item>
+				</item>
+			</argument>
+		</column>
+		<column name="from">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="filter" xsi:type="string">text</item>
+					<item name="sorting" xsi:type="string">asc</item>
+					<item name="label" translate="true" xsi:type="string">from</item>
+				</item>
+			</argument>
+		</column>
+		<column name="subject">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="filter" xsi:type="string">text</item>
+					<item name="sorting" xsi:type="string">asc</item>
+					<item name="label" translate="true" xsi:type="string">subject</item>
+				</item>
+			</argument>
+		</column>
+		<column name="created_at">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="filter" xsi:type="string">text</item>
+					<item name="sorting" xsi:type="string">asc</item>
+					<item name="label" translate="true" xsi:type="string">created_at</item>
+				</item>
+			</argument>
+		</column>
+		<!--<column name="store_id">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="filter" xsi:type="string">text</item>
+					<item name="sorting" xsi:type="string">asc</item>
+					<item name="label" translate="true" xsi:type="string">store_id</item>
+				</item>
+			</argument>
+		</column>-->
+		<actionsColumn name="actions" class="Magento\Sales\Ui\Component\Listing\Column\ViewAction">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="indexField" xsi:type="string">emailcatcher_id</item>
+                    <item name="viewUrlPath" xsi:type="string">emailcatcher/preview/index</item>
+                    <item name="urlEntityParamName" xsi:type="string">emailcatcher_id</item>
+                </item>
+            </argument>
+        </actionsColumn>
+	</columns>
+</listing>
