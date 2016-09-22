@@ -27,6 +27,9 @@ class Index extends \Magento\Backend\App\Action {
 
 	
 	public function execute(){
-		return $this->resultPageFactory->create();
+		
+		$result = $this->resultPageFactory->create();
+		$result->getConfig()->getTitle()->prepend(__('Email Catcher'));
+		return $result;
 	}
 }

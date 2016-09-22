@@ -65,7 +65,7 @@
 			<argument name="data" xsi:type="array">
 				<item name="config" xsi:type="array">
 					<item name="filter" xsi:type="string">text</item>
-					<item name="sorting" xsi:type="string">asc</item>
+					<item name="sorting" xsi:type="string">desc</item>
 					<item name="label" translate="true" xsi:type="string">ID</item>
 				</item>
 			</argument>
@@ -74,7 +74,6 @@
 			<argument name="data" xsi:type="array">
 				<item name="config" xsi:type="array">
 					<item name="filter" xsi:type="string">text</item>
-					<item name="sorting" xsi:type="string">asc</item>
 					<item name="label" translate="true" xsi:type="string">to</item>
 				</item>
 			</argument>
@@ -83,7 +82,6 @@
 			<argument name="data" xsi:type="array">
 				<item name="config" xsi:type="array">
 					<item name="filter" xsi:type="string">text</item>
-					<item name="sorting" xsi:type="string">asc</item>
 					<item name="label" translate="true" xsi:type="string">from</item>
 				</item>
 			</argument>
@@ -92,7 +90,6 @@
 			<argument name="data" xsi:type="array">
 				<item name="config" xsi:type="array">
 					<item name="filter" xsi:type="string">text</item>
-					<item name="sorting" xsi:type="string">asc</item>
 					<item name="label" translate="true" xsi:type="string">subject</item>
 				</item>
 			</argument>
@@ -101,7 +98,6 @@
 			<argument name="data" xsi:type="array">
 				<item name="config" xsi:type="array">
 					<item name="filter" xsi:type="string">text</item>
-					<item name="sorting" xsi:type="string">asc</item>
 					<item name="label" translate="true" xsi:type="string">created_at</item>
 				</item>
 			</argument>
@@ -110,6 +106,7 @@
 			<argument name="data" xsi:type="array">
 				<item name="config" xsi:type="array">
 					<item name="indexField" xsi:type="string">emailcatcher_id</item>
+					<!--<item name="component" xsi:type="string">Experius_EmailCatcher/js/grid/columns/actions</item>-->
 				</item>
 			</argument>
 		</actionsColumn>

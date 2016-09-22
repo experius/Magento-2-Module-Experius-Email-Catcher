@@ -44,7 +44,7 @@ class EmailcatcherActions extends \Magento\Ui\Component\Listing\Columns\Column {
 		                        'emailcatcher_id' => $item['emailcatcher_id']
 		                    ]
 		                ),
-		                'label' => __('view test'),
+		                'label' => __('View'),
 						//'callback' => "window.open(this.href,'_blank','width=800,height=700,resizable=1,scrollbars=1');return false;",
 						//'confirm'=> ['title'=>'test','message'=>'test']
 		            ]
