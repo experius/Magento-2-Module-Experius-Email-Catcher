@@ -106,7 +106,7 @@
 			<argument name="data" xsi:type="array">
 				<item name="config" xsi:type="array">
 					<item name="indexField" xsi:type="string">emailcatcher_id</item>
-					<!--<item name="component" xsi:type="string">Experius_EmailCatcher/js/grid/columns/actions</item>-->
+					<item name="component" xsi:type="string">Experius_EmailCatcher/js/grid/columns/actions</item>
 				</item>
 			</argument>
 		</actionsColumn>

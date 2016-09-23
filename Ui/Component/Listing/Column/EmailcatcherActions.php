@@ -45,6 +45,7 @@ class EmailcatcherActions extends \Magento\Ui\Component\Listing\Columns\Column {
 		                    ]
 		                ),
 		                'label' => __('View'),
+						'popup' => true
 						//'callback' => "window.open(this.href,'_blank','width=800,height=700,resizable=1,scrollbars=1');return false;",
 						//'confirm'=> ['title'=>'test','message'=>'test']
 		            ]
