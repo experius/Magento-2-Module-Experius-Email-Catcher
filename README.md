@@ -1,3 +1,5 @@
+# Magento 2 Module Experius Email Catcher
+
 Email Catcher / Logger Module for Magento 2. 
 
 System > Tools > Email Catcher
