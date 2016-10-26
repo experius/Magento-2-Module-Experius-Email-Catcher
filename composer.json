@@ -1,6 +1,9 @@
 {
     "name": "experius/emailcatcher",
     "description": "",
+    "license": [
+        "OSL-3.0"
+    ],
     "authors": [
         {
             "name": "Derrick Heesbeen",
