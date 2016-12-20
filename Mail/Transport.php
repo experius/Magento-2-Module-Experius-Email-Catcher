@@ -45,7 +45,7 @@ class Transport extends \Zend_Mail_Transport_Sendmail implements \Magento\Framew
         
         $emailCatcher = $this->_emailCatcher->create();
         
-        $emailCatcher->setBody($this->_message->getBodyHtml()->getRawContent());
+        $emailCatcher->setBody($this->_message->getBody()->getRawContent());
         $emailCatcher->setSubject($this->_message->getSubject());
         $emailCatcher->setTo(implode(',',$this->_message->getRecipients()));
         $emailCatcher->setFrom($this->_message->getFrom());
