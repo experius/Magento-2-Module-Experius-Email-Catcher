@@ -19,7 +19,7 @@ class Index extends \Magento\Backend\App\Action {
 	protected $_emailCatcher;	
 	
 	public function __construct(
-		\Magento\Framework\App\Action\Context $context,
+        \Magento\Backend\App\Action\Context $context,
 		\Magento\Framework\View\Result\PageFactory $resultPageFactory,
 		\Experius\EmailCatcher\Model\EmailcatcherFactory $emailCatcher
 	){
