@@ -1,12 +1,6 @@
 <?xml version="1.0" ?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 	<preference for="Magento\Framework\Mail\TransportInterface" type="Experius\EmailCatcher\Mail\Transport"/>
-	<virtualType name="Experius\EmailCatcher\Model\ResourceModel\Emailcatcher\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
-		<arguments>
-			<argument name="mainTable" xsi:type="string">experius_emailcatcher</argument>
-			<argument name="resourceModel" xsi:type="string">Experius\EmailCatcher\Model\ResourceModel\Emailcatcher\Collection</argument>
-		</arguments>
-	</virtualType>
 	<type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
 		<arguments>
 			<argument name="collections" xsi:type="array">
