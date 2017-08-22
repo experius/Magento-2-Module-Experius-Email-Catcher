@@ -42,17 +42,20 @@ class Transport extends \Zend_Mail_Transport_Sendmail implements \Magento\Framew
     
     public function sendMessage()
     {
+        if($this->_scopeConfig->getValue('emailcatcher/general/enabled',\Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+
+            $emailCatcher = $this->_emailCatcher->create();
+
+            $emailCatcher->setBody($this->_message->getBody()->getRawContent());
+            $emailCatcher->setSubject($this->_message->getSubject());
+            $emailCatcher->setTo(implode(',', $this->_message->getRecipients()));
+            $emailCatcher->setFrom($this->_message->getFrom());
+            $emailCatcher->setCreatedAt(date('c'));
+            $emailCatcher->save();
+
+        }
         
-        $emailCatcher = $this->_emailCatcher->create();
-        
-        $emailCatcher->setBody($this->_message->getBody()->getRawContent());
-        $emailCatcher->setSubject($this->_message->getSubject());
-        $emailCatcher->setTo(implode(',',$this->_message->getRecipients()));
-        $emailCatcher->setFrom($this->_message->getFrom());
-        $emailCatcher->setCreatedAt(date('c'));
-        $emailCatcher->save();
-        
-        if(!$this->_scopeConfig->getValue('system/smtp/disable',\Magento\Store\Model\ScopeInterface::SCOPE_STORE)){
+        if(!$this->_scopeConfig->getValue('emailcatcher/general/smtp_disable',\Magento\Store\Model\ScopeInterface::SCOPE_STORE)){
             try {
                 parent::send($this->_message);
             } catch (\Exception $e) {
