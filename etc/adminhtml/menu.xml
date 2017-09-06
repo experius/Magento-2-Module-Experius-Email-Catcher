@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
 	<menu>
-		<add action="experius_emailcatcher/emailcatcher/index" id="Experius::experius_emailcatcher" module="Experius_EmailCatcher" parent="Magento_Backend::system_tools" resource="Magento_Backend::content" sortOrder="9999" title="Email Catcher"/>
+		<add action="experius_emailcatcher/emailcatcher/index" id="Experius::experius_emailcatcher" module="Experius_EmailCatcher" parent="Magento_Backend::system_tools" resource="Experius_EmailCatcher::emailcatcher" sortOrder="9999" title="Email Catcher"/>
 	</menu>
 </config>
