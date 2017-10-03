@@ -46,8 +46,10 @@ class Transport extends \Zend_Mail_Transport_Sendmail implements \Magento\Framew
 
             $emailCatcher = $this->_emailCatcher->create();
 
+            $subject = mb_decode_mimeheader($this->_message->getSubject());
+
             $emailCatcher->setBody($this->_message->getBody()->getRawContent());
-            $emailCatcher->setSubject($this->_message->getSubject());
+            $emailCatcher->setSubject($subject);
             $emailCatcher->setTo(implode(',', $this->_message->getRecipients()));
             $emailCatcher->setFrom($this->_message->getFrom());
             $emailCatcher->setCreatedAt(date('c'));
@@ -62,5 +64,10 @@ class Transport extends \Zend_Mail_Transport_Sendmail implements \Magento\Framew
                 throw new \Magento\Framework\Exception\MailException(new \Magento\Framework\Phrase($e->getMessage()), $e);
             }
         }
+    }
+
+    public function getMessage()
+    {
+        return $this->_message;
     }
 }
