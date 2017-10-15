@@ -17,6 +17,9 @@ class EmailcatcherActions extends \Magento\Ui\Component\Listing\Columns\Column {
 	const URL_PATH_EDIT = 'experius_emailcatcher/preview/index';
 	const URL_PATH_DELETE = 'experius_emailcatcher/emailcatcher/delete';
 	const URL_PATH_DETAILS = 'experius_emailcatcher/emailcatcher/details';
+	const URL_PATH_SEND = 'experius_emailcatcher/emailcatcher/send';
+    const URL_PATH_FORWARD = 'experius_emailcatcher/emailcatcher/forward';
+
 	protected $urlBuilder;
 
 	
@@ -46,9 +49,29 @@ class EmailcatcherActions extends \Magento\Ui\Component\Listing\Columns\Column {
 		                ),
 		                'label' => __('View'),
 						'popup' => true
-						//'callback' => "window.open(this.href,'_blank','width=800,height=700,resizable=1,scrollbars=1');return false;",
-						//'confirm'=> ['title'=>'test','message'=>'test']
-		            ]
+		            ],
+                    'resend' => [
+                        'href' => $this->urlBuilder->getUrl(
+                            static::URL_PATH_SEND,
+                            [
+                                'emailcatcher_id' => $item['emailcatcher_id']
+                            ]
+                        ),
+                        'label' => __('Resend'),
+                        'confirm' => [
+                            'title' => __('Resend email to "${ $.$data.to }"'),
+                            'message' => __('Are you sure you wan\'t resend this email to "${ $.$data.to }"?')
+                        ]
+                    ],
+                    'forward' => [
+                        'href' => $this->urlBuilder->getUrl(
+                            static::URL_PATH_FORWARD,
+                            [
+                                'emailcatcher_id' => $item['emailcatcher_id']
+                            ]
+                        ),
+                        'label' => __('Forward')
+                    ]
 		        ];
 		    }
 		}

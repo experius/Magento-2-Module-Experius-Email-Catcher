@@ -28,7 +28,12 @@ class Transport extends \Zend_Mail_Transport_Sendmail implements \Magento\Framew
     
     protected $_scopeConfig;
 
-    public function __construct(\Magento\Framework\Mail\MessageInterface $message, \Experius\EmailCatcher\Model\EmailcatcherFactory $emailCatcher, \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, $parameters = null)
+    public function __construct(
+        \Magento\Framework\Mail\MessageInterface $message,
+        \Experius\EmailCatcher\Model\EmailcatcherFactory $emailCatcher,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        $parameters = null
+    )
     {
         if (!$message instanceof \Zend_Mail) {
             throw new \InvalidArgumentException('The message should be an instance of \Zend_Mail');
@@ -40,26 +45,17 @@ class Transport extends \Zend_Mail_Transport_Sendmail implements \Magento\Framew
         $this->_scopeConfig = $scopeConfig;
     }
     
-    public function sendMessage()
+    public function sendMessage(\Magento\Framework\Mail\Message $message = Null)
     {
+        $message = (is_null($message)) ? $this->_message : $message;
+
         if($this->_scopeConfig->getValue('emailcatcher/general/enabled',\Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
-
-            $emailCatcher = $this->_emailCatcher->create();
-
-            $subject = mb_decode_mimeheader($this->_message->getSubject());
-
-            $emailCatcher->setBody($this->_message->getBody()->getRawContent());
-            $emailCatcher->setSubject($subject);
-            $emailCatcher->setTo(implode(',', $this->_message->getRecipients()));
-            $emailCatcher->setFrom($this->_message->getFrom());
-            $emailCatcher->setCreatedAt(date('c'));
-            $emailCatcher->save();
-
+            $this->_emailCatcher->create()->saveMessage($message);
         }
-        
+
         if(!$this->_scopeConfig->getValue('emailcatcher/general/smtp_disable',\Magento\Store\Model\ScopeInterface::SCOPE_STORE)){
             try {
-                parent::send($this->_message);
+                parent::send($message);
             } catch (\Exception $e) {
                 throw new \Magento\Framework\Exception\MailException(new \Magento\Framework\Phrase($e->getMessage()), $e);
             }
