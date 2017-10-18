@@ -37,7 +37,7 @@
 		<bookmark name="bookmark"/>
 		<columnsControls name="columns_controls"/>
 		<filters name="listing_filters"/>
-		<massaction name="listing_massaction" component="Magento_Ui/js/grid/tree-massactions">
+		<massaction name="listing_massaction">
 			<!--<action name="forward">-->
 				<!--<settings>-->
 					<!--<url path="*/*/forward"/>-->
