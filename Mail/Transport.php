@@ -59,28 +59,36 @@ class Transport implements TransportInterface
             $this->emailCatcher->create()->saveMessage($message);
         }
 
-        if(!$this->scopeConfig->getValue('emailcatcher/general/smtp_disable',\Magento\Store\Model\ScopeInterface::SCOPE_STORE)){
-            try {
-
-                $isSetReturnPath = $this->scopeConfig->getValue(
-                    self::XML_PATH_SENDING_SET_RETURN_PATH,
-                    ScopeInterface::SCOPE_STORE
-                );
-                $returnPathValue = $this->scopeConfig->getValue(
-                    self::XML_PATH_SENDING_RETURN_PATH_EMAIL,
-                    ScopeInterface::SCOPE_STORE
-                );
-
-                if ($isSetReturnPath == '1') {
-                    $this->message->setReturnPath($message->getFrom());
-                } elseif ($isSetReturnPath == '2' && $returnPathValue !== null) {
-                    $this->message->setReturnPath($returnPathValue);
-                }
-                $this->transport->send($message);
-            } catch (\Exception $e) {
-                throw new MailException(__($e->getMessage()), $e);
-            }
+        if($this->scopeConfig->getValue('system/smtp/disable',\Magento\Store\Model\ScopeInterface::SCOPE_STORE)){
+            return;
         }
+
+
+        if($this->scopeConfig->getValue('emailcatcher/general/smtp_disable',\Magento\Store\Model\ScopeInterface::SCOPE_STORE)){
+            return;
+        }
+
+        try {
+
+            $isSetReturnPath = $this->scopeConfig->getValue(
+                self::XML_PATH_SENDING_SET_RETURN_PATH,
+                ScopeInterface::SCOPE_STORE
+            );
+            $returnPathValue = $this->scopeConfig->getValue(
+                self::XML_PATH_SENDING_RETURN_PATH_EMAIL,
+                ScopeInterface::SCOPE_STORE
+            );
+
+            if ($isSetReturnPath == '1') {
+                $this->message->setReturnPath($message->getFrom());
+            } elseif ($isSetReturnPath == '2' && $returnPathValue !== null) {
+                $this->message->setReturnPath($returnPathValue);
+            }
+            $this->transport->send($message);
+        } catch (\Exception $e) {
+            throw new MailException(__($e->getMessage()), $e);
+        }
+
     }
 
     public function getMessage()
