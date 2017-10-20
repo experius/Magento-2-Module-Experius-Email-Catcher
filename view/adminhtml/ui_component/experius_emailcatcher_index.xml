@@ -34,10 +34,10 @@
 				<item name="sticky" xsi:type="boolean">true</item>
 			</item>
 		</argument>
-		<bookmark name="bookmark"/>
+		<bookmark name="bookmarks"/>
 		<columnsControls name="columns_controls"/>
 		<filters name="listing_filters"/>
-		<massaction name="listing_massaction">
+		<massaction name="listing_massaction" component="Magento_Ui/js/grid/tree-massactions">
 			<!--<action name="forward">-->
 				<!--<settings>-->
 					<!--<url path="*/*/forward"/>-->
