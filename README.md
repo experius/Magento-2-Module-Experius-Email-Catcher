@@ -1,7 +1,7 @@
 Magento 2 Module Experius  Email Catcher
 ====================
 
-Email Catcher / Logger Module for Magento 2.  The module makes it possible to fully disable the email comminication when configured correctly.
+Email Catcher / Logger Module for Magento 2.  The module makes it possible to fully disable the email communication when configured correctly.
 
    ``experius/emailcatcher``
    
