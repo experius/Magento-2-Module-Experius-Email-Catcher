@@ -10,6 +10,14 @@
 			<item name="deps" xsi:type="string">experius_emailcatcher_index.experius_emailcatcher_grid_data_source</item>
 		</item>
 		<item name="spinner" xsi:type="string">experius_emailcatcher_columns</item>
+		<item name="buttons" xsi:type="array">
+			<item name="add" xsi:type="array">
+				<item name="name" xsi:type="string">cleanup</item>
+				<item name="label" translate="true" xsi:type="string">Run Cleanup</item>
+				<item name="url" xsi:type="string">*/*/cleanup</item>
+				<!--<item name="on_click" xsi:type="string">deleteConfirm('Are you sure you want to do this?')</item>-->
+			</item>
+		</item>
 	</argument>
 	<dataSource name="experius_emailcatcher_grid_data_source">
 		<argument name="dataProvider" xsi:type="configurableObject">
