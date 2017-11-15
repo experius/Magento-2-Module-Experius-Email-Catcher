@@ -1,35 +1,33 @@
-<?php 
+<?php
 /**
  * A Magento 2 module named Experius/EmailCatcher
  * Copyright (C) 2016 Derrick Heesbeen
- * 
+ *
  * This file included in Experius/EmailCatcher is licensed under OSL 3.0
- * 
+ *
  * http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * Please see LICENSE.txt for the full text of the OSL 3.0 license
  */
 
 namespace Experius\EmailCatcher\Controller\Adminhtml\Emailcatcher;
- 
- 
-class Index extends \Magento\Backend\App\Action {
 
-	protected $resultPageFactory;
+class Index extends \Magento\Backend\App\Action
+{
 
-	
-	public function __construct(
-		\Magento\Backend\App\Action\Context $context,
-		\Magento\Framework\View\Result\PageFactory $resultPageFactory
-	){
-		$this->resultPageFactory = $resultPageFactory;
-		parent::__construct($context);
-	}
+    protected $resultPageFactory;
 
-	
-	public function execute(){
-		
-		$result = $this->resultPageFactory->create();
-		$result->getConfig()->getTitle()->prepend(__('Email Catcher'));
-		return $result;
-	}
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\Framework\View\Result\PageFactory $resultPageFactory
+    ) {
+        $this->resultPageFactory = $resultPageFactory;
+        parent::__construct($context);
+    }
+
+    public function execute()
+    {
+        $result = $this->resultPageFactory->create();
+        $result->getConfig()->getTitle()->prepend(__('Email Catcher'));
+        return $result;
+    }
 }

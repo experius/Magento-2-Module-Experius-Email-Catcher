@@ -22,7 +22,8 @@ class EmailCatcherTest extends \PHPUnit\Framework\TestCase
      * @magentoConfigFixture current_store system/smtp/disable 1
      *
      */
-    public function testEmailCatch(){
+    public function testEmailCatch()
+    {
 
         /* @var $transportBuilder \Experius\EmailCatcher\Test\Mail\Template\TransportBuilder */
         $transportBuilder = Bootstrap::getObjectManager()->create(\Experius\EmailCatcher\Test\Mail\Template\TransportBuilder::class);
@@ -50,12 +51,10 @@ class EmailCatcherTest extends \PHPUnit\Framework\TestCase
 
         /* @var $emailCatcher \Experius\EmailCatcher\Model\Emailcatcher */
         $emailCatcher = Bootstrap::getObjectManager()->create(\Experius\EmailCatcher\Model\Emailcatcher::class);
-        $emailCatcher->load(self::XML_PATH_EMAIL_TO,'to');
+        $emailCatcher->load(self::XML_PATH_EMAIL_TO, 'to');
 
-        $this->assertEquals(self::XML_PATH_EMAIL_TO,$emailCatcher->getTo());
-        $this->assertEquals('<h1>test-email</h1>',$emailCatcher->getBody());
-        $this->assertEquals('Test Email',$emailCatcher->getSubject());
-
+        $this->assertEquals(self::XML_PATH_EMAIL_TO, $emailCatcher->getTo());
+        $this->assertEquals('<h1>test-email</h1>', $emailCatcher->getBody());
+        $this->assertEquals('Test Email', $emailCatcher->getSubject());
     }
-
 }

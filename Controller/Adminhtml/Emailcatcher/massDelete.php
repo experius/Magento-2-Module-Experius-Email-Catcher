@@ -11,8 +11,8 @@
 
 namespace Experius\EmailCatcher\Controller\Adminhtml\Emailcatcher;
 
-
-class massDelete extends \Magento\Backend\App\Action {
+class massDelete extends \Magento\Backend\App\Action
+{
 
     protected $resultPageFactory;
 
@@ -20,16 +20,14 @@ class massDelete extends \Magento\Backend\App\Action {
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\View\Result\PageFactory $resultPageFactory
-    ){
+    ) {
         $this->resultPageFactory = $resultPageFactory;
         parent::__construct($context);
     }
 
 
-    public function execute(){
-
-        die('Hello Delete');
-
+    public function execute()
+    {
         $result = $this->resultPageFactory->create();
         $result->getConfig()->getTitle()->prepend(__('Email Catcher'));
         return $result;

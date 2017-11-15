@@ -2,7 +2,8 @@
 
 namespace Experius\EmailCatcher\Model;
 
-class Mail{
+class Mail
+{
 
     protected $messageFactory;
 
@@ -14,13 +15,14 @@ class Mail{
         \Magento\Framework\Mail\Message $messageFactory,
         \Experius\EmailCatcher\Model\EmailcatcherFactory $emailcatcherFactory,
         \Experius\EmailCatcher\Mail\Transport $transport
-    ){
+    ) {
         $this->messageFactory = $messageFactory;
         $this->emailCatcherFactory = $emailcatcherFactory;
         $this->transport = $transport;
     }
 
-    public function sendMessage($emailCatcherId,$alternativeToAddress){
+    public function sendMessage($emailCatcherId, $alternativeToAddress)
+    {
 
         /* @var $emailCatcher \Experius\EmailCatcher\Model\Emailcatcher */
         $emailCatcher = $this->emailCatcherFactory->create()->load($emailCatcherId);
@@ -37,8 +39,5 @@ class Mail{
         $message->setSubject(mb_encode_mimeheader($emailCatcher->getSubject()));
 
         $this->transport->sendMessage($message);
-
     }
-
-
 }

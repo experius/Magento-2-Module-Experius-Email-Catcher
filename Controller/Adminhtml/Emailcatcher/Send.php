@@ -11,8 +11,8 @@
 
 namespace Experius\EmailCatcher\Controller\Adminhtml\Emailcatcher;
 
-
-class Send extends \Magento\Backend\App\Action {
+class Send extends \Magento\Backend\App\Action
+{
 
     protected $mail;
 
@@ -21,14 +21,15 @@ class Send extends \Magento\Backend\App\Action {
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\View\Result\PageFactory $resultPageFactory,
         \Experius\EmailCatcher\Model\Mail $mail
-    ){
+    ) {
         $this->mail = $mail;
 
         parent::__construct($context);
     }
 
 
-    public function execute(){
+    public function execute()
+    {
 
         $resultRedirect = $this->resultRedirectFactory->create();
 
@@ -37,12 +38,12 @@ class Send extends \Magento\Backend\App\Action {
         $email = (isset($postData['email'])) ? $postData['email'] : false;
         $emailCatcherId = (isset($postData['emailcatcher_id'])) ? $postData['emailcatcher_id'] : false;
 
-        if(!$emailCatcherId){
+        if (!$emailCatcherId) {
             $this->messageManager->addError('Oops, something went wrong');
             return $resultRedirect->setPath('*/*/');
         }
 
-        $this->mail->sendMessage($emailCatcherId,$email);
+        $this->mail->sendMessage($emailCatcherId, $email);
         $this->messageManager->addSuccessMessage('Email send to ' . $email);
 
         return $resultRedirect->setPath('*/*/');

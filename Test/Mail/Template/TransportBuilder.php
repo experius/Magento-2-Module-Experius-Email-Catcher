@@ -106,5 +106,4 @@ class TransportBuilder extends \Magento\Framework\Mail\Template\TransportBuilder
         $this->_senderResolver = $senderResolver;
         $this->mailTransportFactory = $mailTransportFactory;
     }
-
 }

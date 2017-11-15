@@ -18,7 +18,7 @@ class Clean
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
         \Magento\Framework\App\ResourceConnection $resourceConnection
-    ){
+    ) {
         $this->logger = $logger;
         $this->resourceConnection = $resourceConnection;
         $this->connection = $this->resourceConnection->getConnection();
@@ -41,10 +41,8 @@ class Clean
             $where
         );
 
-        $this->logger->addInfo(__('Experius EmailCatcher Cleanup: Removed %1 records',$deleteCount));
+        $this->logger->addInfo(__('Experius EmailCatcher Cleanup: Removed %1 records', $deleteCount));
 
         return $deleteCount;
     }
-
-
 }

@@ -18,7 +18,6 @@ use Magento\Framework\Mail\MessageInterface;
 use Magento\Framework\Mail\TransportInterface;
 use Magento\Store\Model\ScopeInterface;
 
-
 class Transport implements TransportInterface
 {
 
@@ -50,26 +49,25 @@ class Transport implements TransportInterface
         $this->emailCatcher = $emailCatcher;
     }
 
-    public function sendMessage(\Magento\Framework\Mail\Message $message = Null)
+    public function sendMessage(\Magento\Framework\Mail\Message $message = null)
     {
 
         $message = (is_null($message)) ? $this->message : $message;
 
-        if($this->scopeConfig->getValue('emailcatcher/general/enabled',\Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+        if ($this->scopeConfig->getValue('emailcatcher/general/enabled', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
             $this->emailCatcher->create()->saveMessage($message);
         }
 
-        if($this->scopeConfig->getValue('system/smtp/disable',\Magento\Store\Model\ScopeInterface::SCOPE_STORE)){
+        if ($this->scopeConfig->getValue('system/smtp/disable', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
             return;
         }
 
 
-        if($this->scopeConfig->getValue('emailcatcher/general/smtp_disable',\Magento\Store\Model\ScopeInterface::SCOPE_STORE)){
+        if ($this->scopeConfig->getValue('emailcatcher/general/smtp_disable', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
             return;
         }
 
         try {
-
             $isSetReturnPath = $this->scopeConfig->getValue(
                 self::XML_PATH_SENDING_SET_RETURN_PATH,
                 ScopeInterface::SCOPE_STORE
@@ -88,7 +86,6 @@ class Transport implements TransportInterface
         } catch (\Exception $e) {
             throw new MailException(__($e->getMessage()), $e);
         }
-
     }
 
     public function getMessage()

@@ -11,8 +11,8 @@
 
 namespace Experius\EmailCatcher\Controller\Adminhtml\Emailcatcher;
 
-
-class Cleanup extends \Magento\Backend\App\Action {
+class Cleanup extends \Magento\Backend\App\Action
+{
 
     protected $clean;
 
@@ -20,25 +20,26 @@ class Cleanup extends \Magento\Backend\App\Action {
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\View\Result\PageFactory $resultPageFactory,
         \Experius\EmailCatcher\Cron\Clean $clean
-    ){
+    ) {
         $this->clean = $clean;
 
         parent::__construct($context);
     }
 
 
-    public function execute(){
+    public function execute()
+    {
 
         $resultRedirect = $this->resultRedirectFactory->create();
 
         try {
             $deleteCount = $this->clean->execute();
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             return $resultRedirect->setPath('*/*/');
         }
 
-        $this->messageManager->addSuccessMessage(__('Removed %1 records from %2 days ago or older',$deleteCount,'30'));
+        $this->messageManager->addSuccessMessage(__('Removed %1 records from %2 days ago or older', $deleteCount, '30'));
 
         return $resultRedirect->setPath('*/*/');
     }

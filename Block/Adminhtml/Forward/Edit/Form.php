@@ -11,7 +11,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         $emailCatcherId = $this->getRequest()->getParam('emailcatcher_id');
 
-        $emailCatcherIds = ($emailCatcherId) ? $emailCatcherId : implode(',',$this->getRequest()->getParam('selected'));
+        $emailCatcherIds = ($emailCatcherId) ? $emailCatcherId : implode(',', $this->getRequest()->getParam('selected'));
 
         $form = $this->_formFactory->create();
 
@@ -41,7 +41,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         $form->setUseContainer(true);
         $form->setId('edit_form');
-        $form->setAction($this->getUrl('*/*/send',['emailcatcher_id'=>$this->getRequest()->getParam('emailcatcher_id')]));
+        $form->setAction($this->getUrl('*/*/send', ['emailcatcher_id'=>$this->getRequest()->getParam('emailcatcher_id')]));
         $form->setMethod('post');
         $this->setForm($form);
     }

@@ -16,7 +16,8 @@ use Magento\Framework\Data\Collection\EntityFactoryInterface as EntityFactory;
 use Magento\Framework\Event\ManagerInterface as EventManager;
 use Psr\Log\LoggerInterface as Logger;
 
-class Collection extends \Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult {
+class Collection extends \Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult
+{
 
     public function __construct(EntityFactory $entityFactory, Logger $logger, FetchStrategy $fetchStrategy, EventManager $eventManager)
     {
@@ -28,7 +29,7 @@ class Collection extends \Magento\Framework\View\Element\UiComponent\DataProvide
     {
         $itemId = $this->_getItemId($item);
 
-        if(isset($item['body'])) {
+        if (isset($item['body'])) {
             unset($item['body']);
         }
 
@@ -44,5 +45,4 @@ class Collection extends \Magento\Framework\View\Element\UiComponent\DataProvide
         }
         return $this;
     }
-
 }

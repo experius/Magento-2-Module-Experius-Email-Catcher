@@ -2,7 +2,6 @@
 
 namespace Experius\EmailCatcher\Plugin\Magento\Framework\Mail;
 
-
 class TransportInterface
 {
     public function aroundSendMessage(
