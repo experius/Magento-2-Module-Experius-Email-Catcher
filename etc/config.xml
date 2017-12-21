@@ -6,6 +6,10 @@
                 <enabled>1</enabled>
                 <smtp_disable/>
             </general>
+            <whitelist>
+                <apply_whitelist>0</apply_whitelist>
+                <email_templates/>
+            </whitelist>
         </emailcatcher>
     </default>
 </config>

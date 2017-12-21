@@ -13,6 +13,7 @@ Email Catcher / Logger Module for Magento 2.  The module makes it possible to fu
 
  - Disable Email Communication
  - Log Emails
+ - Whitelist email templates
  
  ---
  
@@ -36,3 +37,7 @@ These sent emails can be found in the Admin Panel:
 Enabled through the following setting:
 
  - Stores > Settings > Configuration > Advanced > Email Catcher > General > Enable Email Catcher (emailcatcher/general/enabled)
+
+#### Whitelist email templates
+
+In the module settings, a whitelist filter can be applied. The emails sent with the selected templates will be ignored by the module, and will be sent.   
