@@ -1,4 +1,4 @@
-Magento 2 Module Experius  Email Catcher
+Magento 2 Module Experius Email Catcher / Logger
 ====================
 
 ### Versions
