@@ -42,7 +42,7 @@ class InstallSchema implements InstallSchemaInterface
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
             null,
             [],
-            'to'
+            'To Email Address'
         );
 
         $table_experius_emailcatcher->addColumn(
@@ -50,7 +50,7 @@ class InstallSchema implements InstallSchemaInterface
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
             null,
             [],
-            'from'
+            'From Email Address'
         );
 
         $table_experius_emailcatcher->addColumn(
@@ -58,7 +58,7 @@ class InstallSchema implements InstallSchemaInterface
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
             null,
             [],
-            'subject'
+            'Subject'
         );
 
         $table_experius_emailcatcher->addColumn(
@@ -66,7 +66,7 @@ class InstallSchema implements InstallSchemaInterface
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
             null,
             [],
-            'body'
+            'Email Body'
         );
 
         $table_experius_emailcatcher->addColumn(
@@ -74,7 +74,7 @@ class InstallSchema implements InstallSchemaInterface
             \Magento\Framework\DB\Ddl\Table::TYPE_DATETIME,
             null,
             [],
-            'created_at'
+            'Created At'
         );
 
         $table_experius_emailcatcher->addColumn(
@@ -82,7 +82,7 @@ class InstallSchema implements InstallSchemaInterface
             \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
             null,
             [],
-            'store_id'
+            'Store Id'
         );
 
         $setup->getConnection()->createTable($table_experius_emailcatcher);
