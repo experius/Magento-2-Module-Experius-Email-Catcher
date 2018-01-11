@@ -12,10 +12,10 @@ Email Catcher / Logger Module for Magento 2.
 
 ### Main Functionalities
  - Log all Emails send by Magento
- - View email in popup (Nice for testing and styling)
- - Forward catched emails
- - Resend catched emails
- - 30 days cron cleanup of catched emails
+ - View email contecnt in popup (Nice for testing and styling)
+ - Forward  a catched email
+ - Resend  a catched email
+ - Cleanup of emails older then 30 days (cron or manual)
  
 
 #### Enable Email Catcher
@@ -24,7 +24,7 @@ Enable Email Catcher.
 
  - Stores > Settings > Configuration > Advanced > Email Catcher > General > Enable Email Catcher (emailcatcher/general/enabled)
 
-Disable email sending (default Magento)
+Disable email sending (default Magento, advised for development)
 
  - Stores > Settings > Configuration > Advanced > System > Mail Sending Settings > Disable Email Communications (system/smpt/disable)
 
