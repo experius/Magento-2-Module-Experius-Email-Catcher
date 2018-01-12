@@ -4,7 +4,7 @@ namespace Experius\EmailCatcher\Block\Adminhtml\Forward;
 
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
-    private function _construct()
+    protected function _construct()
     {
         parent::_construct();
 
