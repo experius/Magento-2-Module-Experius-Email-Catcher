@@ -13,10 +13,17 @@
 namespace Experius\EmailCatcher\Mail;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Exception\MailException;
 use Magento\Framework\Mail\MessageInterface;
+use Magento\Framework\Mail\TransportInterface;
+use Magento\Store\Model\ScopeInterface;
 
-class Transport extends \Magento\Email\Model\Transport
+class Transport implements TransportInterface
 {
+
+    const XML_PATH_SENDING_SET_RETURN_PATH = 'system/smtp/set_return_path';
+
+    const XML_PATH_SENDING_RETURN_PATH_EMAIL = 'system/smtp/return_path_email';
 
     private $transport;
 
@@ -35,8 +42,6 @@ class Transport extends \Magento\Email\Model\Transport
         $this->transport = $transport;
         $this->message = $message;
         $this->scopeConfig = $scopeConfig;
-
-        parent::__construct($transport, $message, $scopeConfig);
     }
 
     public function setMessage(\Magento\Framework\Mail\Message $message)
@@ -44,8 +49,33 @@ class Transport extends \Magento\Email\Model\Transport
         $this->message = $message;
     }
 
+    public function sendMessage()
+    {
+        try {
+
+            $isSetReturnPath = $this->scopeConfig->getValue(
+                self::XML_PATH_SENDING_SET_RETURN_PATH,
+                ScopeInterface::SCOPE_STORE
+            );
+            $returnPathValue = $this->scopeConfig->getValue(
+                self::XML_PATH_SENDING_RETURN_PATH_EMAIL,
+                ScopeInterface::SCOPE_STORE
+            );
+
+            if ($isSetReturnPath == '1') {
+                $this->message->setReturnPath($this->message->getFrom());
+            } elseif ($isSetReturnPath == '2' && $returnPathValue !== null) {
+                $this->message->setReturnPath($returnPathValue);
+            }
+            $this->transport->send($this->message);
+        } catch (\Exception $e) {
+            throw new MailException(__($e->getMessage()), $e);
+        }
+    }
+
     public function getMessage()
     {
         return $this->message;
     }
 }
+
