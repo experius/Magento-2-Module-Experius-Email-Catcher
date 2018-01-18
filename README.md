@@ -1,38 +1,35 @@
-Magento 2 Module Experius  Email Catcher
+Magento 2 Module Experius Email Catcher / Logger
 ====================
 
-Email Catcher / Logger Module for Magento 2.  The module makes it possible to fully disable the email communication when configured correctly.
+### Versions
 
-   ``experius/emailcatcher``
-   
- - [Main Functionalities](#markdown-header-main-functionalities)
+- Version 2.0.0 or higher is compatible with Magento 2.2 or higher
+- Version lower then 2.0.0 is compatible with Magento 2.1 or higher
 
-- - -
+### Installation
+ ```composer require experius/emailcatcher```
 
-# Main Functionalities
+Email Catcher / Logger Module for Magento 2. 
 
- - Disable Email Communication
- - Log Emails
+### Main Functionalities
+ - Log all Emails send by Magento
+ - View email contecnt in popup (Nice for testing and styling)
+ - Forward  a catched email
+ - Resend  a catched email
+ - Cleanup of emails older then 30 days (cron or manual)
  
- ---
- 
-#### Disable Email Communication
 
-Disable all email communication when the flowing settings are set to Yes.
+#### Enable Email Catcher
+
+Enable Email Catcher.
+
+ - Stores > Settings > Configuration > Advanced > Email Catcher > General > Enable Email Catcher (emailcatcher/general/enabled)
+
+Disable email sending (default Magento, advised for development)
 
  - Stores > Settings > Configuration > Advanced > System > Mail Sending Settings > Disable Email Communications (system/smpt/disable)
- - Stores > Settings > Configuration > Advanced > Email Catcher > General > Enable Email Catcher (emailcatcher/general/enabled)
- - Stores > Settings > Configuration > Advanced > Email Catcher > General > Disable Email Sending (emailcatcher/general/smtp_disable)
 
-#### Log Emails
-
-If the module is enabled all emails which are sent will be logged in the database so the Admin User can always check how the email is displayed and if it is created.
-
-These sent emails can be found in the Admin Panel:
+Admin grid
 
  - System > Tools > Email Catcher
 
-
-Enabled through the following setting:
-
- - Stores > Settings > Configuration > Advanced > Email Catcher > General > Enable Email Catcher (emailcatcher/general/enabled)

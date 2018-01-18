@@ -38,6 +38,7 @@ class Mail
         $message->setBodyHtml($emailCatcher->getBody());
         $message->setSubject(mb_encode_mimeheader($emailCatcher->getSubject()));
 
-        $this->transport->sendMessage($message);
+        $this->transport->setMessage($message);
+        $this->transport->sendMessage();
     }
 }

@@ -6,15 +6,9 @@
             <tab>advanced</tab>
             <resource>Experius_EmailCatcher::config_experius_emailcatcher</resource>
             <group id="general" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
-                <label>general</label>
+                <label>General</label>
                 <field id="enabled" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="select">
                     <label>Enable Email Catcher</label>
-                    <comment>System > Smtp must be disabled to catch the emails.</comment>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
-                <field id="smtp_disable" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="select">
-                    <label>Disable Email Sending</label>
-                    <comment>Prevents Magento from sending the actual email.</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
             </group>
