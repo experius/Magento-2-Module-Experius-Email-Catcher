@@ -45,7 +45,7 @@
 		<bookmark name="bookmarks"/>
 		<columnsControls name="columns_controls"/>
 		<filters name="listing_filters"/>
-		<massaction name="listing_massaction" component="Magento_Ui/js/grid/tree-massactions">
+		<!--<massaction name="listing_massaction" component="Magento_Ui/js/grid/tree-massactions">-->
 			<!--<action name="forward">-->
 				<!--<settings>-->
 					<!--<url path="*/*/forward"/>-->
@@ -64,7 +64,7 @@
 					<!--<label translate="true">Delete</label>-->
 				<!--</settings>-->
 			<!--</action>-->
-		</massaction>
+		<!--</massaction>-->
 		<paging name="listing_paging"/>
 	</listingToolbar>
 	<columns name="experius_emailcatcher_columns">
