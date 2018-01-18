@@ -28,7 +28,17 @@ class TransportInterface
             'emailcatcher/general/enabled',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         )) {
-            $this->emailCatcher->create()->saveMessage($subject->getMessage());
+
+            // For >= 2.2
+            if (method_exists($subject, 'getMessage')) {
+                $this->emailCatcher->create()->saveMessage($subject->getMessage());
+            } else {
+                //For < 2.2
+                $reflection = new \ReflectionClass($subject);
+                $property = $reflection->getProperty('_message');
+                $property->setAccessible(true);
+                $this->emailCatcher->create()->saveMessage($property->getValue($subject));
+            }
         }
 
         $proceed();
