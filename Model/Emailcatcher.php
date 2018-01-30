@@ -14,6 +14,10 @@ namespace Experius\EmailCatcher\Model;
 class Emailcatcher extends \Magento\Framework\Model\AbstractModel
 {
 
+    protected $_eventPrefix = 'experius_email_catcher';
+
+    protected $_eventObject = 'email';
+
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
