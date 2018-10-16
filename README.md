@@ -4,7 +4,8 @@ Magento 2 Module Experius Email Catcher / Logger
 ### Versions
 
 - Version 2.0.0 or higher is compatible with Magento 2.2 or higher
-- Version lower then 2.0.0 is compatible with Magento 2.1 or higher
+- Version 1.3.2 or higher is compatible with Magento 2.1.8 or higher
+- Version lower then 1.3.2 could still be used for Magento 2.1.7 or lower but we recommend to install a newer version
 
 ### Installation
  ```composer require experius/emailcatcher```
