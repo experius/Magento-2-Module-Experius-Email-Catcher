@@ -25,7 +25,7 @@ class Emailcatcher extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
         array $data = []
     ) {
-    
+
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -36,14 +36,46 @@ class Emailcatcher extends \Magento\Framework\Model\AbstractModel
 
     public function saveMessage(\Magento\Framework\Mail\Message $message)
     {
+        $bodyObject  = $message->getBody();
+
+        if (!method_exists($bodyObject, 'getRawContent') && method_exists($message, 'getRawMessage')) {
+            $zendMessageObject = new \Zend\Mail\Message();
+            $zendMessage = $zendMessageObject::fromString($message->getRawMessage());
+            $body =  $zendMessage->getBodyText();
+            $to = $this->getEmailAddressesFromObject($zendMessage->getTo());
+            $from = $this->getEmailAddressesFromObject($zendMessage->getFrom());
+        } elseif (method_exists($bodyObject, 'getRawContent')) {
+            $body = $bodyObject->getRawContent();
+            $to = implode(',', $message->getRecipients());
+            $from = $message->getFrom();
+        } else {
+            $body = 'could not retrieve body';
+            $to = 'could not retrieve recipients';
+            $from = 'could not retrieve from address';
+        }
 
         $subject = mb_decode_mimeheader($message->getSubject());
-
-        $this->setBody($message->getBody()->getRawContent());
+        $this->setBody($body);
         $this->setSubject($subject);
-        $this->setTo(implode(',', $message->getRecipients()));
-        $this->setFrom($message->getFrom());
+        $this->setTo($to);
+        $this->setFrom($from);
         $this->setCreatedAt(date('c'));
         $this->save();
     }
+
+    public function getEmailAddressesFromObject($addresses, $asString = true)
+    {
+        $emailAddresses = [];
+        foreach ($addresses as $address) {
+            $emailAddresses[] = $address->getEmail();
+        }
+
+        if ($asString) {
+            return implode(',', $emailAddresses);
+        }
+
+        return $emailAddresses;
+    }
 }
+
+
