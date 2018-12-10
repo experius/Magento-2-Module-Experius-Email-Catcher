@@ -9,16 +9,16 @@ class Mail
 
     protected $emailCatcherFactory;
 
-    protected $transport;
+    protected $mailTransportFactory;
 
     public function __construct(
         \Magento\Framework\Mail\Message $messageFactory,
         \Experius\EmailCatcher\Model\EmailcatcherFactory $emailcatcherFactory,
-        \Experius\EmailCatcher\Mail\Transport $transport
+        \Magento\Framework\Mail\TransportInterfaceFactory $transportInterfaceFactory
     ) {
         $this->messageFactory = $messageFactory;
         $this->emailCatcherFactory = $emailcatcherFactory;
-        $this->transport = $transport;
+        $this->mailTransportFactory = $transportInterfaceFactory;
     }
 
     public function sendMessage($emailCatcherId, $alternativeToAddress)
@@ -38,7 +38,8 @@ class Mail
         $message->setBodyHtml($emailCatcher->getBody());
         $message->setSubject(mb_encode_mimeheader($emailCatcher->getSubject()));
 
-        $this->transport->setMessage($message);
-        $this->transport->sendMessage();
+        $mailTransport = $this->mailTransportFactory->create(['message' => clone $message]);
+
+        $mailTransport->sendMessage();
     }
 }
