@@ -30,11 +30,11 @@ class Mail
         /* @var $message \Magento\Framework\Mail\Message */
         $message = $this->messageFactory;
 
-        $to = ($alternativeToAddress) ? $alternativeToAddress : $emailCatcher->getTo();
+        $recipient = ($alternativeToAddress) ? $alternativeToAddress : $emailCatcher->getRecipient();
 
         $message->setMessageType('html');
         $message->setFrom($emailCatcher->getFrom());
-        $message->addTo($to);
+        $message->addTo($recipient);
         $message->setBodyHtml($emailCatcher->getBody());
         $message->setSubject(mb_encode_mimeheader($emailCatcher->getSubject()));
 

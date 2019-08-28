@@ -38,7 +38,7 @@ class InstallSchema implements InstallSchemaInterface
         );
 
         $table_experius_emailcatcher->addColumn(
-            'to',
+            'recipient',
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
             null,
             [],
@@ -46,7 +46,7 @@ class InstallSchema implements InstallSchemaInterface
         );
 
         $table_experius_emailcatcher->addColumn(
-            'from',
+            'sender',
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
             null,
             [],

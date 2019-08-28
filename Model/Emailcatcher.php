@@ -42,23 +42,23 @@ class Emailcatcher extends \Magento\Framework\Model\AbstractModel
             $zendMessageObject = new \Zend\Mail\Message();
             $zendMessage = $zendMessageObject::fromString($message->getRawMessage());
             $body =  $zendMessage->getBodyText();
-            $to = $this->getEmailAddressesFromObject($zendMessage->getTo());
-            $from = $this->getEmailAddressesFromObject($zendMessage->getFrom());
+            $recipient = $this->getEmailAddressesFromObject($zendMessage->getTo());
+            $sender = $this->getEmailAddressesFromObject($zendMessage->getFrom());
         } elseif (method_exists($bodyObject, 'getRawContent')) {
             $body = $bodyObject->getRawContent();
-            $to = implode(',', $message->getRecipients());
-            $from = $message->getFrom();
+            $recipient = implode(',', $message->getRecipients());
+            $sender = $message->getFrom();
         } else {
             $body = 'could not retrieve body';
-            $to = 'could not retrieve recipients';
-            $from = 'could not retrieve from address';
+            $recipient = 'could not retrieve recipients';
+            $sender = 'could not retrieve from address';
         }
 
         $subject = mb_decode_mimeheader($message->getSubject());
         $this->setBody($body);
         $this->setSubject($subject);
-        $this->setTo($to);
-        $this->setFrom($from);
+        $this->setRecipient($recipient);
+        $this->setSender($sender);
         $this->setCreatedAt(date('c'));
         $this->save();
     }
