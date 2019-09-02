@@ -33,7 +33,7 @@ class Mail
         $recipient = ($alternativeToAddress) ? $alternativeToAddress : $emailCatcher->getRecipient();
 
         $message->setMessageType('html');
-        $message->setFrom($emailCatcher->getFrom());
+        $message->setFrom($emailCatcher->getSender());
         $message->addTo($recipient);
         $message->setBodyHtml($emailCatcher->getBody());
         $message->setSubject(mb_encode_mimeheader($emailCatcher->getSubject()));
