@@ -60,8 +60,8 @@ class EmailcatcherActions extends \Magento\Ui\Component\Listing\Columns\Column
                         ),
                         'label' => __('Resend'),
                         'confirm' => [
-                            'title' => __('Resend email to "${ $.$data.to }"'),
-                            'message' => __('Are you sure you wan\'t resend this email to "${ $.$data.to }"?')
+                            'title' => __('Resend email to "${ $.$data.recipient }"'),
+                            'message' => __('Are you sure you wan\'t resend this email to "${ $.$data.recipient }"?')
                         ]
                     ],
                     'forward' => [
