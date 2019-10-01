@@ -34,14 +34,14 @@ class Emailcatcher extends \Magento\Framework\Model\AbstractModel
         $this->_init('Experius\EmailCatcher\Model\ResourceModel\Emailcatcher');
     }
 
-    public function saveMessage(\Magento\Framework\Mail\Message $message)
+    public function saveMessage($message)
     {
         $bodyObject  = $message->getBody();
 
         if (!method_exists($bodyObject, 'getRawContent') && method_exists($message, 'getRawMessage')) {
             $zendMessageObject = new \Zend\Mail\Message();
             $zendMessage = $zendMessageObject::fromString($message->getRawMessage());
-            $body =  $zendMessage->getBodyText();
+            $body =  quoted_printable_decode($zendMessage->getBodyText());
             $recipient = $this->getEmailAddressesFromObject($zendMessage->getTo());
             $sender = $this->getEmailAddressesFromObject($zendMessage->getFrom());
         } elseif (method_exists($bodyObject, 'getRawContent')) {
