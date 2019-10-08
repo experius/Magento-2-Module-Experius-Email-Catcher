@@ -1,7 +1,7 @@
 <?php
 /**
  * A Magento 2 module named Experius/EmailCatcher
- * Copyright (C) 2016 Derrick Heesbeen
+ * Copyright (C) 2019 Experius
  *
  * This file included in Experius/EmailCatcher is licensed under OSL 3.0
  *
@@ -13,23 +13,42 @@ namespace Experius\EmailCatcher\Model;
 
 class Emailcatcher extends \Magento\Framework\Model\AbstractModel
 {
+    /**
+     * @var string
+     */
     protected $_eventPrefix = 'experius_email_catcher';
 
+    /**
+     * @var string
+     */
     protected $_eventObject = 'email';
 
+    /**
+     * @var \Magento\Framework\App\ProductMetadataInterface|null
+     */
     protected $magentoProductMetaData;
 
+    /**
+     * Emailcatcher constructor.
+     *
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\App\ProductMetadataInterface $magentoProductMetaData
+     * @param \Magento\Framework\Model\ResourceModel\AbstractResource|null $resource
+     * @param \Magento\Framework\Data\Collection\AbstractDb|null $resourceCollection
+     * @param array $data
+     */
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
+        \Magento\Framework\App\ProductMetadataInterface $magentoProductMetaData,
         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
-        \Magento\Framework\App\ProductMetadataInterface $magentoProductMetaData,
         array $data = []
     ) {
-        $this->magentoProductMetaData = $magentoProductMetaData;
-
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+
+        $this->magentoProductMetaData = $magentoProductMetaData;
     }
 
     protected function _construct()
@@ -37,9 +56,14 @@ class Emailcatcher extends \Magento\Framework\Model\AbstractModel
         $this->_init('Experius\EmailCatcher\Model\ResourceModel\Emailcatcher');
     }
 
+    /**
+     * Save message
+     *
+     * @param $message
+     */
     public function saveMessage($message)
     {
-        $bodyObject  = $message->getBody();
+        $bodyObject = $message->getBody();
 
         if (!method_exists($bodyObject, 'getRawContent') && method_exists($message, 'getRawMessage')) {
             $zendMessageObject = new \Zend\Mail\Message();
@@ -69,6 +93,13 @@ class Emailcatcher extends \Magento\Framework\Model\AbstractModel
         $this->save();
     }
 
+    /**
+     * Get email addresses from address object
+     *
+     * @param $addresses
+     * @param bool $asString
+     * @return array|string
+     */
     public function getEmailAddressesFromObject($addresses, $asString = true)
     {
         $emailAddresses = [];
@@ -82,5 +113,4 @@ class Emailcatcher extends \Magento\Framework\Model\AbstractModel
 
         return $emailAddresses;
     }
-
 }
