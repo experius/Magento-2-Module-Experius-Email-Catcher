@@ -1,9 +1,5 @@
 <?xml version="1.0" ?>
 <listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
-	<argument name="context" xsi:type="configurableObject">
-		<argument name="class" xsi:type="string">Magento\Framework\View\Element\UiComponent\Context</argument>
-		<argument name="namespace" xsi:type="string">experius_emailcatcher_index</argument>
-	</argument>
 	<argument name="data" xsi:type="array">
 		<item name="js_config" xsi:type="array">
 			<item name="provider" xsi:type="string">experius_emailcatcher_index.experius_emailcatcher_grid_data_source</item>
@@ -15,7 +11,6 @@
 				<item name="name" xsi:type="string">cleanup</item>
 				<item name="label" translate="true" xsi:type="string">Run Cleanup</item>
 				<item name="url" xsi:type="string">*/*/cleanup</item>
-				<!--<item name="on_click" xsi:type="string">deleteConfirm('Are you sure you want to do this?')</item>-->
 			</item>
 		</item>
 	</argument>
@@ -45,26 +40,6 @@
 		<bookmark name="bookmarks"/>
 		<columnsControls name="columns_controls"/>
 		<filters name="listing_filters"/>
-		<massaction name="listing_massaction" component="Magento_Ui/js/grid/tree-massactions">
-			<!--<action name="forward">-->
-				<!--<settings>-->
-					<!--<url path="*/*/forward"/>-->
-					<!--<type>forward</type>-->
-					<!--<label translate="true">Forward</label>-->
-				<!--</settings>-->
-			<!--</action>-->
-			<!--<action name="delete">-->
-				<!--<settings>-->
-					<!--<confirm>-->
-						<!--<message translate="true">Delete selected items?</message>-->
-						<!--<title translate="true">Delete items</title>-->
-					<!--</confirm>-->
-					<!--<url path="*/*/massDelete"/>-->
-					<!--<type>delete</type>-->
-					<!--<label translate="true">Delete</label>-->
-				<!--</settings>-->
-			<!--</action>-->
-		</massaction>
 		<paging name="listing_paging"/>
 	</listingToolbar>
 	<columns name="experius_emailcatcher_columns">
@@ -82,13 +57,6 @@
 				</item>
 			</item>
 		</argument>
-		<selectionsColumn name="ids">
-			<argument name="data" xsi:type="array">
-				<item name="config" xsi:type="array">
-					<item name="indexField" xsi:type="string">emailcatcher_id</item>
-				</item>
-			</argument>
-		</selectionsColumn>
 		<column name="emailcatcher_id">
 			<argument name="data" xsi:type="array">
 				<item name="config" xsi:type="array">
@@ -98,11 +66,11 @@
 				</item>
 			</argument>
 		</column>
-		<column name="recipient">
+		<column name="subject">
 			<argument name="data" xsi:type="array">
 				<item name="config" xsi:type="array">
 					<item name="filter" xsi:type="string">text</item>
-					<item name="label" translate="true" xsi:type="string">To</item>
+					<item name="label" translate="true" xsi:type="string">Subject</item>
 				</item>
 			</argument>
 		</column>
@@ -114,11 +82,11 @@
 				</item>
 			</argument>
 		</column>
-		<column name="subject">
+		<column name="recipient">
 			<argument name="data" xsi:type="array">
 				<item name="config" xsi:type="array">
 					<item name="filter" xsi:type="string">text</item>
-					<item name="label" translate="true" xsi:type="string">Subject</item>
+					<item name="label" translate="true" xsi:type="string">To</item>
 				</item>
 			</argument>
 		</column>
