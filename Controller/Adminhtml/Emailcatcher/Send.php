@@ -13,7 +13,6 @@ namespace Experius\EmailCatcher\Controller\Adminhtml\Emailcatcher;
 
 use Experius\EmailCatcher\Model\Mail;
 use Magento\Backend\App\Action\Context;
-use Magento\Framework\View\Result\PageFactory;
 
 class Send extends \Magento\Backend\App\Action
 {
@@ -26,12 +25,10 @@ class Send extends \Magento\Backend\App\Action
      * Send constructor.
      *
      * @param Context $context
-     * @param PageFactory $resultPageFactory
      * @param Mail $mail
      */
     public function __construct(
         Context $context,
-        PageFactory $resultPageFactory,
         Mail $mail
     ) {
         parent::__construct($context);

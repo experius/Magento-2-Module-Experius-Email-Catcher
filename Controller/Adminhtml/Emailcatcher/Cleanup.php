@@ -13,7 +13,6 @@ namespace Experius\EmailCatcher\Controller\Adminhtml\Emailcatcher;
 
 use Experius\EmailCatcher\Cron\Clean;
 use Magento\Backend\App\Action\Context;
-use Magento\Framework\View\Result\PageFactory;
 
 class Cleanup extends \Magento\Backend\App\Action
 {
@@ -26,12 +25,10 @@ class Cleanup extends \Magento\Backend\App\Action
      * Cleanup constructor.
      *
      * @param Context $context
-     * @param PageFactory $resultPageFactory
      * @param Clean $clean
      */
     public function __construct(
         Context $context,
-        PageFactory $resultPageFactory,
         Clean $clean
     ) {
         parent::__construct($context);
