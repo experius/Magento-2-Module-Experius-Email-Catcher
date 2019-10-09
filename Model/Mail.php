@@ -119,8 +119,10 @@ class Mail
 
         if (version_compare($this->magentoProductMetaData->getVersion(), "2.3.3", ">=")) {
             // default message type is MimeInterface::TYPE_HTML, so no need to set it
-            $this->messageData['from'][] = $this->addressConverter->convert($emailCatcher->getSender(),
-                $emailCatcher->getSender());
+            $this->messageData['from'][] = $this->addressConverter->convert(
+                $emailCatcher->getSender(),
+                $emailCatcher->getSender()
+            );
             $this->messageData['to'][] = $this->addressConverter->convert($recipient, $recipient);
             $content = $emailCatcher->getBody();
             $mimePart = $this->mimePartInterfaceFactory->create(['content' => $content]);

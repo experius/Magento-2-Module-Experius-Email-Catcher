@@ -26,7 +26,7 @@ define([
             var action = this.getAction(rowIndex, actionIndex),
                 callback = this._getCallback(action);
 
-            if(action.popup){
+            if (action.popup) {
                 this._popup(action, callback);
             } else {
                 action.confirm ?
