@@ -1,7 +1,7 @@
 <?php
 /**
  * A Magento 2 module named Experius/EmailCatcher
- * Copyright (C) 2016 Derrick Heesbeen
+ * Copyright (C) 2019 Experius
  *
  * This file included in Experius/EmailCatcher is licensed under OSL 3.0
  *
@@ -11,17 +11,33 @@
 
 namespace Experius\EmailCatcher\Controller\Adminhtml\Preview;
 
+use Experius\EmailCatcher\Model\EmailcatcherFactory;
+use Magento\Backend\App\Action\Context;
+use Magento\Framework\Controller\Result\RawFactory;
+
 class Index extends \Magento\Backend\App\Action
 {
-
+    /**
+     * @var RawFactory
+     */
     protected $resultRawFactory;
 
+    /**
+     * @var EmailcatcherFactory
+     */
     protected $emailCatcher;
 
+    /**
+     * Index constructor.
+     *
+     * @param Context $context
+     * @param RawFactory $resultRawFactory
+     * @param EmailcatcherFactory $emailCatcher
+     */
     public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Framework\Controller\Result\RawFactory $resultRawFactory,
-        \Experius\EmailCatcher\Model\EmailcatcherFactory $emailCatcher
+        Context $context,
+        RawFactory $resultRawFactory,
+        EmailcatcherFactory $emailCatcher
     ) {
 
         $this->resultRawFactory = $resultRawFactory;
@@ -30,6 +46,11 @@ class Index extends \Magento\Backend\App\Action
         parent::__construct($context);
     }
 
+    /**
+     * Execute action
+     *
+     * @return \Magento\Framework\Controller\Result\Raw
+     */
     public function execute()
     {
         $id = $this->getRequest()->getParam('emailcatcher_id');

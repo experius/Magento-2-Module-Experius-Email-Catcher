@@ -1,7 +1,7 @@
 <?php
 /**
  * A Magento 2 module named Experius/EmailCatcher
- * Copyright (C) 2016 Derrick Heesbeen
+ * Copyright (C) 2019 Experius
  *
  * This file included in Experius/EmailCatcher is licensed under OSL 3.0
  *
@@ -11,26 +11,38 @@
 
 namespace Experius\EmailCatcher\Controller\Adminhtml\Emailcatcher;
 
+use Experius\EmailCatcher\Model\Mail;
+use Magento\Backend\App\Action\Context;
+use Magento\Framework\View\Result\PageFactory;
+
 class Send extends \Magento\Backend\App\Action
 {
-
+    /**
+     * @var Mail
+     */
     protected $mail;
 
-
+    /**
+     * Send constructor.
+     *
+     * @param Context $context
+     * @param PageFactory $resultPageFactory
+     * @param Mail $mail
+     */
     public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Framework\View\Result\PageFactory $resultPageFactory,
-        \Experius\EmailCatcher\Model\Mail $mail
+        Context $context,
+        PageFactory $resultPageFactory,
+        Mail $mail
     ) {
-        $this->mail = $mail;
-
         parent::__construct($context);
+        $this->mail = $mail;
     }
 
-
+    /**
+     * @inheritDoc
+     */
     public function execute()
     {
-
         $resultRedirect = $this->resultRedirectFactory->create();
 
         $postData = $this->getRequest()->getParams();
