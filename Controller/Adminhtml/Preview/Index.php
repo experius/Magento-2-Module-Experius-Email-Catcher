@@ -57,8 +57,11 @@ class Index extends \Magento\Backend\App\Action
         if ($id) {
             $model = $this->emailCatcher->create();
             $email = $model->load($id);
-            $resultRaw = $this->resultRawFactory->create();
-            return $resultRaw->setContents($email->getBody());
+            $body = $email->getBody();
+        } else {
+            $body = '<h2>' . __('Something went wrong with rendering the email, please try again') . '</h2>';
         }
+        $resultRaw = $this->resultRawFactory->create();
+        return $resultRaw->setContents($body);
     }
 }
