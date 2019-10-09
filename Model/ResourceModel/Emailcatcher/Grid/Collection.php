@@ -1,7 +1,7 @@
 <?php
 /**
  * A Magento 2 module named Experius/EmailCatcher
- * Copyright (C) 2016 Derrick Heesbeen
+ * Copyright (C) 2019 Experius
  *
  * This file included in Experius/EmailCatcher is licensed under OSL 3.0
  *
@@ -18,13 +18,37 @@ use Psr\Log\LoggerInterface as Logger;
 
 class Collection extends \Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult
 {
-
-    public function __construct(EntityFactory $entityFactory, Logger $logger, FetchStrategy $fetchStrategy, EventManager $eventManager)
-    {
-        parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, 'experius_emailcatcher', 'Experius\EmailCatcher\Model\ResourceModel\Emailcatcher\Collection');
+    /**
+     * Collection constructor.
+     *
+     * @param EntityFactory $entityFactory
+     * @param Logger $logger
+     * @param FetchStrategy $fetchStrategy
+     * @param EventManager $eventManager
+     */
+    public function __construct(
+        EntityFactory $entityFactory,
+        Logger $logger,
+        FetchStrategy $fetchStrategy,
+        EventManager $eventManager
+    ) {
+        parent::__construct(
+            $entityFactory,
+            $logger,
+            $fetchStrategy,
+            $eventManager,
+            'experius_emailcatcher',
+            'Experius\EmailCatcher\Model\ResourceModel\Emailcatcher\Collection'
+        );
     }
 
-
+    /**
+     * Add item
+     *
+     * @param \Magento\Framework\DataObject $item
+     * @return $this
+     * @throws \Exception
+     */
     public function addItem(\Magento\Framework\DataObject $item)
     {
         $itemId = $this->_getItemId($item);

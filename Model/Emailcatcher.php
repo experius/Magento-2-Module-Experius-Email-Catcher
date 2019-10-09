@@ -11,6 +11,12 @@
 
 namespace Experius\EmailCatcher\Model;
 
+use Magento\Framework\App\ProductMetadataInterface;
+use Magento\Framework\Data\Collection\AbstractDb;
+use Magento\Framework\Model\Context;
+use Magento\Framework\Model\ResourceModel\AbstractResource;
+use Magento\Framework\Registry;
+
 class Emailcatcher extends \Magento\Framework\Model\AbstractModel
 {
     /**
@@ -24,33 +30,37 @@ class Emailcatcher extends \Magento\Framework\Model\AbstractModel
     protected $_eventObject = 'email';
 
     /**
-     * @var \Magento\Framework\App\ProductMetadataInterface|null
+     * @var ProductMetadataInterface|null
      */
     protected $magentoProductMetaData;
 
     /**
      * Emailcatcher constructor.
      *
-     * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Framework\App\ProductMetadataInterface $magentoProductMetaData
-     * @param \Magento\Framework\Model\ResourceModel\AbstractResource|null $resource
-     * @param \Magento\Framework\Data\Collection\AbstractDb|null $resourceCollection
+     * @param Context $context
+     * @param Registry $registry
+     * @param ProductMetadataInterface $magentoProductMetaData
+     * @param AbstractResource|null $resource
+     * @param AbstractDb|null $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Framework\Model\Context $context,
-        \Magento\Framework\Registry $registry,
-        \Magento\Framework\App\ProductMetadataInterface $magentoProductMetaData,
-        \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
-        \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
+        Context $context,
+        Registry $registry,
+        ProductMetadataInterface $magentoProductMetaData = null,
+        AbstractResource $resource = null,
+        AbstractDb $resourceCollection = null,
         array $data = []
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
 
-        $this->magentoProductMetaData = $magentoProductMetaData;
+        $this->magentoProductMetaData = $magentoProductMetaData ?: \Magento\Framework\App\ObjectManager::getInstance()
+            ->get(ProductMetadataInterface::class);
     }
 
+    /**
+     * @inheritDoc
+     */
     protected function _construct()
     {
         $this->_init('Experius\EmailCatcher\Model\ResourceModel\Emailcatcher');

@@ -1,5 +1,5 @@
 {
-    "name": "experius/emailcatcher",
+    "name": "experius/module-emailcatcher",
     "description": "",
     "license": [
         "OSL-3.0"
@@ -8,6 +8,18 @@
         {
             "name": "Derrick Heesbeen",
             "email": "derrick@experius.nl"
+        },
+        {
+            "name": "Boris van Katwijk",
+            "email": "boris@experius.nl"
+        },
+        {
+            "name": "Lewis Vonken",
+            "email": "lewis@experius.nl"
+        },
+        {
+            "name": "Daphne Witmer",
+            "email": "daphne.witmer@experius.nl"
         }
     ],
     "minimum-stability": "dev",
