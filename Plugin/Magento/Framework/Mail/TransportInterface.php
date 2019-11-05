@@ -15,10 +15,22 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 
 class TransportInterface
 {
+    /**
+     * @var ScopeConfigInterface
+     */
     private $scopeConfig;
 
+    /**
+     * @var \Experius\EmailCatcher\Model\EmailcatcherFactory
+     */
     private $emailCatcher;
 
+    /**
+     * TransportInterface constructor.
+     *
+     * @param ScopeConfigInterface $scopeConfig
+     * @param \Experius\EmailCatcher\Model\EmailcatcherFactory $emailCatcher
+     */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
         \Experius\EmailCatcher\Model\EmailcatcherFactory $emailCatcher
@@ -27,6 +39,13 @@ class TransportInterface
         $this->emailCatcher = $emailCatcher;
     }
 
+    /**
+     * Around sendMessage plugin
+     *
+     * @param \Magento\Framework\Mail\TransportInterface $subject
+     * @param \Closure $proceed
+     * @throws \ReflectionException
+     */
     public function aroundSendMessage(
         \Magento\Framework\Mail\TransportInterface $subject,
         \Closure $proceed
@@ -47,6 +66,10 @@ class TransportInterface
             }
         }
 
+        /**
+         * @TODO: halt send message if whitelist feature is enabled, and template is not part of whitelisted templates.
+         * getTemplateIdentifier() is now possible on subject to check the template.
+         */
         $proceed();
     }
 }

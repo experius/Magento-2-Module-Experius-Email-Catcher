@@ -5,6 +5,10 @@
             <general>
                 <enabled>1</enabled>
             </general>
+            <whitelist>
+                <apply_whitelist>0</apply_whitelist>
+                <email_templates/>
+            </whitelist>
         </emailcatcher>
     </default>
 </config>
