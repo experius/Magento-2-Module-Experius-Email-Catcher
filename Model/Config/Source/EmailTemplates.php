@@ -60,10 +60,7 @@ class EmailTemplates implements ArrayInterface
             $customTemplate['label'] = $customTemplate['label'] . ' (Custom)';
         }
 
-        //echo "<pre>";
-        //var_dump($templates);
         $templates = array_merge($templates, $emailTemplateCollection);
-        //var_dump($templates);die;
         usort($templates, function ($a, $b) {
             return $a['label'] <=> $b['label'];
         });
