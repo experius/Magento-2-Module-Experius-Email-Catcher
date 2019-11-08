@@ -14,6 +14,7 @@
  - Forward  a catched email
  - Resend  a catched email
  - Cleanup of emails older then 30 days (cron or manual)
+ - Send emails based on whitelisted email templates
 
 ## Versions
 - Version 3.0.0 or higher is fully compatible with 2.2.x and 2.3.x
@@ -51,13 +52,26 @@ Enable Email Catcher.
 Disable email sending (default Magento, advised for development)
  - Stores > Settings > Configuration > Advanced > System > Mail Sending Settings > Disable Email Communications (system/smpt/disable)
 
+Utilise whitelist functionality
+- Stores > Settings > Configuration > Advanced > Email Catcher > Whitelist > Apply whitelist (emailcatcher/whitelist/apply_whitelist)
+- Stores > Settings > Configuration > Advanced > Email Catcher > Whitelist > Whitelisted templates (emailcatcher/whitelist/email_templates)
+
 Admin grid
  - System > Tools > Email Catcher
 
 ## Change log
+Version 3.1.0 - November 8th, 2019
+
+ - [FEATURE] Created preferences on Magento email classes (Transport / TransportBuilder) to preserve template identifier on email transport. This will allow filtering of email sending (in sendMessage()) based of configurable template whitelist.
+ - [FEATURE] Added logic to check email versus whitelisted templates and send those configured to be whitelisted
+ - [FEATURE] Added custom email templates to dropdown selector for templates to whitelist
+ - [FEATURE] Added logic to check email versus whitelist, where non-whitelisted templates are halted.
+ - [BUGFIX] Empty whitelist was still sending email, resolved this by making !empty() check on template whitelist.
+ - [REFACTOR] Small refactor for readability of class functions in plugin.
+ - [BUGFIX] Message for resending was incorrectly displaying empty email adress. Message rewritten to "email was resent".
+
 Version 3.0.0 - October 9th, 2019
 
  - [REFACTOR] DocBlocks and module composer require namespace changed
  - [FEATURE] Magento 2.3.3 support for forwarding and resending emails using the newly introduced \Magento\Framework\Mail\EmailMessageInterface. Fully backwards compatible to 2.2.x
  - [DOCS] Updated README, starting change logs
-
