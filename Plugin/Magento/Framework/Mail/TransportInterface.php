@@ -11,13 +11,14 @@
 
 namespace Experius\EmailCatcher\Plugin\Magento\Framework\Mail;
 
+use Experius\EmailCatcher\Model\EmailcatcherFactory;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use \Magento\Store\Model\ScopeInterface;
 
 class TransportInterface
 {
     const CONFIG_PATH_EMAIL_CATCHER_ENABLED = 'emailcatcher/general/enabled';
-    const CONFIG_PATH_WHITELIST_ENABLED = 'emailcatcher/whitelist/apply_whitelist';
+    const CONFIG_PATH_WHITELIST_APPLY_WHITELIST = 'emailcatcher/whitelist/apply_whitelist';
     const CONFIG_PATH_TEMPLATE_WHITELIST = 'emailcatcher/whitelist/email_templates';
 
     /**
@@ -26,7 +27,7 @@ class TransportInterface
     private $scopeConfig;
 
     /**
-     * @var \Experius\EmailCatcher\Model\EmailcatcherFactory
+     * @var EmailcatcherFactory
      */
     private $emailCatcher;
 
@@ -34,11 +35,11 @@ class TransportInterface
      * TransportInterface constructor.
      *
      * @param ScopeConfigInterface $scopeConfig
-     * @param \Experius\EmailCatcher\Model\EmailcatcherFactory $emailCatcher
+     * @param EmailcatcherFactory $emailCatcher
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
-        \Experius\EmailCatcher\Model\EmailcatcherFactory $emailCatcher
+        EmailcatcherFactory $emailCatcher
     ) {
         $this->scopeConfig = $scopeConfig;
         $this->emailCatcher = $emailCatcher;
@@ -49,49 +50,64 @@ class TransportInterface
      *
      * @param \Magento\Framework\Mail\TransportInterface $subject
      * @param \Closure $proceed
-     * @throws \ReflectionException
+     * @return \Closure $proceed|void
      */
     public function aroundSendMessage(
         \Magento\Framework\Mail\TransportInterface $subject,
         \Closure $proceed
     ) {
-        if ($this->scopeConfig->getValue(
-            self::CONFIG_PATH_EMAIL_CATCHER_ENABLED,
-            ScopeInterface::SCOPE_STORE
-        )) {
-            // For >= 2.2
-            if (method_exists($subject, 'getMessage')) {
-                $this->emailCatcher->create()->saveMessage($subject->getMessage());
-            } else {
-                //For < 2.2
-                $reflection = new \ReflectionClass($subject);
-                $property = $reflection->getProperty('_message');
-                $property->setAccessible(true);
-                $this->emailCatcher->create()->saveMessage($property->getValue($subject));
-            }
+        if (!$this->scopeConfig->isSetFlag(self::CONFIG_PATH_EMAIL_CATCHER_ENABLED, ScopeInterface::SCOPE_STORE)) {
+            return $proceed();
         }
 
-        if ($this->scopeConfig->getValue(
-            self::CONFIG_PATH_WHITELIST_ENABLED,
-            ScopeInterface::SCOPE_STORE
-        )) {
-            $template = $subject->getTemplateIdentifier();
-            $templateWhitelist = $this->getTemplateWhitelist();
-            if (in_array($template, $templateWhitelist)) {
-                $proceed();
+        $this->saveMessage($subject);
+
+        // Proceed if whitelist feature is not enabled
+        if (!$this->scopeConfig->isSetFlag(self::CONFIG_PATH_WHITELIST_APPLY_WHITELIST, ScopeInterface::SCOPE_STORE)) {
+            return $proceed();
+        }
+
+        // Check if template is whitelisted
+        if (!empty($this->getTemplateWhitelist())) {
+            if (in_array($subject->getTemplateIdentifier(), $this->getTemplateWhitelist())) {
+                return $proceed();
             }
         }
     }
 
     /**
-     * Returns array of whitelisted email templates
+     * Save message
+     *
+     * @param $subject
+     * @return void
+     * @throws \ReflectionException
+     */
+    private function saveMessage($subject)
+    {
+        // For >= 2.2
+        if (method_exists($subject, 'getMessage')) {
+            $this->emailCatcher->create()->saveMessage($subject->getMessage());
+        } else {
+            //For < 2.2
+            $reflection = new \ReflectionClass($subject);
+            $property = $reflection->getProperty('_message');
+            $property->setAccessible(true);
+            $this->emailCatcher->create()->saveMessage($property->getValue($subject));
+        }
+    }
+
+    /**
+     * Get whitelisted templates
      *
      * @return array
      */
     private function getTemplateWhitelist()
     {
-        $config = $this->scopeConfig->getValue(self::CONFIG_PATH_TEMPLATE_WHITELIST, ScopeInterface::SCOPE_STORE);
-        $templateWhitelist = explode(',', $config);
-        return $templateWhitelist;
+        $templates = $this->scopeConfig->getValue(
+            self::CONFIG_PATH_TEMPLATE_WHITELIST,
+            ScopeInterface::SCOPE_STORE
+        );
+
+        return $templates ? explode(',', $templates) : [];
     }
 }

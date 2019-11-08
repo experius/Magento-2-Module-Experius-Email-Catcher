@@ -11,8 +11,7 @@
 
 namespace Experius\EmailCatcher\Rewrite\Magento\Framework\Mail;
 
-class Transport extends \Magento\Framework\Mail\Transport
-    implements \Magento\Framework\Mail\TransportInterface
+class Transport extends \Magento\Framework\Mail\Transport implements \Magento\Framework\Mail\TransportInterface
 {
     /**
      * @var string

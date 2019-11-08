@@ -1,5 +1,6 @@
 <?xml version="1.0" ?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
         <section id="emailcatcher" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
             <label>Email Catcher</label>
@@ -12,22 +13,22 @@
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
             </group>
-	    <group id="whitelist" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
-            <label>Whitelist</label>
-                <field id="apply_whitelist" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="select">
+            <group id="whitelist" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+                <label>Whitelist</label>
+                <field id="apply_whitelist" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label comment" type="select" canRestore="1">
                     <label>Apply whitelist</label>
                     <comment>If applied, email templates below will be sent while stopping all other emails</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-            <field id="email_templates" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="multiselect">
-                <depends>
-                    <field id="apply_whitelist">1</field>
-                </depends>
-                <label>Email Templates</label>
-                <comment>Whitelist the email templates that are allowed to be sent, while disabled</comment>
-                <source_model>Experius\EmailCatcher\Model\Config\Source\EmailTemplates</source_model>
-            </field>
-        </group>
+                <field id="email_templates" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label comment" type="multiselect">
+                    <label>Email Templates</label>
+                    <comment>Whitelist the email templates that are allowed to be sent</comment>
+                    <source_model>Experius\EmailCatcher\Model\Config\Source\EmailTemplates</source_model>
+                    <depends>
+                        <field id="apply_whitelist">1</field>
+                    </depends>
+                </field>
+            </group>
         </section>
     </system>
 </config>
