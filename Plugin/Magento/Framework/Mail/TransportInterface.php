@@ -12,9 +12,14 @@
 namespace Experius\EmailCatcher\Plugin\Magento\Framework\Mail;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use \Magento\Store\Model\ScopeInterface;
 
 class TransportInterface
 {
+    const CONFIG_PATH_EMAIL_CATCHER_ENABLED = 'emailcatcher/general/enabled';
+    const CONFIG_PATH_WHITELIST_ENABLED = 'emailcatcher/whitelist/apply_whitelist';
+    const CONFIG_PATH_TEMPLATE_WHITELIST = 'emailcatcher/whitelist/email_templates';
+
     /**
      * @var ScopeConfigInterface
      */
@@ -51,8 +56,8 @@ class TransportInterface
         \Closure $proceed
     ) {
         if ($this->scopeConfig->getValue(
-            'emailcatcher/general/enabled',
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            self::CONFIG_PATH_EMAIL_CATCHER_ENABLED,
+            ScopeInterface::SCOPE_STORE
         )) {
             // For >= 2.2
             if (method_exists($subject, 'getMessage')) {
@@ -66,10 +71,27 @@ class TransportInterface
             }
         }
 
-        /**
-         * @TODO: halt send message if whitelist feature is enabled, and template is not part of whitelisted templates.
-         * getTemplateIdentifier() is now possible on subject to check the template.
-         */
-        $proceed();
+        if ($this->scopeConfig->getValue(
+            self::CONFIG_PATH_WHITELIST_ENABLED,
+            ScopeInterface::SCOPE_STORE
+        )) {
+            $template = $subject->getTemplateIdentifier();
+            $templateWhitelist = $this->getTemplateWhitelist();
+            if (in_array($template, $templateWhitelist)) {
+                $proceed();
+            }
+        }
+    }
+
+    /**
+     * Returns array of whitelisted email templates
+     *
+     * @return array
+     */
+    private function getTemplateWhitelist()
+    {
+        $config = $this->scopeConfig->getValue(self::CONFIG_PATH_TEMPLATE_WHITELIST, ScopeInterface::SCOPE_STORE);
+        $templateWhitelist = explode(',', $config);
+        return $templateWhitelist;
     }
 }
