@@ -53,7 +53,11 @@ class Send extends \Magento\Backend\App\Action
         }
 
         $this->mail->sendMessage($emailCatcherId, $email);
-        $this->messageManager->addSuccessMessage('Email send to ' . $email);
+        if ($email) {
+            $this->messageManager->addSuccessMessage('Email send to ' . $email);
+        } else {
+            $this->messageManager->addSuccessMessage('Email was resent');
+        }
 
         return $resultRedirect->setPath('*/*/');
     }
