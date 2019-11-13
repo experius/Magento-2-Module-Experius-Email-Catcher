@@ -20,6 +20,14 @@
         {
             "name": "Daphne Witmer",
             "email": "daphne.witmer@experius.nl"
+        },
+        {
+            "name": "Ruben Panis",
+            "email": "ruben@experius.nl"
+        },
+        {
+            "name": "Matthijs Breedt",
+            "email": "matthijs.breed@experius.nl"
         }
     ],
     "minimum-stability": "dev",
