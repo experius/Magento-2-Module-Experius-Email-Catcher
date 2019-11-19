@@ -28,14 +28,14 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $connection = $setup->getConnection();
 
             $connection->changeColumn(
-                'experius_emailcatcher',
+                $setup->getTable('experius_emailcatcher'),
                 'to',
                 'recipient',
                 ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT]
             );
 
             $connection->changeColumn(
-                'experius_emailcatcher',
+                $setup->getTable('experius_emailcatcher'),
                 'from',
                 'sender',
                 ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT]
