@@ -94,7 +94,7 @@ class Emailcatcher extends \Magento\Framework\Model\AbstractModel
             $sender = 'could not retrieve from address';
         }
 
-        $subject = mb_decode_mimeheader($message->getSubject());
+        $subject = imap_utf8($message->getSubject());
         $this->setBody($body);
         $this->setSubject($subject);
         $this->setRecipient($recipient);
