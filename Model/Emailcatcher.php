@@ -94,7 +94,7 @@ class Emailcatcher extends \Magento\Framework\Model\AbstractModel
             $sender = 'could not retrieve from address';
         }
 
-        $subject = imap_utf8($message->getSubject());
+        $subject = $this->imapUtf8($message->getSubject());
         $this->setBody($body);
         $this->setSubject($subject);
         $this->setRecipient($recipient);
@@ -122,5 +122,18 @@ class Emailcatcher extends \Magento\Framework\Model\AbstractModel
         }
 
         return $emailAddresses;
+    }
+
+    /**
+     * @todo imap_utf8 replacement
+     * @param string $string
+     * @return string $string
+     */
+    public function imapUtf8($string)
+    {
+        if (function_exists('imap_utf8')) {
+            $string = imap_utf8($string);
+        }
+        return $string;
     }
 }
