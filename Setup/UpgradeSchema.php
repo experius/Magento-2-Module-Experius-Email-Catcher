@@ -23,17 +23,17 @@ class UpgradeSchema implements UpgradeSchemaInterface
     ) {
         if (version_compare($context->getVersion(), "1.0.1", "<")) {
             $connection = $setup->getConnection();
-            if (!$connection->tableColumnExists('experius_emailcatcher', 'recipient')) {
+            if (!$connection->tableColumnExists($setup->getTable('experius_emailcatcher'), 'recipient')) {
                 $connection->changeColumn(
-                    'experius_emailcatcher',
+                    $setup->getTable('experius_emailcatcher'),
                     'to',
                     'recipient',
                     ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT]
                 );
             }
-            if (!$connection->tableColumnExists('experius_emailcatcher', 'sender')) {
+            if (!$connection->tableColumnExists($setup->getTable('experius_emailcatcher'), 'sender')) {
                 $connection->changeColumn(
-                    'experius_emailcatcher',
+                    $setup->getTable('experius_emailcatcher'),
                     'from',
                     'sender',
                     ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT]
