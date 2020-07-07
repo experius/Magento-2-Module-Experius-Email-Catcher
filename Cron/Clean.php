@@ -56,14 +56,9 @@ class Clean
 
     public function getDaysToClean()
     {
-        $daysToClean = self::DEFAULT_DAYS_TO_CLEAN;
         $daysToCleanConfig = $this->scopeConfig->getValue(self::CONFIG_DAYS_TO_CLEAN, ScopeInterface::SCOPE_STORE);
-
-        if((int)$daysToCleanConfig > 0){
-            $daysToClean = $daysToCleanConfig;
-        }
-
-        return $daysToClean;
+        
+        return (int)$daysToCleanConfig >= 0 ? $daysToCleanConfig : self::DEFAULT_DAYS_TO_CLEAN;
     }
 
     /**
