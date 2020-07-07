@@ -14,6 +14,7 @@
                 </field>
                 <field id="days_to_clean" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
                     <label>Days you want to save the emails</label>
+                    <validate>validate-number validate-not-negative-number</validate>
                     <depends>
                         <field id="enabled">1</field>
                     </depends>
