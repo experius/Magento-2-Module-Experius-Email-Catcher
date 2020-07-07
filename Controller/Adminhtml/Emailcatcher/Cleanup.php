@@ -50,7 +50,7 @@ class Cleanup extends \Magento\Backend\App\Action
         }
 
         $this->messageManager->addSuccessMessage(
-            __('Removed %1 records from %2 days ago or older', $deleteCount, (string)Clean::DAYS_TO_CLEAN)
+            __('Removed %1 records from %2 days ago or older', $deleteCount, (string)Clean::getDaysToClean())
         );
 
         return $resultRedirect->setPath('*/*/');

@@ -4,6 +4,7 @@
         <emailcatcher>
             <general>
                 <enabled>1</enabled>
+                <days_to_clean>30</days_to_clean>
             </general>
             <whitelist>
                 <apply_whitelist>0</apply_whitelist>
