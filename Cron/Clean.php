@@ -11,12 +11,15 @@
 
 namespace Experius\EmailCatcher\Cron;
 
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\ResourceConnection;
+use Magento\Store\Model\ScopeInterface;
 use Psr\Log\LoggerInterface;
 
 class Clean
 {
-    const DAYS_TO_CLEAN = 30;
+    const DEFAULT_DAYS_TO_CLEAN = 30;
+    const CONFIG_DAYS_TO_CLEAN = 'emailcatcher/general/days_to_clean';
 
     /**
      * @var LoggerInterface
@@ -29,18 +32,38 @@ class Clean
     protected $resourceConnection;
 
     /**
+     * @var ScopeConfigInterface
+     */
+    private $scopeConfig;
+
+    /**
      * Clean constructor.
      *
      * @param LoggerInterface $logger
      * @param ResourceConnection $resourceConnection
+     * @param ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         LoggerInterface $logger,
-        ResourceConnection $resourceConnection
+        ResourceConnection $resourceConnection,
+        ScopeConfigInterface $scopeConfig
     ) {
         $this->logger = $logger;
         $this->resourceConnection = $resourceConnection;
         $this->connection = $this->resourceConnection->getConnection();
+        $this->scopeConfig = $scopeConfig;
+    }
+
+    public function getDaysToClean()
+    {
+        $daysToClean = self::DEFAULT_DAYS_TO_CLEAN;
+        $daysToCleanConfig = $this->scopeConfig->getValue(self::CONFIG_DAYS_TO_CLEAN, ScopeInterface::SCOPE_STORE);
+
+        if((int)$daysToCleanConfig > 0){
+            $daysToClean = $daysToCleanConfig;
+        }
+
+        return $daysToClean;
     }
 
     /**
@@ -50,7 +73,7 @@ class Clean
      */
     public function execute()
     {
-        $where = "created_at < '" . date('c', time() - (self::DAYS_TO_CLEAN * (3600 * 24))) . "'";
+        $where = "created_at < '" . date('c', time() - ($this->getDaysToClean() * (3600 * 24))) . "'";
 
         $deletionCount = $this->connection->delete(
             $this->resourceConnection->getTableName('experius_emailcatcher'),
