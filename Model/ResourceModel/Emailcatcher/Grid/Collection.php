@@ -39,7 +39,7 @@ class Collection extends \Magento\Framework\View\Element\UiComponent\DataProvide
             $fetchStrategy,
             $eventManager,
             'experius_emailcatcher',
-            Experius\EmailCatcher\Model\ResourceModel\Emailcatcher\Collection::class
+            \Experius\EmailCatcher\Model\ResourceModel\Emailcatcher\Collection::class
         );
     }
 
