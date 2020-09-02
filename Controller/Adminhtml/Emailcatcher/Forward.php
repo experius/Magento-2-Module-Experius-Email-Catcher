@@ -1,7 +1,7 @@
 <?php
 /**
  * A Magento 2 module named Experius/EmailCatcher
- * Copyright (C) 2016 Derrick Heesbeen
+ * Copyright (C) 2019 Experius
  *
  * This file included in Experius/EmailCatcher is licensed under OSL 3.0
  *
@@ -11,27 +11,42 @@
 
 namespace Experius\EmailCatcher\Controller\Adminhtml\Emailcatcher;
 
+use Magento\Backend\App\Action\Context;
+use Magento\Framework\View\Result\PageFactory;
+
 class Forward extends \Magento\Backend\App\Action
 {
-
+    /**
+     * @var PageFactory
+     */
     protected $resultPageFactory;
 
-
+    /**
+     * Forward constructor.
+     *
+     * @param Context $context
+     * @param PageFactory $resultPageFactory
+     */
     public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Framework\View\Result\PageFactory $resultPageFactory
+        Context $context,
+        PageFactory $resultPageFactory
     ) {
         $this->resultPageFactory = $resultPageFactory;
         parent::__construct($context);
     }
 
-
+    /**
+     * @inheritDoc
+     */
     public function execute()
     {
-
         $result = $this->resultPageFactory->create();
         $result->getConfig()->getTitle()->prepend(__('Email Catcher'));
-        $result->getLayout()->addBlock(\Experius\EmailCatcher\Block\Adminhtml\Forward\Edit::class, 'forward', 'content');
+        $result->getLayout()->addBlock(
+            \Experius\EmailCatcher\Block\Adminhtml\Forward\Edit::class,
+            'forward',
+            'content'
+        );
         return $result;
     }
 }

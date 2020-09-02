@@ -1,7 +1,7 @@
 <?php
 /**
  * A Magento 2 module named Experius/EmailCatcher
- * Copyright (C) 2016 Derrick Heesbeen
+ * Copyright (C) 2019 Experius
  *
  * This file included in Experius/EmailCatcher is licensed under OSL 3.0
  *
@@ -13,9 +13,9 @@ namespace Experius\EmailCatcher\Model\ResourceModel\Emailcatcher;
 
 class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection
 {
-
-
-    
+    /**
+     * @inheritDoc
+     */
     protected function _construct()
     {
         $this->_init(

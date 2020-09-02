@@ -1,7 +1,7 @@
 <?php
 /**
  * A Magento 2 module named Experius/EmailCatcher
- * Copyright (C) 2016 Derrick Heesbeen
+ * Copyright (C) 2019 Experius
  *
  * This file included in Experius/EmailCatcher is licensed under OSL 3.0
  *
@@ -11,35 +11,129 @@
 
 namespace Experius\EmailCatcher\Model;
 
+use Magento\Framework\App\ProductMetadataInterface;
+use Magento\Framework\Data\Collection\AbstractDb;
+use Magento\Framework\Model\Context;
+use Magento\Framework\Model\ResourceModel\AbstractResource;
+use Magento\Framework\Registry;
+
 class Emailcatcher extends \Magento\Framework\Model\AbstractModel
 {
+    /**
+     * @var string
+     */
+    protected $_eventPrefix = 'experius_email_catcher';
 
+    /**
+     * @var string
+     */
+    protected $_eventObject = 'email';
+
+    /**
+     * @var ProductMetadataInterface|null
+     */
+    protected $magentoProductMetaData;
+
+    /**
+     * Emailcatcher constructor.
+     *
+     * @param Context $context
+     * @param Registry $registry
+     * @param ProductMetadataInterface $magentoProductMetaData
+     * @param AbstractResource|null $resource
+     * @param AbstractDb|null $resourceCollection
+     * @param array $data
+     */
     public function __construct(
-        \Magento\Framework\Model\Context $context,
-        \Magento\Framework\Registry $registry,
-        \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
-        \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
+        Context $context,
+        Registry $registry,
+        ProductMetadataInterface $magentoProductMetaData = null,
+        AbstractResource $resource = null,
+        AbstractDb $resourceCollection = null,
         array $data = []
     ) {
-    
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+
+        $this->magentoProductMetaData = $magentoProductMetaData ?: \Magento\Framework\App\ObjectManager::getInstance()
+            ->get(ProductMetadataInterface::class);
     }
 
+    /**
+     * @inheritDoc
+     */
     protected function _construct()
     {
         $this->_init('Experius\EmailCatcher\Model\ResourceModel\Emailcatcher');
     }
 
-    public function saveMessage(\Magento\Framework\Mail\Message $message)
+    /**
+     * Save message
+     *
+     * @param $message
+     */
+    public function saveMessage($message)
     {
+        $bodyObject = $message->getBody();
 
-        $subject = mb_decode_mimeheader($message->getSubject());
+        if (!method_exists($bodyObject, 'getRawContent') && method_exists($message, 'getRawMessage')) {
+            $zendMessageObject = new \Zend\Mail\Message();
+            $zendMessage = $zendMessageObject::fromString($message->getRawMessage());
+            $body = $zendMessage->getBodyText();
+            if (version_compare($this->magentoProductMetaData->getVersion(), "2.3.3", ">=")) {
+                $body = quoted_printable_decode($body);
+            }
+            $recipient = $this->getEmailAddressesFromObject($zendMessage->getTo());
+            $sender = $this->getEmailAddressesFromObject($zendMessage->getFrom());
+        } elseif (method_exists($bodyObject, 'getRawContent')) {
+            $body = $bodyObject->getRawContent();
+            $recipient = implode(',', $message->getRecipients());
+            $sender = $message->getFrom();
+        } else {
+            $body = 'could not retrieve body';
+            $recipient = 'could not retrieve recipients';
+            $sender = 'could not retrieve from address';
+        }
 
-        $this->setBody($message->getBody()->getRawContent());
+        $subject = $this->imapUtf8($message->getSubject());
+        $this->setBody($body);
         $this->setSubject($subject);
-        $this->setTo(implode(',', $message->getRecipients()));
-        $this->setFrom($message->getFrom());
+        $this->setRecipient($recipient);
+        $this->setSender($sender);
         $this->setCreatedAt(date('c'));
         $this->save();
+    }
+
+    /**
+     * Get email addresses from address object
+     *
+     * @param $addresses
+     * @param bool $asString
+     * @return array|string
+     */
+    public function getEmailAddressesFromObject($addresses, $asString = true)
+    {
+        $emailAddresses = [];
+        foreach ($addresses as $address) {
+            $emailAddresses[] = $address->getEmail();
+        }
+
+        if ($asString) {
+            return implode(',', $emailAddresses);
+        }
+
+        return $emailAddresses;
+    }
+
+    /**
+     * @todo imap_utf8 replacement
+     * @param string $string
+     * @return string $string
+     */
+    public function imapUtf8($string)
+    {
+        if (function_exists('imap_utf8')) {
+            $string = imap_utf8($string);
+        }
+        return $string;
     }
 }

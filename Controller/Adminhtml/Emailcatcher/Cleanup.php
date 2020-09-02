@@ -1,7 +1,7 @@
 <?php
 /**
  * A Magento 2 module named Experius/EmailCatcher
- * Copyright (C) 2016 Derrick Heesbeen
+ * Copyright (C) 2019 Experius
  *
  * This file included in Experius/EmailCatcher is licensed under OSL 3.0
  *
@@ -11,25 +11,35 @@
 
 namespace Experius\EmailCatcher\Controller\Adminhtml\Emailcatcher;
 
+use Experius\EmailCatcher\Cron\Clean;
+use Magento\Backend\App\Action\Context;
+
 class Cleanup extends \Magento\Backend\App\Action
 {
-
+    /**
+     * @var Clean
+     */
     protected $clean;
 
+    /**
+     * Cleanup constructor.
+     *
+     * @param Context $context
+     * @param Clean $clean
+     */
     public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Framework\View\Result\PageFactory $resultPageFactory,
-        \Experius\EmailCatcher\Cron\Clean $clean
+        Context $context,
+        Clean $clean
     ) {
-        $this->clean = $clean;
-
         parent::__construct($context);
+        $this->clean = $clean;
     }
 
-
+    /**
+     * @inheritDoc
+     */
     public function execute()
     {
-
         $resultRedirect = $this->resultRedirectFactory->create();
 
         try {
@@ -39,7 +49,9 @@ class Cleanup extends \Magento\Backend\App\Action
             return $resultRedirect->setPath('*/*/');
         }
 
-        $this->messageManager->addSuccessMessage(__('Removed %1 records from %2 days ago or older', $deleteCount, '30'));
+        $this->messageManager->addSuccessMessage(
+            __('Removed %1 records from %2 days ago or older', $deleteCount, (string)Clean::getDaysToClean())
+        );
 
         return $resultRedirect->setPath('*/*/');
     }

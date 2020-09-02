@@ -1,15 +1,20 @@
 <?xml version="1.0" ?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-	<preference for="Magento\Framework\Mail\TransportInterface" type="Experius\EmailCatcher\Mail\Transport"/>
-	<preference for="Magento\Email\Model\Transport" type="Experius\EmailCatcher\Mail\Transport"/>
-	<type name="Magento\Framework\Mail\TransportInterface">
-		<plugin name="EmailDisable" type="Experius\EmailCatcher\Plugin\Magento\Framework\Mail\TransportInterface" />
-	</type>
-	<type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
-		<arguments>
-			<argument name="collections" xsi:type="array">
-				<item name="experius_emailcatcher_grid_data_source" xsi:type="string">Experius\EmailCatcher\Model\ResourceModel\Emailcatcher\Grid\Collection</item>
-			</argument>
-		</arguments>
-	</type>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<preference for="Magento\Email\Model\Transport" type="Experius\EmailCatcher\Rewrite\Magento\Email\Model\Transport"/>
+    <preference for="Magento\Framework\Mail\Template\TransportBuilder" type="Experius\EmailCatcher\Rewrite\Magento\Framework\Mail\Template\TransportBuilder"/>
+    <preference for="Magento\Framework\Mail\Transport" type="Experius\EmailCatcher\Rewrite\Magento\Framework\Mail\Transport"/>
+    <type name="Magento\Framework\Mail\TransportInterface">
+        <plugin name="EmailCatchter" type="Experius\EmailCatcher\Plugin\Magento\Framework\Mail\TransportInterface" sortOrder="0"/>
+        <!-- Changes sort order to Magento Plugins -->
+        <plugin name="WindowsSmtpConfig" type="Magento\Email\Model\Plugin\WindowsSmtpConfig" sortOrder="2"/>
+        <plugin name="EmailDisable" type="Magento\Email\Model\Mail\TransportInterfacePlugin" sortOrder="3"/>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="experius_emailcatcher_grid_data_source" xsi:type="string">Experius\EmailCatcher\Model\ResourceModel\Emailcatcher\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
