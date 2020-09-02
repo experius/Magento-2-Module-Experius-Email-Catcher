@@ -14,6 +14,7 @@ namespace Experius\EmailCatcher\Plugin\Magento\Framework\Mail;
 use Experius\EmailCatcher\Model\EmailcatcherFactory;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use \Magento\Store\Model\ScopeInterface;
+use Experius\EmailCatcher\Registry\CurrentTemplate;
 
 class TransportInterface
 {
@@ -30,19 +31,26 @@ class TransportInterface
      * @var EmailcatcherFactory
      */
     private $emailCatcher;
+    /**
+     * @var CurrentTemplate
+     */
+    private $currentTemplate;
 
     /**
      * TransportInterface constructor.
      *
      * @param ScopeConfigInterface $scopeConfig
      * @param EmailcatcherFactory $emailCatcher
+     * @param CurrentTemplate $currentTemplate
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
-        EmailcatcherFactory $emailCatcher
+        EmailcatcherFactory $emailCatcher,
+        CurrentTemplate $currentTemplate
     ) {
         $this->scopeConfig = $scopeConfig;
         $this->emailCatcher = $emailCatcher;
+        $this->currentTemplate = $currentTemplate;
     }
 
     /**
@@ -68,8 +76,9 @@ class TransportInterface
         }
 
         // Check if template is whitelisted
+        $currentTemplate = $this->currentTemplate->get();
         if (!empty($this->getTemplateWhitelist())) {
-            if (in_array($subject->getTemplateIdentifier(), $this->getTemplateWhitelist())) {
+            if (in_array($currentTemplate, $this->getTemplateWhitelist())) {
                 return $proceed();
             }
         }
