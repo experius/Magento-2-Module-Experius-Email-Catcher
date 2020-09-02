@@ -15,6 +15,7 @@ use Magento\Framework\Data\Collection\Db\FetchStrategyInterface as FetchStrategy
 use Magento\Framework\Data\Collection\EntityFactoryInterface as EntityFactory;
 use Magento\Framework\Event\ManagerInterface as EventManager;
 use Psr\Log\LoggerInterface as Logger;
+use Magento\Framework\Exception\AlreadyExistsException;
 
 class Collection extends \Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult
 {
@@ -38,7 +39,7 @@ class Collection extends \Magento\Framework\View\Element\UiComponent\DataProvide
             $fetchStrategy,
             $eventManager,
             'experius_emailcatcher',
-            'Experius\EmailCatcher\Model\ResourceModel\Emailcatcher\Collection'
+            Experius\EmailCatcher\Model\ResourceModel\Emailcatcher\Collection::class
         );
     }
 
@@ -47,7 +48,7 @@ class Collection extends \Magento\Framework\View\Element\UiComponent\DataProvide
      *
      * @param \Magento\Framework\DataObject $item
      * @return $this
-     * @throws \Exception
+     * @throws AlreadyExistsException
      */
     public function addItem(\Magento\Framework\DataObject $item)
     {
@@ -59,7 +60,7 @@ class Collection extends \Magento\Framework\View\Element\UiComponent\DataProvide
 
         if ($itemId !== null) {
             if (isset($this->_items[$itemId])) {
-                throw new \Exception(
+                throw new AlreadyExistsException(
                     'Item (' . get_class($item) . ') with the same ID "' . $item->getId() . '" already exists.'
                 );
             }

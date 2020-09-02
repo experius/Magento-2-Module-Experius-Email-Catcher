@@ -102,13 +102,17 @@ class Mail
             ->get(ProductMetadataInterface::class);
 
         if (version_compare($this->magentoProductMetaData->getVersion(), "2.3.3", ">=")) {
-            $this->emailMessageInterfaceFactory = $emailMessageInterfaceFactory ?: \Magento\Framework\App\ObjectManager::getInstance()
+            $this->emailMessageInterfaceFactory = $emailMessageInterfaceFactory
+                ?: \Magento\Framework\App\ObjectManager::getInstance()
                 ->get(\Magento\Framework\Mail\EmailMessageInterfaceFactory::class);
-            $this->mimeMessageInterfaceFactory = $mimeMessageInterfaceFactory ?: \Magento\Framework\App\ObjectManager::getInstance()
+            $this->mimeMessageInterfaceFactory = $mimeMessageInterfaceFactory
+                ?: \Magento\Framework\App\ObjectManager::getInstance()
                 ->get(\Magento\Framework\Mail\MimeMessageInterfaceFactory::class);
-            $this->mimePartInterfaceFactory = $mimePartInterfaceFactory ?: \Magento\Framework\App\ObjectManager::getInstance()
+            $this->mimePartInterfaceFactory = $mimePartInterfaceFactory
+                ?: \Magento\Framework\App\ObjectManager::getInstance()
                 ->get(\Magento\Framework\Mail\MimePartInterfaceFactory::class);
-            $this->addressConverter = $addressConverter ?: \Magento\Framework\App\ObjectManager::getInstance()
+            $this->addressConverter = $addressConverter
+                ?: \Magento\Framework\App\ObjectManager::getInstance()
                 ->get(\Magento\Framework\Mail\AddressConverter::class);
         }
     }

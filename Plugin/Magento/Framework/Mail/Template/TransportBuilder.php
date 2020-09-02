@@ -26,7 +26,7 @@ class TransportBuilder
      */
     public function __construct(
         \Experius\EmailCatcher\Registry\CurrentTemplate $currentTemplate
-    ){
+    ) {
         $this->currentTemplate = $currentTemplate;
     }
 
@@ -38,7 +38,8 @@ class TransportBuilder
      */
     public function afterSetTemplateIdentifier(
         \Magento\Framework\Mail\Template\TransportBuilder $subject,
-        $result, $templateIdentifier
+        $result,
+        $templateIdentifier
     ) {
         $this->currentTemplate->set($templateIdentifier);
         return $result;

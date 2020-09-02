@@ -70,7 +70,7 @@ class Emailcatcher extends \Magento\Framework\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('Experius\EmailCatcher\Model\ResourceModel\Emailcatcher');
+        $this->_init(Experius\EmailCatcher\Model\ResourceModel\Emailcatcher::class);
     }
 
     /**
