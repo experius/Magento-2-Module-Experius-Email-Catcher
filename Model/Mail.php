@@ -14,6 +14,7 @@ namespace Experius\EmailCatcher\Model;
 use Magento\Framework\App\ProductMetadataInterface;
 use Magento\Framework\Mail\Message;
 use Magento\Framework\Mail\TransportInterfaceFactory;
+use Experius\EmailCatcher\Registry\CurrentTemplate;
 
 class Mail
 {
@@ -63,6 +64,10 @@ class Mail
      * @var array
      */
     private $messageData = [];
+    /**
+     * @var CurrentTemplate
+     */
+    private $currentTemplate;
 
     /**
      * Mail constructor.
@@ -70,6 +75,7 @@ class Mail
      * @param Message $messageFactory
      * @param EmailcatcherFactory $emailcatcherFactory
      * @param TransportInterfaceFactory $transportInterfaceFactory
+     * @param CurrentTemplate $currentTemplate
      * @param ProductMetadataInterface|null $magentoProductMetaData
      * @param \Magento\Framework\Mail\EmailMessageInterfaceFactory|null $emailMessageInterfaceFactory
      * @param \Magento\Framework\Mail\MimeMessageInterfaceFactory|null $mimeMessageInterfaceFactory
@@ -80,6 +86,7 @@ class Mail
         Message $messageFactory,
         EmailcatcherFactory $emailcatcherFactory,
         TransportInterfaceFactory $transportInterfaceFactory,
+        CurrentTemplate $currentTemplate,
         ProductMetadataInterface $magentoProductMetaData = null,
         $emailMessageInterfaceFactory = null,
         $mimeMessageInterfaceFactory = null,
@@ -89,18 +96,23 @@ class Mail
         $this->messageFactory = $messageFactory;
         $this->emailCatcherFactory = $emailcatcherFactory;
         $this->mailTransportFactory = $transportInterfaceFactory;
+        $this->currentTemplate = $currentTemplate;
 
         $this->magentoProductMetaData = $magentoProductMetaData ?: \Magento\Framework\App\ObjectManager::getInstance()
             ->get(ProductMetadataInterface::class);
 
         if (version_compare($this->magentoProductMetaData->getVersion(), "2.3.3", ">=")) {
-            $this->emailMessageInterfaceFactory = $emailMessageInterfaceFactory ?: \Magento\Framework\App\ObjectManager::getInstance()
+            $this->emailMessageInterfaceFactory = $emailMessageInterfaceFactory
+                ?: \Magento\Framework\App\ObjectManager::getInstance()
                 ->get(\Magento\Framework\Mail\EmailMessageInterfaceFactory::class);
-            $this->mimeMessageInterfaceFactory = $mimeMessageInterfaceFactory ?: \Magento\Framework\App\ObjectManager::getInstance()
+            $this->mimeMessageInterfaceFactory = $mimeMessageInterfaceFactory
+                ?: \Magento\Framework\App\ObjectManager::getInstance()
                 ->get(\Magento\Framework\Mail\MimeMessageInterfaceFactory::class);
-            $this->mimePartInterfaceFactory = $mimePartInterfaceFactory ?: \Magento\Framework\App\ObjectManager::getInstance()
+            $this->mimePartInterfaceFactory = $mimePartInterfaceFactory
+                ?: \Magento\Framework\App\ObjectManager::getInstance()
                 ->get(\Magento\Framework\Mail\MimePartInterfaceFactory::class);
-            $this->addressConverter = $addressConverter ?: \Magento\Framework\App\ObjectManager::getInstance()
+            $this->addressConverter = $addressConverter
+                ?: \Magento\Framework\App\ObjectManager::getInstance()
                 ->get(\Magento\Framework\Mail\AddressConverter::class);
         }
     }
@@ -115,6 +127,10 @@ class Mail
     {
         /** @var \Experius\EmailCatcher\Model\Emailcatcher $emailCatcher */
         $emailCatcher = $this->emailCatcherFactory->create()->load($emailCatcherId);
+        $templateIdentifier = $emailCatcher->getTemplateIdentifier();
+        if ($templateIdentifier) {
+            $this->currentTemplate->set($templateIdentifier);
+        }
         $recipient = ($alternativeToAddress) ? $alternativeToAddress : $emailCatcher->getRecipient();
 
         if (version_compare($this->magentoProductMetaData->getVersion(), "2.3.3", ">=")) {
