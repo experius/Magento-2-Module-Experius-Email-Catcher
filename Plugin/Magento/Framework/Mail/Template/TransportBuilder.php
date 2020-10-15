@@ -35,6 +35,7 @@ class TransportBuilder
      * @param $result
      * @param $templateIdentifier
      * @return mixed
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterSetTemplateIdentifier(
         \Magento\Framework\Mail\Template\TransportBuilder $subject,
