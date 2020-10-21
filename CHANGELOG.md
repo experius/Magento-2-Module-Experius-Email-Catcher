@@ -1,3 +1,10 @@
+## 3.3.2 (2020-10-21)
+
+[View Release](git@github.com:experius/Magento-2-Module-Experius-Email-Catcher.git/commits/tag/3.3.2)
+
+*  [REFACTOR] [BACI-157] Removed setup_version from module.xml *(Lewis Voncken)*
+
+
 ## 3.3.1 (2020-10-15)
 
 [View Release](git@github.com:experius/Magento-2-Module-Experius-Email-Catcher.git/commits/tag/3.3.1)
