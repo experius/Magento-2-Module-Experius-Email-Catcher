@@ -1,3 +1,10 @@
+## 3.4.0 (2020-10-22)
+
+[View Release](git@github.com:experius/Magento-2-Module-Experius-Email-Catcher.git/commits/tag/3.4.0)
+
+*  [FEATURE] [BACI-154] Added strict_types=1 and added License *(Lewis Voncken)*
+
+
 ## 3.3.2 (2020-10-21)
 
 [View Release](git@github.com:experius/Magento-2-Module-Experius-Email-Catcher.git/commits/tag/3.3.2)
