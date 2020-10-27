@@ -100,16 +100,16 @@ class Mail
         if (version_compare($this->magentoProductMetaData->getVersion(), "2.3.3", ">=")) {
             $this->emailMessageInterfaceFactory = $emailMessageInterfaceFactory
                 ?: \Magento\Framework\App\ObjectManager::getInstance()
-                ->get(\Magento\Framework\Mail\EmailMessageInterfaceFactory::class);
+                    ->get(\Magento\Framework\Mail\EmailMessageInterfaceFactory::class);
             $this->mimeMessageInterfaceFactory = $mimeMessageInterfaceFactory
                 ?: \Magento\Framework\App\ObjectManager::getInstance()
-                ->get(\Magento\Framework\Mail\MimeMessageInterfaceFactory::class);
+                    ->get(\Magento\Framework\Mail\MimeMessageInterfaceFactory::class);
             $this->mimePartInterfaceFactory = $mimePartInterfaceFactory
                 ?: \Magento\Framework\App\ObjectManager::getInstance()
-                ->get(\Magento\Framework\Mail\MimePartInterfaceFactory::class);
+                    ->get(\Magento\Framework\Mail\MimePartInterfaceFactory::class);
             $this->addressConverter = $addressConverter
                 ?: \Magento\Framework\App\ObjectManager::getInstance()
-                ->get(\Magento\Framework\Mail\AddressConverter::class);
+                    ->get(\Magento\Framework\Mail\AddressConverter::class);
         }
     }
 
@@ -132,10 +132,10 @@ class Mail
         if (version_compare($this->magentoProductMetaData->getVersion(), "2.3.3", ">=")) {
             // default message type is MimeInterface::TYPE_HTML, so no need to set it
             $this->messageData['from'][] = $this->addressConverter->convert(
-                $emailCatcher->getSender(),
-                $emailCatcher->getSender()
+                mb_decode_mimeheader($emailCatcher->getSender()),
+                mb_decode_mimeheader($emailCatcher->getSender())
             );
-            $this->messageData['to'][] = $this->addressConverter->convert($recipient, $recipient);
+            $this->messageData['to'][] = $this->addressConverter->convert(mb_decode_mimeheader($recipient), mb_decode_mimeheader($recipient));
             $content = $emailCatcher->getBody();
             $mimePart = $this->mimePartInterfaceFactory->create(['content' => $content]);
             $this->messageData['body'] = $this->mimeMessageInterfaceFactory->create(
@@ -150,8 +150,8 @@ class Mail
             /** @var Message $message */
             $message = $this->messageFactory;
             $message->setMessageType('html');
-            $message->setFrom($emailCatcher->getSender());
-            $message->addTo($recipient);
+            $message->setFrom(mb_encode_mimeheader($emailCatcher->getSender()));
+            $message->addTo(mb_encode_mimeheader($recipient));
             $message->setBodyHtml($emailCatcher->getBody());
             $message->setSubject(mb_encode_mimeheader($emailCatcher->getSubject()));
         }
