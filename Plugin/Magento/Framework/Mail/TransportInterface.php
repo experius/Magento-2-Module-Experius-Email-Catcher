@@ -1,19 +1,16 @@
 <?php
 /**
- * A Magento 2 module named Experius/EmailCatcher
- * Copyright (C) 2019 Experius
- *
- * This file included in Experius/EmailCatcher is licensed under OSL 3.0
- *
- * http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- * Please see LICENSE.txt for the full text of the OSL 3.0 license
+ * Copyright © Experius B.V. All rights reserved.
+ * See COPYING.txt for license details.
  */
+declare(strict_types=1);
 
 namespace Experius\EmailCatcher\Plugin\Magento\Framework\Mail;
 
 use Experius\EmailCatcher\Model\EmailcatcherFactory;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use \Magento\Store\Model\ScopeInterface;
+use Experius\EmailCatcher\Registry\CurrentTemplate;
 
 class TransportInterface
 {
@@ -30,19 +27,26 @@ class TransportInterface
      * @var EmailcatcherFactory
      */
     private $emailCatcher;
+    /**
+     * @var CurrentTemplate
+     */
+    private $currentTemplate;
 
     /**
      * TransportInterface constructor.
      *
      * @param ScopeConfigInterface $scopeConfig
      * @param EmailcatcherFactory $emailCatcher
+     * @param CurrentTemplate $currentTemplate
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
-        EmailcatcherFactory $emailCatcher
+        EmailcatcherFactory $emailCatcher,
+        CurrentTemplate $currentTemplate
     ) {
         $this->scopeConfig = $scopeConfig;
         $this->emailCatcher = $emailCatcher;
+        $this->currentTemplate = $currentTemplate;
     }
 
     /**
@@ -68,8 +72,9 @@ class TransportInterface
         }
 
         // Check if template is whitelisted
+        $currentTemplate = $this->currentTemplate->get();
         if (!empty($this->getTemplateWhitelist())) {
-            if (in_array($subject->getTemplateIdentifier(), $this->getTemplateWhitelist())) {
+            if (in_array($currentTemplate, $this->getTemplateWhitelist())) {
                 return $proceed();
             }
         }

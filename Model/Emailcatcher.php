@@ -1,13 +1,9 @@
 <?php
 /**
- * A Magento 2 module named Experius/EmailCatcher
- * Copyright (C) 2019 Experius
- *
- * This file included in Experius/EmailCatcher is licensed under OSL 3.0
- *
- * http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- * Please see LICENSE.txt for the full text of the OSL 3.0 license
+ * Copyright © Experius B.V. All rights reserved.
+ * See COPYING.txt for license details.
  */
+declare(strict_types=1);
 
 namespace Experius\EmailCatcher\Model;
 
@@ -16,6 +12,7 @@ use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\Model\Context;
 use Magento\Framework\Model\ResourceModel\AbstractResource;
 use Magento\Framework\Registry;
+use Experius\EmailCatcher\Registry\CurrentTemplate;
 
 class Emailcatcher extends \Magento\Framework\Model\AbstractModel
 {
@@ -33,6 +30,10 @@ class Emailcatcher extends \Magento\Framework\Model\AbstractModel
      * @var ProductMetadataInterface|null
      */
     protected $magentoProductMetaData;
+    /**
+     * @var CurrentTemplate
+     */
+    private $currentTemplate;
 
     /**
      * Emailcatcher constructor.
@@ -42,6 +43,7 @@ class Emailcatcher extends \Magento\Framework\Model\AbstractModel
      * @param ProductMetadataInterface $magentoProductMetaData
      * @param AbstractResource|null $resource
      * @param AbstractDb|null $resourceCollection
+     * @param CurrentTemplate $currentTemplate
      * @param array $data
      */
     public function __construct(
@@ -50,10 +52,11 @@ class Emailcatcher extends \Magento\Framework\Model\AbstractModel
         ProductMetadataInterface $magentoProductMetaData = null,
         AbstractResource $resource = null,
         AbstractDb $resourceCollection = null,
+        CurrentTemplate $currentTemplate,
         array $data = []
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
-
+        $this->currentTemplate = $currentTemplate;
         $this->magentoProductMetaData = $magentoProductMetaData ?: \Magento\Framework\App\ObjectManager::getInstance()
             ->get(ProductMetadataInterface::class);
     }
@@ -63,7 +66,7 @@ class Emailcatcher extends \Magento\Framework\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('Experius\EmailCatcher\Model\ResourceModel\Emailcatcher');
+        $this->_init(\Experius\EmailCatcher\Model\ResourceModel\Emailcatcher::class);
     }
 
     /**
@@ -94,12 +97,14 @@ class Emailcatcher extends \Magento\Framework\Model\AbstractModel
             $sender = 'could not retrieve from address';
         }
 
+        $templateIdentifier = $this->currentTemplate->get();
         $subject = $this->imapUtf8($message->getSubject());
         $this->setBody($body);
         $this->setSubject($subject);
         $this->setRecipient($recipient);
         $this->setSender($sender);
         $this->setCreatedAt(date('c'));
+        $this->setTemplateIdentifier($templateIdentifier);
         $this->save();
     }
 

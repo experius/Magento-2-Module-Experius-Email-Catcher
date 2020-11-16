@@ -1,19 +1,16 @@
 <?php
 /**
- * A Magento 2 module named Experius/EmailCatcher
- * Copyright (C) 2019 Experius
- *
- * This file included in Experius/EmailCatcher is licensed under OSL 3.0
- *
- * http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- * Please see LICENSE.txt for the full text of the OSL 3.0 license
+ * Copyright © Experius B.V. All rights reserved.
+ * See COPYING.txt for license details.
  */
+declare(strict_types=1);
 
 namespace Experius\EmailCatcher\Model;
 
 use Magento\Framework\App\ProductMetadataInterface;
 use Magento\Framework\Mail\Message;
 use Magento\Framework\Mail\TransportInterfaceFactory;
+use Experius\EmailCatcher\Registry\CurrentTemplate;
 
 class Mail
 {
@@ -63,6 +60,10 @@ class Mail
      * @var array
      */
     private $messageData = [];
+    /**
+     * @var CurrentTemplate
+     */
+    private $currentTemplate;
 
     /**
      * Mail constructor.
@@ -70,6 +71,7 @@ class Mail
      * @param Message $messageFactory
      * @param EmailcatcherFactory $emailcatcherFactory
      * @param TransportInterfaceFactory $transportInterfaceFactory
+     * @param CurrentTemplate $currentTemplate
      * @param ProductMetadataInterface|null $magentoProductMetaData
      * @param \Magento\Framework\Mail\EmailMessageInterfaceFactory|null $emailMessageInterfaceFactory
      * @param \Magento\Framework\Mail\MimeMessageInterfaceFactory|null $mimeMessageInterfaceFactory
@@ -80,6 +82,7 @@ class Mail
         Message $messageFactory,
         EmailcatcherFactory $emailcatcherFactory,
         TransportInterfaceFactory $transportInterfaceFactory,
+        CurrentTemplate $currentTemplate,
         ProductMetadataInterface $magentoProductMetaData = null,
         $emailMessageInterfaceFactory = null,
         $mimeMessageInterfaceFactory = null,
@@ -89,19 +92,24 @@ class Mail
         $this->messageFactory = $messageFactory;
         $this->emailCatcherFactory = $emailcatcherFactory;
         $this->mailTransportFactory = $transportInterfaceFactory;
+        $this->currentTemplate = $currentTemplate;
 
         $this->magentoProductMetaData = $magentoProductMetaData ?: \Magento\Framework\App\ObjectManager::getInstance()
             ->get(ProductMetadataInterface::class);
 
         if (version_compare($this->magentoProductMetaData->getVersion(), "2.3.3", ">=")) {
-            $this->emailMessageInterfaceFactory = $emailMessageInterfaceFactory ?: \Magento\Framework\App\ObjectManager::getInstance()
-                ->get(\Magento\Framework\Mail\EmailMessageInterfaceFactory::class);
-            $this->mimeMessageInterfaceFactory = $mimeMessageInterfaceFactory ?: \Magento\Framework\App\ObjectManager::getInstance()
-                ->get(\Magento\Framework\Mail\MimeMessageInterfaceFactory::class);
-            $this->mimePartInterfaceFactory = $mimePartInterfaceFactory ?: \Magento\Framework\App\ObjectManager::getInstance()
-                ->get(\Magento\Framework\Mail\MimePartInterfaceFactory::class);
-            $this->addressConverter = $addressConverter ?: \Magento\Framework\App\ObjectManager::getInstance()
-                ->get(\Magento\Framework\Mail\AddressConverter::class);
+            $this->emailMessageInterfaceFactory = $emailMessageInterfaceFactory
+                ?: \Magento\Framework\App\ObjectManager::getInstance()
+                    ->get(\Magento\Framework\Mail\EmailMessageInterfaceFactory::class);
+            $this->mimeMessageInterfaceFactory = $mimeMessageInterfaceFactory
+                ?: \Magento\Framework\App\ObjectManager::getInstance()
+                    ->get(\Magento\Framework\Mail\MimeMessageInterfaceFactory::class);
+            $this->mimePartInterfaceFactory = $mimePartInterfaceFactory
+                ?: \Magento\Framework\App\ObjectManager::getInstance()
+                    ->get(\Magento\Framework\Mail\MimePartInterfaceFactory::class);
+            $this->addressConverter = $addressConverter
+                ?: \Magento\Framework\App\ObjectManager::getInstance()
+                    ->get(\Magento\Framework\Mail\AddressConverter::class);
         }
     }
 
@@ -115,15 +123,19 @@ class Mail
     {
         /** @var \Experius\EmailCatcher\Model\Emailcatcher $emailCatcher */
         $emailCatcher = $this->emailCatcherFactory->create()->load($emailCatcherId);
+        $templateIdentifier = $emailCatcher->getTemplateIdentifier();
+        if ($templateIdentifier) {
+            $this->currentTemplate->set($templateIdentifier);
+        }
         $recipient = ($alternativeToAddress) ? $alternativeToAddress : $emailCatcher->getRecipient();
 
         if (version_compare($this->magentoProductMetaData->getVersion(), "2.3.3", ">=")) {
             // default message type is MimeInterface::TYPE_HTML, so no need to set it
             $this->messageData['from'][] = $this->addressConverter->convert(
-                $emailCatcher->getSender(),
-                $emailCatcher->getSender()
+                mb_decode_mimeheader($emailCatcher->getSender()),
+                mb_decode_mimeheader($emailCatcher->getSender())
             );
-            $this->messageData['to'][] = $this->addressConverter->convert($recipient, $recipient);
+            $this->messageData['to'][] = $this->addressConverter->convert(mb_decode_mimeheader($recipient), mb_decode_mimeheader($recipient));
             $content = $emailCatcher->getBody();
             $mimePart = $this->mimePartInterfaceFactory->create(['content' => $content]);
             $this->messageData['body'] = $this->mimeMessageInterfaceFactory->create(
@@ -138,8 +150,8 @@ class Mail
             /** @var Message $message */
             $message = $this->messageFactory;
             $message->setMessageType('html');
-            $message->setFrom($emailCatcher->getSender());
-            $message->addTo($recipient);
+            $message->setFrom(mb_encode_mimeheader($emailCatcher->getSender()));
+            $message->addTo(mb_encode_mimeheader($recipient));
             $message->setBodyHtml($emailCatcher->getBody());
             $message->setSubject(mb_encode_mimeheader($emailCatcher->getSubject()));
         }
