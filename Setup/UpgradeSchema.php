@@ -40,5 +40,19 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 );
             }
         }
+        if (version_compare($context->getVersion(), "1.0.2", "<")) {
+            $connection = $setup->getConnection();
+            if (!$connection->tableColumnExists($setup->getTable('experius_emailcatcher'), 'template_identifier')) {
+                $connection->addColumn(
+                    $setup->getTable('experius_emailcatcher'),
+                    'template_identifier',
+                    [
+                        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        'nullable' => true,
+                        'comment' => 'Email Template Identifier'
+                    ]
+                );
+            }
+        }
     }
 }
