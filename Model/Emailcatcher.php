@@ -49,10 +49,10 @@ class Emailcatcher extends \Magento\Framework\Model\AbstractModel
     public function __construct(
         Context $context,
         Registry $registry,
+        CurrentTemplate $currentTemplate,
         ProductMetadataInterface $magentoProductMetaData = null,
         AbstractResource $resource = null,
         AbstractDb $resourceCollection = null,
-        CurrentTemplate $currentTemplate,
         array $data = []
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
