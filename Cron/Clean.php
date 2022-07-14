@@ -71,7 +71,7 @@ class Clean
             $where
         );
 
-        $this->logger->addInfo(__('Experius EmailCatcher Cleanup: Removed %1 records', $deletionCount));
+        $this->logger->info(__('Experius EmailCatcher Cleanup: Removed %1 records', $deletionCount));
 
         return (int)$deletionCount;
     }
