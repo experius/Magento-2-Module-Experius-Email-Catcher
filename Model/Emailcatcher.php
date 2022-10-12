@@ -136,7 +136,7 @@ class Emailcatcher extends \Magento\Framework\Model\AbstractModel
      */
     public function imapUtf8($string)
     {
-        if (function_exists('imap_utf8')) {
+        if (function_exists('imap_utf8') && is_string($string)) {
             $string = imap_utf8($string);
         }
         return $string;
