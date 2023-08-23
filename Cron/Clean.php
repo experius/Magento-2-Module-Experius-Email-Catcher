@@ -28,6 +28,11 @@ class Clean
     protected $resourceConnection;
 
     /**
+     * @var \Magento\Framework\DB\Adapter\AdapterInterface|null
+     */
+    protected $connection;
+
+    /**
      * @var ScopeConfigInterface
      */
     private $scopeConfig;
@@ -50,6 +55,11 @@ class Clean
         $this->scopeConfig = $scopeConfig;
     }
 
+    /**
+     * Get days to clean
+     *
+     * @return int
+     */
     public function getDaysToClean()
     {
         $daysToCleanConfig = $this->scopeConfig->getValue(self::CONFIG_DAYS_TO_CLEAN, ScopeInterface::SCOPE_STORE);
