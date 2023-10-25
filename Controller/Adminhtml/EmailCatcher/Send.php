@@ -5,30 +5,23 @@
  */
 declare(strict_types=1);
 
-namespace Experius\EmailCatcher\Controller\Adminhtml\Emailcatcher;
+namespace Experius\EmailCatcher\Controller\Adminhtml\EmailCatcher;
 
 use Experius\EmailCatcher\Model\Mail;
+use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 
-class Send extends \Magento\Backend\App\Action
+class Send extends Action
 {
     /**
-     * @var Mail
-     */
-    protected $mail;
-
-    /**
-     * Send constructor.
-     *
      * @param Context $context
      * @param Mail $mail
      */
     public function __construct(
         Context $context,
-        Mail $mail
+        protected Mail $mail
     ) {
         parent::__construct($context);
-        $this->mail = $mail;
     }
 
     /**
@@ -44,7 +37,7 @@ class Send extends \Magento\Backend\App\Action
         $emailCatcherId = (isset($postData['emailcatcher_id'])) ? $postData['emailcatcher_id'] : false;
 
         if (!$emailCatcherId) {
-            $this->messageManager->addError('Oops, something went wrong');
+            $this->messageManager->addErrorMessage('Oops, something went wrong');
             return $resultRedirect->setPath('*/*/');
         }
 

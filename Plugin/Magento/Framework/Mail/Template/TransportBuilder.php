@@ -7,22 +7,16 @@ declare(strict_types=1);
 
 namespace Experius\EmailCatcher\Plugin\Magento\Framework\Mail\Template;
 
+use Experius\EmailCatcher\Registry\CurrentTemplate;
+
 class TransportBuilder
 {
-
     /**
-     * @var \Experius\EmailCatcher\Registry\CurrentTemplate
-     */
-    private $currentTemplate;
-
-    /**
-     * TransportBuilder constructor.
-     * @param \Experius\EmailCatcher\Registry\CurrentTemplate $currentTemplate
+     * @param CurrentTemplate $currentTemplate
      */
     public function __construct(
-        \Experius\EmailCatcher\Registry\CurrentTemplate $currentTemplate
+        private CurrentTemplate $currentTemplate
     ) {
-        $this->currentTemplate = $currentTemplate;
     }
 
     /**

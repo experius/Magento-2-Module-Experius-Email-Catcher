@@ -18,41 +18,21 @@ class Clean
     const CONFIG_DAYS_TO_CLEAN = 'emailcatcher/general/days_to_clean';
 
     /**
-     * @var LoggerInterface
-     */
-    protected $logger;
-
-    /**
-     * @var ResourceConnection
-     */
-    protected $resourceConnection;
-
-    /**
-     * @var \Magento\Framework\DB\Adapter\AdapterInterface|null
+     * @var \Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected $connection;
 
     /**
-     * @var ScopeConfigInterface
-     */
-    private $scopeConfig;
-
-    /**
-     * Clean constructor.
-     *
      * @param LoggerInterface $logger
      * @param ResourceConnection $resourceConnection
      * @param ScopeConfigInterface $scopeConfig
      */
     public function __construct(
-        LoggerInterface $logger,
-        ResourceConnection $resourceConnection,
-        ScopeConfigInterface $scopeConfig
+        protected LoggerInterface $logger,
+        protected ResourceConnection $resourceConnection,
+        protected ScopeConfigInterface $scopeConfig
     ) {
-        $this->logger = $logger;
-        $this->resourceConnection = $resourceConnection;
         $this->connection = $this->resourceConnection->getConnection();
-        $this->scopeConfig = $scopeConfig;
     }
 
     /**
@@ -60,11 +40,11 @@ class Clean
      *
      * @return int
      */
-    public function getDaysToClean()
+    public function getDaysToClean(): int
     {
         $daysToCleanConfig = $this->scopeConfig->getValue(self::CONFIG_DAYS_TO_CLEAN, ScopeInterface::SCOPE_STORE);
-        
-        return (int)$daysToCleanConfig >= 0 ? $daysToCleanConfig : self::DEFAULT_DAYS_TO_CLEAN;
+
+        return (int)$daysToCleanConfig >= 0 ? (int)$daysToCleanConfig : self::DEFAULT_DAYS_TO_CLEAN;
     }
 
     /**
@@ -72,7 +52,7 @@ class Clean
      *
      * @return int $deletionCount
      */
-    public function execute()
+    public function execute(): int
     {
         $where = "created_at < '" . date('c', time() - ($this->getDaysToClean() * (3600 * 24))) . "'";
 
@@ -83,6 +63,6 @@ class Clean
 
         $this->logger->info(__('Experius EmailCatcher Cleanup: Removed %1 records', $deletionCount));
 
-        return (int)$deletionCount;
+        return $deletionCount;
     }
 }

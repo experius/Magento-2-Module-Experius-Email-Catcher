@@ -5,30 +5,23 @@
  */
 declare(strict_types=1);
 
-namespace Experius\EmailCatcher\Controller\Adminhtml\Emailcatcher;
+namespace Experius\EmailCatcher\Controller\Adminhtml\EmailCatcher;
 
 use Experius\EmailCatcher\Cron\Clean;
+use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 
-class Cleanup extends \Magento\Backend\App\Action
+class Cleanup extends Action
 {
     /**
-     * @var Clean
-     */
-    protected $clean;
-
-    /**
-     * Cleanup constructor.
-     *
      * @param Context $context
      * @param Clean $clean
      */
     public function __construct(
         Context $context,
-        Clean $clean
+        protected Clean $clean
     ) {
         parent::__construct($context);
-        $this->clean = $clean;
     }
 
     /**

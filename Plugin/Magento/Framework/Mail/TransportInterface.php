@@ -19,34 +19,15 @@ class TransportInterface
     const CONFIG_PATH_TEMPLATE_WHITELIST = 'emailcatcher/whitelist/email_templates';
 
     /**
-     * @var ScopeConfigInterface
-     */
-    private $scopeConfig;
-
-    /**
-     * @var EmailcatcherFactory
-     */
-    private $emailCatcher;
-    /**
-     * @var CurrentTemplate
-     */
-    private $currentTemplate;
-
-    /**
-     * TransportInterface constructor.
-     *
      * @param ScopeConfigInterface $scopeConfig
      * @param EmailcatcherFactory $emailCatcher
      * @param CurrentTemplate $currentTemplate
      */
     public function __construct(
-        ScopeConfigInterface $scopeConfig,
-        EmailcatcherFactory $emailCatcher,
-        CurrentTemplate $currentTemplate
+        private ScopeConfigInterface $scopeConfig,
+        private EmailcatcherFactory $emailCatcher,
+        private CurrentTemplate $currentTemplate
     ) {
-        $this->scopeConfig = $scopeConfig;
-        $this->emailCatcher = $emailCatcher;
-        $this->currentTemplate = $currentTemplate;
     }
 
     /**
@@ -54,7 +35,8 @@ class TransportInterface
      *
      * @param \Magento\Framework\Mail\TransportInterface $subject
      * @param \Closure $proceed
-     * @return \Closure $proceed|void
+     * @return \Closure|void $proceed
+     * @throws \ReflectionException
      */
     public function aroundSendMessage(
         \Magento\Framework\Mail\TransportInterface $subject,

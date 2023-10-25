@@ -8,37 +8,22 @@ declare(strict_types=1);
 namespace Experius\EmailCatcher\Controller\Adminhtml\Preview;
 
 use Experius\EmailCatcher\Model\EmailcatcherFactory;
+use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\Controller\Result\RawFactory;
 
-class Index extends \Magento\Backend\App\Action
+class Index extends Action
 {
     /**
-     * @var RawFactory
-     */
-    protected $resultRawFactory;
-
-    /**
-     * @var EmailcatcherFactory
-     */
-    protected $emailCatcher;
-
-    /**
-     * Index constructor.
-     *
      * @param Context $context
      * @param RawFactory $resultRawFactory
      * @param EmailcatcherFactory $emailCatcher
      */
     public function __construct(
         Context $context,
-        RawFactory $resultRawFactory,
-        EmailcatcherFactory $emailCatcher
+        protected RawFactory $resultRawFactory,
+        protected EmailcatcherFactory $emailCatcher
     ) {
-
-        $this->resultRawFactory = $resultRawFactory;
-        $this->emailCatcher = $emailCatcher;
-
         parent::__construct($context);
     }
 

@@ -16,12 +16,7 @@ use Magento\Framework\Exception\AlreadyExistsException;
 class Collection extends \Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult
 {
     /**
-     * Collection constructor.
-     *
-     * @param EntityFactory $entityFactory
-     * @param Logger $logger
-     * @param FetchStrategy $fetchStrategy
-     * @param EventManager $eventManager
+     * @inheritDoc
      */
     public function __construct(
         EntityFactory $entityFactory,

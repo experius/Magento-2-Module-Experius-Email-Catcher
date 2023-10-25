@@ -1,3 +1,69 @@
+## 4.0.0 (2023-10-25)
+
+[View Release](git@github.com:experius/Magento-2-Module-Experius-Email-Catcher.git/commits/tag/4.0.0)
+
+*  [BUGFIX][IN23-251] Ported obsolete/deprecated install- and upgradeschema to db_schema.xml and db_schema_whitelist.json. *(Boris van Katwijk)*
+*  [FEATURE][IN23-252] Make EmailCatcher PHP 8.2 compatible; rework constructs and remove backwards compatibility for lower versions of Magento. *(Boris van Katwijk)*
+
+
+## 3.5.3 (2023-08-23)
+
+[View Release](git@github.com:experius/Magento-2-Module-Experius-Email-Catcher.git/commits/tag/3.5.3)
+
+*  [BUGFIX][#67][NEND-744] PHP Deprecated:  Creation of dynamic property Experius\EmailCatcher\Cron\Clean::$connection is deprecated in /Cron/Clean.php on line 49 *(Boris van Katwijk)*
+
+
+## 3.5.2 (2022-10-12)
+
+[View Release](git@github.com:experius/Magento-2-Module-Experius-Email-Catcher.git/commits/tag/3.5.2)
+
+*  #63: ERROR - Run Cleanup *(Prashant Patel)*
+*  Update function imapUtf8 with check on string type *(Experius)*
+
+
+## 3.5.1 (2022-07-21)
+
+[View Release](git@github.com:experius/Magento-2-Module-Experius-Email-Catcher.git/commits/tag/3.5.1)
+
+*  [FEATURE][BACI-694] Changed adminhtml ui component to have dates in the grid based on timezone *(Quinn Stadens)*
+
+
+## 3.5.0 (2021-02-19)
+
+[View Release](git@github.com:experius/Magento-2-Module-Experius-Email-Catcher.git/commits/tag/3.5.0)
+
+*  [FEATURE] - Restored old setupscripts. Allows for reinstall on a new M2.2 environment *(Rens Wolters)*
+*  [FEATURE] - Added db_schema changes after removal of installscripts to installscripts *(Rens Wolters)*
+
+
+## 3.4.4 (2020-11-25)
+
+[View Release](git@github.com:experius/Magento-2-Module-Experius-Email-Catcher.git/commits/tag/3.4.4)
+
+*  [REFACTOR] - Fix backwards compatibility with 2.2.X *(Ruben Panis)*
+
+
+## 3.4.3 (2020-11-25)
+
+[View Release](git@github.com:experius/Magento-2-Module-Experius-Email-Catcher.git/commits/tag/3.4.3)
+
+*  [BUGFIX] - Add required parameter before optional parameter in constructor *(Ruben Panis)*
+
+
+## 3.4.2 (2020-11-17)
+
+[View Release](git@github.com:experius/Magento-2-Module-Experius-Email-Catcher.git/commits/tag/3.4.2)
+
+*  [BUGFIX] - Fixed recipient string in resend message *(Ruben Panis)*
+
+
+## 3.4.1 (2020-10-27)
+
+[View Release](git@github.com:experius/Magento-2-Module-Experius-Email-Catcher.git/commits/tag/3.4.1)
+
+*  [BUGFIX] fixed bug for email getting into spam cause of utf-8 *(martijnvanhaagen)*
+
+
 ## 3.4.0 (2020-10-22)
 
 [View Release](git@github.com:experius/Magento-2-Module-Experius-Email-Catcher.git/commits/tag/3.4.0)

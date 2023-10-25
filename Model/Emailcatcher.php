@@ -7,14 +7,14 @@ declare(strict_types=1);
 
 namespace Experius\EmailCatcher\Model;
 
-use Magento\Framework\App\ProductMetadataInterface;
 use Magento\Framework\Data\Collection\AbstractDb;
+use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\Context;
 use Magento\Framework\Model\ResourceModel\AbstractResource;
 use Magento\Framework\Registry;
 use Experius\EmailCatcher\Registry\CurrentTemplate;
 
-class Emailcatcher extends \Magento\Framework\Model\AbstractModel
+class Emailcatcher extends AbstractModel
 {
     /**
      * @var string
@@ -27,38 +27,22 @@ class Emailcatcher extends \Magento\Framework\Model\AbstractModel
     protected $_eventObject = 'email';
 
     /**
-     * @var ProductMetadataInterface|null
-     */
-    protected $magentoProductMetaData;
-    /**
-     * @var CurrentTemplate
-     */
-    private $currentTemplate;
-
-    /**
-     * Emailcatcher constructor.
-     *
      * @param Context $context
      * @param Registry $registry
-     * @param ProductMetadataInterface $magentoProductMetaData
+     * @param CurrentTemplate $currentTemplate
      * @param AbstractResource|null $resource
      * @param AbstractDb|null $resourceCollection
-     * @param CurrentTemplate $currentTemplate
      * @param array $data
      */
     public function __construct(
         Context $context,
         Registry $registry,
-        CurrentTemplate $currentTemplate,
-        ProductMetadataInterface $magentoProductMetaData = null,
+        protected CurrentTemplate $currentTemplate,
         AbstractResource $resource = null,
         AbstractDb $resourceCollection = null,
         array $data = []
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
-        $this->currentTemplate = $currentTemplate;
-        $this->magentoProductMetaData = $magentoProductMetaData ?: \Magento\Framework\App\ObjectManager::getInstance()
-            ->get(ProductMetadataInterface::class);
     }
 
     /**
@@ -79,12 +63,10 @@ class Emailcatcher extends \Magento\Framework\Model\AbstractModel
         $bodyObject = $message->getBody();
 
         if (!method_exists($bodyObject, 'getRawContent') && method_exists($message, 'getRawMessage')) {
-            $zendMessageObject = new \Zend\Mail\Message();
+            $zendMessageObject = new \Laminas\Mail\Message();
             $zendMessage = $zendMessageObject::fromString($message->getRawMessage());
             $body = $zendMessage->getBodyText();
-            if (version_compare($this->magentoProductMetaData->getVersion(), "2.3.3", ">=")) {
-                $body = quoted_printable_decode($body);
-            }
+            $body = quoted_printable_decode($body);
             $recipient = $this->getEmailAddressesFromObject($zendMessage->getTo());
             $sender = $this->getEmailAddressesFromObject($zendMessage->getFrom());
         } elseif (method_exists($bodyObject, 'getRawContent')) {
@@ -130,15 +112,12 @@ class Emailcatcher extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * @todo imap_utf8 replacement
      * @param string $string
      * @return string $string
+     * @todo imap_utf8 replacement
      */
     public function imapUtf8($string)
     {
-        if (function_exists('imap_utf8') && is_string($string)) {
-            $string = imap_utf8($string);
-        }
-        return $string;
+        return (function_exists('imap_utf8') && is_string($string)) ? imap_utf8($string) : $string;
     }
 }
