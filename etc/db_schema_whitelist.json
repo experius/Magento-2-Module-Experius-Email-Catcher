@@ -1,0 +1,19 @@
+{
+    "experius_emailcatcher": {
+        "column": {
+            "emailcatcher_id": true,
+            "recipient": true,
+            "sender": true,
+            "subject": true,
+            "body": true,
+            "template_identifier": true,
+            "created_at": true,
+            "store_id": true,
+            "to": true,
+            "from": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}
