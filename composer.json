@@ -31,7 +31,9 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+        "php": "^8"
+    },
     "autoload": {
         "files": [
             "registration.php"
