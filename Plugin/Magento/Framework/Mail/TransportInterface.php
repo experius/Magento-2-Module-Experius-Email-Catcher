@@ -22,10 +22,10 @@ class TransportInterface
      * @param Emailcatcher $emailcatcher
      */
     public function __construct(
-        private ScopeConfigInterface $scopeConfig,
-        private EmailcatcherFactory $emailCatcherFactory,
-        private CurrentTemplate $currentTemplate,
-        private Emailcatcher $emailcatcher
+        protected ScopeConfigInterface $scopeConfig,
+        protected EmailcatcherFactory $emailCatcherFactory,
+        protected CurrentTemplate $currentTemplate,
+        protected Emailcatcher $emailcatcher
     ) {}
 
     /**
@@ -45,7 +45,7 @@ class TransportInterface
         }
 
         if ($this->emailcatcher->blackListEnabled() && in_array($this->getToEmailAddress($subject), $this->getBlacklistEmailAddresses())) {
-            $subject->getMessage()->setSubject('Prevent Being Sent');
+            $subject->getMessage()->setSubject('Prevent Being Sent - Blacklisted Email Address');
             $this->saveMessage($subject);
 
             return;
@@ -80,10 +80,7 @@ class TransportInterface
      */
     private function getTemplateWhitelist(): array
     {
-        $templates = $this->scopeConfig->getValue(
-            Emailcatcher::CONFIG_PATH_TEMPLATE_WHITELIST,
-            ScopeInterface::SCOPE_STORE
-        );
+        $templates = $this->emailcatcher->getWhitelistedTemplates();
 
         return $templates ? explode(',', $templates) : [];
     }
@@ -93,7 +90,7 @@ class TransportInterface
      */
     protected function getBlacklistEmailAddresses() : array
     {
-        return $this->scopeConfig->getValue('prevent_sending_email/blacklist/block_email_addresses');
+        return explode(',', $this->scopeConfig->getValue('emailcatcher/blacklist/block_email_addresses'));
     }
 
     /**

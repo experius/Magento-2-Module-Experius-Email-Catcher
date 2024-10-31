@@ -14,28 +14,15 @@ use Magento\Email\Model\ResourceModel\Template\CollectionFactory;
 class EmailTemplates implements ArrayInterface
 {
     /**
-     * @var Config
-     */
-    protected $templateConfig;
-
-    /**
-     * @var CollectionFactory
-     */
-    protected $emailTemplateCollectionFactory;
-
-    /**
      * EmailTemplates constructor.
      *
      * @param Config $templateConfig
      * @param CollectionFactory $emailTemplateCollectionFactory
      */
     public function __construct(
-        Config $templateConfig,
-        CollectionFactory $emailTemplateCollectionFactory
-    ) {
-        $this->templateConfig = $templateConfig;
-        $this->emailTemplateCollectionFactory = $emailTemplateCollectionFactory;
-    }
+        protected Config $templateConfig,
+        protected CollectionFactory $emailTemplateCollectionFactory
+    ) {}
 
     /**
      * To option array

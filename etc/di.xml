@@ -6,7 +6,7 @@
         <!-- Changes sort order to Magento Plugins -->
         <plugin name="WindowsSmtpConfig" type="Magento\Email\Model\Plugin\WindowsSmtpConfig" sortOrder="2"/>
         <!-- Override "EmailDisable" plugin of native Magento to add admin email address allowance -->
-        <plugin name="EmailDisable" type="Experius\EmailCatcher\Plugin\Magento\Framework\Mail\TransportInterfacePlugin"  sortOrder="2"/>
+        <plugin name="EmailDisable" type="Experius\EmailCatcher\Plugin\Magento\Framework\Mail\TransportInterfacePlugin" sortOrder="3"/>
     </type>
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
         <arguments>

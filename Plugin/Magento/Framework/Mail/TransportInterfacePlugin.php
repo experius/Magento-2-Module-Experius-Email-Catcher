@@ -12,10 +12,12 @@ class TransportInterfacePlugin
     /**
      * @param ScopeConfigInterface $scopeConfig
      * @param UserCollectionFactory $userCollectionFactory
+     * @param Emailcatcher $emailcatcher
      */
     public function __construct(
-        private ScopeConfigInterface  $scopeConfig,
-        private UserCollectionFactory $userCollectionFactory
+        protected ScopeConfigInterface  $scopeConfig,
+        protected UserCollectionFactory $userCollectionFactory,
+        protected Emailcatcher          $emailcatcher
     ) {}
 
     /**
@@ -28,32 +30,29 @@ class TransportInterfacePlugin
         \Closure                                   $proceed
     ): void
     {
-        if (!$this->scopeConfig->isSetFlag('system/smtp/disable', ScopeInterface::SCOPE_STORE) ||
-            !$this->scopeConfig->isSetFlag(Emailcatcher::CONFIG_PATH_EMAIL_CATCHER_ENABLED, ScopeInterface::SCOPE_STORE) ||
-            !$this->scopeConfig->isSetFlag(Emailcatcher::CONFIG_PATH_DEVELOPMENT_EMAIL_CATCHER_ADMIN_ALLOWED_ENABLED, ScopeInterface::SCOPE_STORE)
-        ) {
+        if (!$this->scopeConfig->isSetFlag('system/smtp/disable', ScopeInterface::SCOPE_STORE)) {
             $proceed();
             return;
         }
 
-        $emailAddresses = [];
-        foreach ($subject->getMessage()->getTo() as $to) {
-            $emailAddresses[] = $to->getEmail();
-        }
-        foreach ($subject->getMessage()->getCc() as $cc) {
-            $emailAddresses[] = $cc->getEmail();
-        }
-        foreach ($subject->getMessage()->getBcc() as $bcc) {
-            $emailAddresses[] = $bcc->getEmail();
-        }
-        if ($this->containsOnlyAdminUsers($emailAddresses)) {
-            $proceed();
+        if ($this->emailcatcher->developmentAdminAllowedEnabled()) {
+            $emailAddresses = [];
+            foreach ($subject->getMessage()->getTo() as $to) {
+                $emailAddresses[] = $to->getEmail();
+            }
+            foreach ($subject->getMessage()->getCc() as $cc) {
+                $emailAddresses[] = $cc->getEmail();
+            }
+            foreach ($subject->getMessage()->getBcc() as $bcc) {
+                $emailAddresses[] = $bcc->getEmail();
+            }
+            if ($this->containsOnlyAdminUsers($emailAddresses)) {
+                $proceed();
+            }
         }
     }
 
     /**
-     * Addresses contains a known admin user email address
-     *
      * @param $emailAddresses
      * @return bool
      */
@@ -82,11 +81,14 @@ class TransportInterfacePlugin
         return $collection->addFieldToSelect('email')->getColumnValues('email');
     }
 
-    protected function getCustomAllowedEmails()
+    /**
+     * @return array
+     */
+    protected function getCustomAllowedEmails(): array
     {
-       return $this->scopeConfig->getValue(
-            Emailcatcher::CONFIG_PATH_DEVELOPMENT_EMAIL_CATCHER_ALLOWED_ADDRESSES,
-            ScopeInterface::SCOPE_STORE);
+        $customEmails = $this->emailcatcher->getDevelopmentAdminAllowedEmailAddresses();
+
+        return !is_array($customEmails) ? explode(',', $customEmails) : $customEmails;
     }
 
 }

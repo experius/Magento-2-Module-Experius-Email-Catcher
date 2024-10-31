@@ -15,7 +15,7 @@ class TransportBuilder
      * @param CurrentTemplate $currentTemplate
      */
     public function __construct(
-        private CurrentTemplate $currentTemplate
+        protected CurrentTemplate $currentTemplate
     ) {
     }
 
