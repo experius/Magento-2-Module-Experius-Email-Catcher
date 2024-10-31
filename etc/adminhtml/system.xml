@@ -40,6 +40,36 @@
                     </depends>
                 </field>
             </group>
+            <group id="blacklist" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+                <label>Blacklist</label>
+                <field id="apply_blacklist" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label comment" type="select" canRestore="1">
+                    <label>Use Blacklist</label>
+                    <comment><![CDATA[
+                    If applied, email addresses defined in the list will not receive emails.]]></comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="block_email_addresses" type="textarea" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+                    <label>Block Email Addresses</label>
+                    <depends>
+                        <field id="apply_blacklist">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="development" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+                <label>Development</label>
+                <field id="enabled" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="select">
+                    <label>Enable Admin Users Receive Email</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[
+                    If applied, admin users will still receive emails when 'disable email communication' is enabled or enable single email addresses]]></comment>
+                </field>
+                <field id="allow_email_addresses" type="textarea" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+                    <label>Allow Email Addresses</label>
+                    <depends>
+                        <field id="apply_blacklist">1</field>
+                    </depends>
+                </field>
+            </group>
         </section>
     </system>
 </config>

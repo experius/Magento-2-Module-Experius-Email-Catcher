@@ -11,24 +11,22 @@ use Experius\EmailCatcher\Model\EmailcatcherFactory;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use \Magento\Store\Model\ScopeInterface;
 use Experius\EmailCatcher\Registry\CurrentTemplate;
+use Experius\EmailCatcher\Model\Emailcatcher;
 
 class TransportInterface
 {
-    const CONFIG_PATH_EMAIL_CATCHER_ENABLED = 'emailcatcher/general/enabled';
-    const CONFIG_PATH_WHITELIST_APPLY_WHITELIST = 'emailcatcher/whitelist/apply_whitelist';
-    const CONFIG_PATH_TEMPLATE_WHITELIST = 'emailcatcher/whitelist/email_templates';
-
     /**
      * @param ScopeConfigInterface $scopeConfig
-     * @param EmailcatcherFactory $emailCatcher
+     * @param EmailcatcherFactory $emailCatcherFactory
      * @param CurrentTemplate $currentTemplate
+     * @param Emailcatcher $emailcatcher
      */
     public function __construct(
         private ScopeConfigInterface $scopeConfig,
-        private EmailcatcherFactory $emailCatcher,
-        private CurrentTemplate $currentTemplate
-    ) {
-    }
+        private EmailcatcherFactory $emailCatcherFactory,
+        private CurrentTemplate $currentTemplate,
+        private Emailcatcher $emailcatcher
+    ) {}
 
     /**
      * Around sendMessage plugin
@@ -42,18 +40,23 @@ class TransportInterface
         \Magento\Framework\Mail\TransportInterface $subject,
         \Closure $proceed
     ) {
-        if (!$this->scopeConfig->isSetFlag(self::CONFIG_PATH_EMAIL_CATCHER_ENABLED, ScopeInterface::SCOPE_STORE)) {
+        if (!$this->emailcatcher->emailCatcherEnabled()) {
             return $proceed();
+        }
+
+        if ($this->emailcatcher->blackListEnabled() && in_array($this->getToEmailAddress($subject), $this->getBlacklistEmailAddresses())) {
+            $subject->getMessage()->setSubject('Prevent Being Sent');
+            $this->saveMessage($subject);
+
+            return;
         }
 
         $this->saveMessage($subject);
 
-        // Proceed if whitelist feature is not enabled
-        if (!$this->scopeConfig->isSetFlag(self::CONFIG_PATH_WHITELIST_APPLY_WHITELIST, ScopeInterface::SCOPE_STORE)) {
+        if (!$this->emailcatcher->whitelistEnabled()) {
             return $proceed();
         }
 
-        // Check if template is whitelisted
         $currentTemplate = $this->currentTemplate->get();
         if (!empty($this->getTemplateWhitelist())) {
             if (in_array($currentTemplate, $this->getTemplateWhitelist())) {
@@ -63,38 +66,42 @@ class TransportInterface
     }
 
     /**
-     * Save message
-     *
      * @param $subject
      * @return void
-     * @throws \ReflectionException
      */
-    private function saveMessage($subject)
+    private function saveMessage($subject): void
     {
-        // For >= 2.2
-        if (method_exists($subject, 'getMessage')) {
-            $this->emailCatcher->create()->saveMessage($subject->getMessage());
-        } else {
-            //For < 2.2
-            $reflection = new \ReflectionClass($subject);
-            $property = $reflection->getProperty('_message');
-            $property->setAccessible(true);
-            $this->emailCatcher->create()->saveMessage($property->getValue($subject));
-        }
+        $this->emailCatcherFactory->create()->saveMessage($subject->getMessage());
     }
 
     /**
      * Get whitelisted templates
-     *
      * @return array
      */
-    private function getTemplateWhitelist()
+    private function getTemplateWhitelist(): array
     {
         $templates = $this->scopeConfig->getValue(
-            self::CONFIG_PATH_TEMPLATE_WHITELIST,
+            Emailcatcher::CONFIG_PATH_TEMPLATE_WHITELIST,
             ScopeInterface::SCOPE_STORE
         );
 
         return $templates ? explode(',', $templates) : [];
+    }
+
+    /**
+     * @return array
+     */
+    protected function getBlacklistEmailAddresses() : array
+    {
+        return $this->scopeConfig->getValue('prevent_sending_email/blacklist/block_email_addresses');
+    }
+
+    /**
+     * @param $subject
+     * @return string
+     */
+    protected function getToEmailAddress($subject): string
+    {
+        return $subject->getMessage()->getTo()[0]->getEmail() ?? '';
     }
 }
