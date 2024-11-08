@@ -14,6 +14,9 @@
  - Resend a caught email
  - Cleanup emails older than 30 days (cron or manual)
  - Send emails based on whitelisted email templates
+ - Block emails based on blacklisted email list
+ - Enable admin user to receive email while magento email communication is disabled
+
 
 ## Versions
 
@@ -55,6 +58,14 @@ Disable email sending (default Magento, advised for development)
 Utilise whitelist functionality
 - Stores > Settings > Configuration > Advanced > Email Catcher > Whitelist > Apply whitelist (emailcatcher/whitelist/apply_whitelist)
 - Stores > Settings > Configuration > Advanced > Email Catcher > Whitelist > Whitelisted templates (emailcatcher/whitelist/email_templates)
+
+Utilise blacklist functionality
+- Stores > Settings > Configuration > Advanced > Email Catcher > Blacklist > Apply blacklist (emailcatcher/blacklist/apply_blacklist)
+- Stores > Settings > Configuration > Advanced > Email Catcher > Blacklist > Blacklisted templates (emailcatcher/blacklist/block_email_addresses)
+
+Utilise enable admin user receive email
+- Stores > Settings > Configuration > Advanced > Email Catcher > General > Enable Admin User Receive Email (emailcatcher/development/enabled)
+- Stores > Settings > Configuration > Advanced > Email Catcher > General > Admin User Email (emailcatcher/development/allow_email_addresses)
 
 Admin grid
  - System > Tools > Email Catcher
