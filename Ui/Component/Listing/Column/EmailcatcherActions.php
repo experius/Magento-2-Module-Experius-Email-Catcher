@@ -20,11 +20,6 @@ class EmailcatcherActions extends \Magento\Ui\Component\Listing\Columns\Column
     const URL_PATH_FORWARD = 'experius_emailcatcher/emailcatcher/forward';
 
     /**
-     * @var UrlInterface
-     */
-    protected $urlBuilder;
-
-    /**
      * EmailcatcherActions constructor.
      *
      * @param ContextInterface $context
@@ -36,12 +31,11 @@ class EmailcatcherActions extends \Magento\Ui\Component\Listing\Columns\Column
     public function __construct(
         ContextInterface $context,
         UiComponentFactory $uiComponentFactory,
-        UrlInterface $urlBuilder,
+        protected UrlInterface $urlBuilder,
         array $components = [],
         array $data = []
     ) {
         parent::__construct($context, $uiComponentFactory, $components, $data);
-        $this->urlBuilder = $urlBuilder;
     }
 
     /**

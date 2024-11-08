@@ -13,9 +13,18 @@ use Magento\Framework\Model\Context;
 use Magento\Framework\Model\ResourceModel\AbstractResource;
 use Magento\Framework\Registry;
 use Experius\EmailCatcher\Registry\CurrentTemplate;
+use Magento\Store\Model\ScopeInterface;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 
 class Emailcatcher extends AbstractModel
 {
+    const CONFIG_PATH_EMAIL_CATCHER_ENABLED = 'emailcatcher/general/enabled';
+    const CONFIG_PATH_DEVELOPMENT_EMAIL_CATCHER_ADMIN_ALLOWED_ENABLED = 'emailcatcher/development/enabled';
+    const CONFIG_PATH_WHITELIST_APPLY_WHITELIST = 'emailcatcher/whitelist/apply_whitelist';
+    const CONFIG_PATH_BLACKLIST_APPLY_BlACKLIST = 'emailcatcher/blacklist/apply_blacklist';
+    const CONFIG_PATH_TEMPLATE_WHITELIST = 'emailcatcher/whitelist/email_templates';
+    const CONFIG_PATH_DEVELOPMENT_EMAIL_CATCHER_ALLOWED_ADDRESSES = 'emailcatcher/development/allow_email_addresses';
+
     /**
      * @var string
      */
@@ -38,6 +47,7 @@ class Emailcatcher extends AbstractModel
         Context $context,
         Registry $registry,
         protected CurrentTemplate $currentTemplate,
+        protected ScopeConfigInterface $scopeConfig,
         AbstractResource $resource = null,
         AbstractDb $resourceCollection = null,
         array $data = []
@@ -120,4 +130,70 @@ class Emailcatcher extends AbstractModel
     {
         return (function_exists('imap_utf8') && is_string($string)) ? imap_utf8($string) : $string;
     }
+
+    /**
+     * @return bool
+     */
+    public function blackListEnabled(): bool
+    {
+        return $this->scopeConfig->isSetFlag(
+            self::CONFIG_PATH_BLACKLIST_APPLY_BlACKLIST,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * @return bool
+     */
+    public function whitelistEnabled(): bool
+    {
+        return $this->scopeConfig->isSetFlag(
+            self::CONFIG_PATH_WHITELIST_APPLY_WHITELIST,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getWhitelistedTemplates(): mixed
+    {
+        return $this->scopeConfig->getValue(
+            Emailcatcher::CONFIG_PATH_TEMPLATE_WHITELIST,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * @return bool
+     */
+    public function emailCatcherEnabled(): bool
+    {
+        return $this->scopeConfig->isSetFlag(
+            self::CONFIG_PATH_EMAIL_CATCHER_ENABLED,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * @return bool
+     */
+    public function developmentAdminAllowedEnabled(): bool
+    {
+        return $this->scopeConfig->isSetFlag(
+            Emailcatcher::CONFIG_PATH_DEVELOPMENT_EMAIL_CATCHER_ADMIN_ALLOWED_ENABLED,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * @return array|mixed
+     */
+    public function getDevelopmentAdminAllowedEmailAddresses(): mixed
+    {
+        return $this->scopeConfig->getValue(
+            Emailcatcher::CONFIG_PATH_DEVELOPMENT_EMAIL_CATCHER_ALLOWED_ADDRESSES,
+            ScopeInterface::SCOPE_STORE) ?: [];
+    }
+
 }

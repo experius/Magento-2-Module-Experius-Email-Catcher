@@ -2,10 +2,11 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <type name="Magento\Framework\Mail\TransportInterface">
-        <plugin name="EmailCatchter" type="Experius\EmailCatcher\Plugin\Magento\Framework\Mail\TransportInterface" sortOrder="0"/>
+        <plugin name="EmailCatcher" type="Experius\EmailCatcher\Plugin\Magento\Framework\Mail\TransportInterface" sortOrder="0"/>
         <!-- Changes sort order to Magento Plugins -->
         <plugin name="WindowsSmtpConfig" type="Magento\Email\Model\Plugin\WindowsSmtpConfig" sortOrder="2"/>
-        <plugin name="EmailDisable" type="Magento\Email\Model\Mail\TransportInterfacePlugin" sortOrder="3"/>
+        <!-- Override "EmailDisable" plugin of native Magento to add admin email address allowance -->
+        <plugin name="EmailDisable" type="Experius\EmailCatcher\Plugin\Magento\Framework\Mail\TransportInterfacePlugin" sortOrder="3"/>
     </type>
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
         <arguments>

@@ -10,6 +10,13 @@
                 <apply_whitelist>0</apply_whitelist>
                 <email_templates/>
             </whitelist>
+            <blacklist>
+                <apply_blacklist>0</apply_blacklist>
+                <block_email_addresses/>
+            </blacklist>
+            <development>
+                <enabled>0</enabled>
+            </development>
         </emailcatcher>
     </default>
 </config>
