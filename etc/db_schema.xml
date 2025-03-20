@@ -7,7 +7,7 @@
         <column xsi:type="text" name="recipient" nullable="true" comment="To Email Address"/>
         <column xsi:type="text" name="sender" nullable="true" comment="From Email Address"/>
         <column xsi:type="text" name="subject" nullable="true" comment="Subject"/>
-        <column xsi:type="text" name="body" nullable="true" comment="Email Body"/>
+        <column xsi:type="mediumtext" name="body" nullable="true" comment="Email Body"/>
         <column xsi:type="text" name="template_identifier" nullable="true" comment="Email Template Identifier"/>
         <column xsi:type="datetime" name="created_at" on_update="false" nullable="true" comment="Created At"/>
         <column xsi:type="int" name="store_id" padding="11" unsigned="false" nullable="true" identity="false"
