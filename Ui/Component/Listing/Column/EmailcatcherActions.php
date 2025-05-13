@@ -13,11 +13,11 @@ use Magento\Framework\View\Element\UiComponentFactory;
 
 class EmailcatcherActions extends \Magento\Ui\Component\Listing\Columns\Column
 {
-    const URL_PATH_EDIT = 'experius_emailcatcher/preview/index';
-    const URL_PATH_DELETE = 'experius_emailcatcher/emailcatcher/delete';
-    const URL_PATH_DETAILS = 'experius_emailcatcher/emailcatcher/details';
-    const URL_PATH_SEND = 'experius_emailcatcher/emailcatcher/send';
-    const URL_PATH_FORWARD = 'experius_emailcatcher/emailcatcher/forward';
+    public const URL_PATH_EDIT = 'experius_emailcatcher/preview/index';
+    public const URL_PATH_DELETE = 'experius_emailcatcher/emailcatcher/delete';
+    public const URL_PATH_DETAILS = 'experius_emailcatcher/emailcatcher/details';
+    public const URL_PATH_SEND = 'experius_emailcatcher/emailcatcher/send';
+    public const URL_PATH_FORWARD = 'experius_emailcatcher/emailcatcher/forward';
 
     /**
      * EmailcatcherActions constructor.

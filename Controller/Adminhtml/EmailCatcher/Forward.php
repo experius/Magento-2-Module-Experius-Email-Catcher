@@ -7,10 +7,12 @@ declare(strict_types=1);
 
 namespace Experius\EmailCatcher\Controller\Adminhtml\EmailCatcher;
 
+use Experius\EmailCatcher\Block\Adminhtml\Forward\Edit;
+use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
 
-class Forward extends \Magento\Backend\App\Action
+class Forward extends Action
 {
     /**
      * @param Context $context
@@ -31,7 +33,7 @@ class Forward extends \Magento\Backend\App\Action
         $result = $this->resultPageFactory->create();
         $result->getConfig()->getTitle()->prepend(__('Email Catcher'));
         $result->getLayout()->addBlock(
-            \Experius\EmailCatcher\Block\Adminhtml\Forward\Edit::class,
+            Edit::class,
             'forward',
             'content'
         );

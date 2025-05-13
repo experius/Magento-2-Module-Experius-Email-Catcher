@@ -9,18 +9,16 @@ namespace Experius\EmailCatcher\Cron;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\ResourceConnection;
+use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Store\Model\ScopeInterface;
 use Psr\Log\LoggerInterface;
 
 class Clean
 {
-    const DEFAULT_DAYS_TO_CLEAN = 30;
-    const CONFIG_DAYS_TO_CLEAN = 'emailcatcher/general/days_to_clean';
+    public const DEFAULT_DAYS_TO_CLEAN = 30;
+    public const CONFIG_DAYS_TO_CLEAN = 'emailcatcher/general/days_to_clean';
 
-    /**
-     * @var \Magento\Framework\DB\Adapter\AdapterInterface
-     */
-    protected $connection;
+    protected AdapterInterface $connection;
 
     /**
      * @param LoggerInterface $logger

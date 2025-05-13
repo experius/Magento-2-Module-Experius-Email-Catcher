@@ -2,6 +2,7 @@
 
 namespace Experius\EmailCatcher\Plugin\Magento\Framework\Mail;
 
+use Closure;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 use Magento\User\Model\ResourceModel\User\CollectionFactory as UserCollectionFactory;
@@ -22,12 +23,12 @@ class TransportInterfacePlugin
 
     /**
      * @param \Magento\Framework\Mail\TransportInterface $subject
-     * @param \Closure $proceed
+     * @param Closure $proceed
      * @return void
      */
     public function aroundSendMessage(
         \Magento\Framework\Mail\TransportInterface $subject,
-        \Closure                                   $proceed
+        Closure                                    $proceed
     ): void
     {
         if (!$this->scopeConfig->isSetFlag('system/smtp/disable', ScopeInterface::SCOPE_STORE)) {

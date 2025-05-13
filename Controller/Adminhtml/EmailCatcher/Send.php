@@ -33,8 +33,8 @@ class Send extends Action
 
         $postData = $this->getRequest()->getParams();
 
-        $email = (isset($postData['email'])) ? $postData['email'] : false;
-        $emailCatcherId = (isset($postData['emailcatcher_id'])) ? $postData['emailcatcher_id'] : false;
+        $email = $postData['email'] ?? false;
+        $emailCatcherId = $postData['emailcatcher_id'] ?? false;
 
         if (!$emailCatcherId) {
             $this->messageManager->addErrorMessage('Oops, something went wrong');

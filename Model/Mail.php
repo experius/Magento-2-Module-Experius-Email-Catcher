@@ -40,8 +40,7 @@ class Mail
         protected MimePartInterfaceFactory $mimePartInterfaceFactory,
         protected MimeMessageInterfaceFactory $mimeMessageInterfaceFactory,
         protected TransportInterfaceFactory $transportFactory
-    ) {
-    }
+    ) {}
 
     /**
      * Send message

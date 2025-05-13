@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Experius\EmailCatcher\Controller\Adminhtml\EmailCatcher;
 
+use Exception;
 use Experius\EmailCatcher\Cron\Clean;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
@@ -33,7 +34,7 @@ class Cleanup extends Action
 
         try {
             $deleteCount = $this->clean->execute();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->messageManager->addError($e->getMessage());
             return $resultRedirect->setPath('*/*/');
         }

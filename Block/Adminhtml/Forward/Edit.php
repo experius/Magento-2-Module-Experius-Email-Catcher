@@ -7,7 +7,9 @@ declare(strict_types=1);
 
 namespace Experius\EmailCatcher\Block\Adminhtml\Forward;
 
-class Edit extends \Magento\Backend\Block\Widget\Form\Container
+use Magento\Backend\Block\Widget\Form\Container;
+
+class Edit extends Container
 {
     /**
      * @inheritDoc

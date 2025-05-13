@@ -9,11 +9,13 @@ namespace Experius\EmailCatcher\Model\ResourceModel\Emailcatcher\Grid;
 
 use Magento\Framework\Data\Collection\Db\FetchStrategyInterface as FetchStrategy;
 use Magento\Framework\Data\Collection\EntityFactoryInterface as EntityFactory;
+use Magento\Framework\DataObject;
 use Magento\Framework\Event\ManagerInterface as EventManager;
+use Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult;
 use Psr\Log\LoggerInterface as Logger;
 use Magento\Framework\Exception\AlreadyExistsException;
 
-class Collection extends \Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult
+class Collection extends SearchResult
 {
     /**
      * @inheritDoc
@@ -37,11 +39,11 @@ class Collection extends \Magento\Framework\View\Element\UiComponent\DataProvide
     /**
      * Add item
      *
-     * @param \Magento\Framework\DataObject $item
+     * @param DataObject $item
      * @return $this
      * @throws AlreadyExistsException
      */
-    public function addItem(\Magento\Framework\DataObject $item)
+    public function addItem(DataObject $item)
     {
         $itemId = $this->_getItemId($item);
 
@@ -52,7 +54,7 @@ class Collection extends \Magento\Framework\View\Element\UiComponent\DataProvide
         if ($itemId !== null) {
             if (isset($this->_items[$itemId])) {
                 throw new AlreadyExistsException(
-                    'Item (' . get_class($item) . ') with the same ID "' . $item->getId() . '" already exists.'
+                    __('Item (' . get_class($item) . ') with the same ID "' . $item->getId() . '" already exists.')
                 );
             }
             $this->_items[$itemId] = $item;

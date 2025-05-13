@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace Experius\EmailCatcher\Model;
 
+use Laminas\Mail\Headers;
+use Symfony\Component\Mime\Message ;
 use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\Context;
@@ -18,12 +20,12 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 
 class Emailcatcher extends AbstractModel
 {
-    const CONFIG_PATH_EMAIL_CATCHER_ENABLED = 'emailcatcher/general/enabled';
-    const CONFIG_PATH_DEVELOPMENT_EMAIL_CATCHER_ADMIN_ALLOWED_ENABLED = 'emailcatcher/development/enabled';
-    const CONFIG_PATH_WHITELIST_APPLY_WHITELIST = 'emailcatcher/whitelist/apply_whitelist';
-    const CONFIG_PATH_BLACKLIST_APPLY_BlACKLIST = 'emailcatcher/blacklist/apply_blacklist';
-    const CONFIG_PATH_TEMPLATE_WHITELIST = 'emailcatcher/whitelist/email_templates';
-    const CONFIG_PATH_DEVELOPMENT_EMAIL_CATCHER_ALLOWED_ADDRESSES = 'emailcatcher/development/allow_email_addresses';
+    public const CONFIG_PATH_EMAIL_CATCHER_ENABLED = 'emailcatcher/general/enabled';
+    public const CONFIG_PATH_DEVELOPMENT_EMAIL_CATCHER_ADMIN_ALLOWED_ENABLED = 'emailcatcher/development/enabled';
+    public const CONFIG_PATH_WHITELIST_APPLY_WHITELIST = 'emailcatcher/whitelist/apply_whitelist';
+    public const CONFIG_PATH_BLACKLIST_APPLY_BlACKLIST = 'emailcatcher/blacklist/apply_blacklist';
+    public const CONFIG_PATH_TEMPLATE_WHITELIST = 'emailcatcher/whitelist/email_templates';
+    public const CONFIG_PATH_DEVELOPMENT_EMAIL_CATCHER_ALLOWED_ADDRESSES = 'emailcatcher/development/allow_email_addresses';
 
     /**
      * @var string
@@ -48,8 +50,8 @@ class Emailcatcher extends AbstractModel
         Registry $registry,
         protected CurrentTemplate $currentTemplate,
         protected ScopeConfigInterface $scopeConfig,
-        AbstractResource $resource = null,
-        AbstractDb $resourceCollection = null,
+        ?AbstractResource $resource = null,
+        ?AbstractDb $resourceCollection = null,
         array $data = []
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -60,7 +62,7 @@ class Emailcatcher extends AbstractModel
      */
     protected function _construct()
     {
-        $this->_init(\Experius\EmailCatcher\Model\ResourceModel\Emailcatcher::class);
+        $this->_init(ResourceModel\Emailcatcher::class);
     }
 
     /**
@@ -73,12 +75,10 @@ class Emailcatcher extends AbstractModel
         $bodyObject = $message->getBody();
 
         if (!method_exists($bodyObject, 'getRawContent') && method_exists($message, 'getRawMessage')) {
-            $zendMessageObject = new \Laminas\Mail\Message();
-            $zendMessage = $zendMessageObject::fromString($message->getRawMessage());
-            $body = $zendMessage->getBodyText();
+            $body = $message->getRawMessage();
             $body = quoted_printable_decode($body);
-            $recipient = $this->getEmailAddressesFromObject($zendMessage->getTo());
-            $sender = $this->getEmailAddressesFromObject($zendMessage->getFrom());
+            $recipient = $this->getEmailAddressesFromObject($message->getTo());
+            $sender = $this->getEmailAddressesFromObject($message->getFrom());
         } elseif (method_exists($bodyObject, 'getRawContent')) {
             $body = $bodyObject->getRawContent();
             $recipient = implode(',', $message->getRecipients());
@@ -159,7 +159,7 @@ class Emailcatcher extends AbstractModel
     public function getWhitelistedTemplates(): mixed
     {
         return $this->scopeConfig->getValue(
-            Emailcatcher::CONFIG_PATH_TEMPLATE_WHITELIST,
+            self::CONFIG_PATH_TEMPLATE_WHITELIST,
             ScopeInterface::SCOPE_STORE
         );
     }
@@ -181,7 +181,7 @@ class Emailcatcher extends AbstractModel
     public function developmentAdminAllowedEnabled(): bool
     {
         return $this->scopeConfig->isSetFlag(
-            Emailcatcher::CONFIG_PATH_DEVELOPMENT_EMAIL_CATCHER_ADMIN_ALLOWED_ENABLED,
+            self::CONFIG_PATH_DEVELOPMENT_EMAIL_CATCHER_ADMIN_ALLOWED_ENABLED,
             ScopeInterface::SCOPE_STORE
         );
     }
@@ -192,7 +192,7 @@ class Emailcatcher extends AbstractModel
     public function getDevelopmentAdminAllowedEmailAddresses(): mixed
     {
         return $this->scopeConfig->getValue(
-            Emailcatcher::CONFIG_PATH_DEVELOPMENT_EMAIL_CATCHER_ALLOWED_ADDRESSES,
+            self::CONFIG_PATH_DEVELOPMENT_EMAIL_CATCHER_ALLOWED_ADDRESSES,
             ScopeInterface::SCOPE_STORE) ?: [];
     }
 
