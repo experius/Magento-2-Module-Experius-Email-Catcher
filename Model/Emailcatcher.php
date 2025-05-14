@@ -7,8 +7,6 @@ declare(strict_types=1);
 
 namespace Experius\EmailCatcher\Model;
 
-use Laminas\Mail\Headers;
-use Symfony\Component\Mime\Message ;
 use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\Context;
