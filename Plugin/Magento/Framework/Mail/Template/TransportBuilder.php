@@ -16,8 +16,7 @@ class TransportBuilder
      */
     public function __construct(
         protected CurrentTemplate $currentTemplate
-    ) {
-    }
+    ) {}
 
     /**
      * @param \Magento\Framework\Mail\Template\TransportBuilder $subject

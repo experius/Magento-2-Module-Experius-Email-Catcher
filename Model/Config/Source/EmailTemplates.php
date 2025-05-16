@@ -8,10 +8,10 @@ declare(strict_types=1);
 namespace Experius\EmailCatcher\Model\Config\Source;
 
 use Magento\Email\Model\Template\Config;
-use Magento\Framework\Option\ArrayInterface;
 use Magento\Email\Model\ResourceModel\Template\CollectionFactory;
+use Magento\Framework\Data\OptionSourceInterface;
 
-class EmailTemplates implements ArrayInterface
+class EmailTemplates implements  OptionSourceInterface
 {
     /**
      * EmailTemplates constructor.
@@ -33,18 +33,18 @@ class EmailTemplates implements ArrayInterface
     {
         $templates = $this->templateConfig->getAvailableTemplates();
         foreach ($templates as $template) {
-            $template['label'] = $template['label'] . ' (' . $template['group'] . ')';
+            $template['label'] .= ' (' . $template['group'] . ')';
         }
 
         $emailTemplateCollection = $this->emailTemplateCollectionFactory
             ->create()
             ->toOptionArray();
         foreach ($emailTemplateCollection as &$customTemplate) {
-            $customTemplate['label'] = $customTemplate['label'] . ' (Custom)';
+            $customTemplate['label'] .= ' (Custom)';
         }
 
         $templates = array_merge($templates, $emailTemplateCollection);
-        usort($templates, function ($a, $b) {
+        usort($templates, static function ($a, $b) {
             return $a['label'] <=> $b['label'];
         });
 

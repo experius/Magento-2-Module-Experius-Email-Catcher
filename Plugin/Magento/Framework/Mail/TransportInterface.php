@@ -7,11 +7,13 @@ declare(strict_types=1);
 
 namespace Experius\EmailCatcher\Plugin\Magento\Framework\Mail;
 
+use Closure;
 use Experius\EmailCatcher\Model\EmailcatcherFactory;
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use \Magento\Store\Model\ScopeInterface;
+use Magento\Store\Model\ScopeInterface;
 use Experius\EmailCatcher\Registry\CurrentTemplate;
 use Experius\EmailCatcher\Model\Emailcatcher;
+use ReflectionException;
 
 class TransportInterface
 {
@@ -32,13 +34,13 @@ class TransportInterface
      * Around sendMessage plugin
      *
      * @param \Magento\Framework\Mail\TransportInterface $subject
-     * @param \Closure $proceed
-     * @return \Closure|void $proceed
-     * @throws \ReflectionException
+     * @param Closure $proceed
+     * @return Closure|void $proceed
+     * @throws ReflectionException
      */
     public function aroundSendMessage(
         \Magento\Framework\Mail\TransportInterface $subject,
-        \Closure $proceed
+        Closure $proceed
     ) {
         if (!$this->emailcatcher->emailCatcherEnabled()) {
             return $proceed();
@@ -58,10 +60,8 @@ class TransportInterface
         }
 
         $currentTemplate = $this->currentTemplate->get();
-        if (!empty($this->getTemplateWhitelist())) {
-            if (in_array($currentTemplate, $this->getTemplateWhitelist())) {
-                return $proceed();
-            }
+        if (!empty($this->getTemplateWhitelist()) && in_array($currentTemplate, $this->getTemplateWhitelist())) {
+            return $proceed();
         }
     }
 

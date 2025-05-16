@@ -14,7 +14,6 @@
                 comment="Store Id"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="emailcatcher_id"/>
-            <column name="emailcatcher_id"/>
         </constraint>
         <column xsi:type="text" name="to" nullable="true" comment="To Email Address"/>
         <column xsi:type="text" name="from" nullable="true" comment="From Email Address"/>

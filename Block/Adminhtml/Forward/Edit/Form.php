@@ -7,7 +7,9 @@ declare(strict_types=1);
 
 namespace Experius\EmailCatcher\Block\Adminhtml\Forward\Edit;
 
-class Form extends \Magento\Backend\Block\Widget\Form\Generic
+use Magento\Backend\Block\Widget\Form\Generic;
+
+class Form extends Generic
 {
     /**
      * @inheritDoc
@@ -20,7 +22,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         $selected = $this->getRequest()->getParam('selected');
 
-        $emailCatcherIds = ($emailCatcherId) ? $emailCatcherId : implode(',', $selected);
+        $emailCatcherIds = ($emailCatcherId) ?: implode(',', $selected);
 
         $form = $this->_formFactory->create();
 
