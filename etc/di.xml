@@ -18,4 +18,7 @@
     <type name="Magento\Framework\Mail\Template\TransportBuilder">
         <plugin disabled="false" name="Experius_EmailCatcher_Plugin_Magento_Framework_Mail_Template_TransportBuilder" sortOrder="10" type="Experius\EmailCatcher\Plugin\Magento\Framework\Mail\Template\TransportBuilder"/>
     </type>
+    <type name="Magento\Sales\Model\Order\Email\Container\IdentityInterface">
+        <plugin name="Experius_EmailCatcher_Plugin_Magento_Sales_Model_Order_Email_Container_IdentityInterface" type="Experius\EmailCatcher\Plugin\Magento\Sales\Model\Order\Email\Container\IdentityInterface" sortOrder="20" disabled="false"/>
+    </type>
 </config>

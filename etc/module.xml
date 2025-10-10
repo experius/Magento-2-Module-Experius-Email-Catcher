@@ -4,6 +4,7 @@
 		<sequence>
 			<module name="Magento_Backend"/>
 			<module name="Magento_Email"/>
+            <module name="Magento_Sales"/>
 		</sequence>
 	</module>
 </config>
