@@ -29,10 +29,13 @@ class IdentityInterface
                                   $result
     )
     {
-        return $result && $this->scopeConfig->getValue(
-            'emailcatcher/general/enabled',
-            ScopeInterface::SCOPE_STORE,
-            $subject->getStore()->getStoreId()
-        );
+        if (!$result) {
+            $result = (bool)$this->scopeConfig->getValue(
+                'emailcatcher/general/enabled',
+                ScopeInterface::SCOPE_STORE,
+                $subject->getStore()->getStoreId()
+            );
+        }
+        return $result;
     }
 }
