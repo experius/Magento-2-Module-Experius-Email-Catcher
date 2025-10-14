@@ -76,10 +76,14 @@ class Emailcatcher extends AbstractModel
             $body = $message->getRawMessage();
             $body = quoted_printable_decode($body);
             $recipient = $this->getEmailAddressesFromObject($message->getTo());
+            $cc = $message->getCc() ? $this->getEmailAddressesFromObject($message->getCc()) : null;
+            $bcc = $message->getBcc() ? $this->getEmailAddressesFromObject($message->getBcc()) : null;
             $sender = $this->getEmailAddressesFromObject($message->getFrom());
         } elseif (method_exists($bodyObject, 'getRawContent')) {
             $body = $bodyObject->getRawContent();
             $recipient = implode(',', $message->getRecipients());
+            $cc = implode(',', $message->getCc());
+            $bcc = implode(',', $message->getBcc());
             $sender = $message->getFrom();
         } else {
             $body = 'could not retrieve body';
@@ -95,6 +99,8 @@ class Emailcatcher extends AbstractModel
         $this->setSender($sender);
         $this->setCreatedAt(date('c'));
         $this->setTemplateIdentifier($templateIdentifier);
+        $this->setCc($cc);
+        $this->setBcc($bcc);
         $this->save();
     }
 
