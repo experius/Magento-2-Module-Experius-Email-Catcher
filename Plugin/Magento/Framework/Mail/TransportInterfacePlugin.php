@@ -38,13 +38,13 @@ class TransportInterfacePlugin
 
         if ($this->emailcatcher->developmentAdminAllowedEnabled()) {
             $emailAddresses = [];
-            foreach ($subject->getMessage()->getTo() as $to) {
+            foreach ($subject->getMessage()->getTo() ?? [] as $to) {
                 $emailAddresses[] = $to->getEmail();
             }
-            foreach ($subject->getMessage()->getCc() as $cc) {
+            foreach ($subject->getMessage()->getCc() ?? [] as $cc) {
                 $emailAddresses[] = $cc->getEmail();
             }
-            foreach ($subject->getMessage()->getBcc() as $bcc) {
+            foreach ($subject->getMessage()->getBcc() ?? [] as $bcc) {
                 $emailAddresses[] = $bcc->getEmail();
             }
             if ($this->containsOnlyAdminUsers($emailAddresses)) {
