@@ -34,6 +34,9 @@
     "require": {
         "php": "^8"
     },
+    "conflict": {
+        "experius/module-smtpallowadminemails": "*",
+    },
     "autoload": {
         "files": [
             "registration.php"
