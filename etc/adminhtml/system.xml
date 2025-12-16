@@ -54,6 +54,12 @@
                         <field id="apply_blacklist">1</field>
                     </depends>
                 </field>
+                <field id="block_email_domains" type="textarea" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+                    <label>Block Email Domains</label>
+                    <depends>
+                        <field id="apply_blacklist">1</field>
+                    </depends>
+                </field>
             </group>
             <group id="development" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
                 <label>Development</label>
