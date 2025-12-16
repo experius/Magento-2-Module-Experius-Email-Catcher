@@ -36,7 +36,6 @@ class TransportInterface
      * @param \Magento\Framework\Mail\TransportInterface $subject
      * @param Closure $proceed
      * @return Closure|void $proceed
-     * @throws ReflectionException
      */
     public function aroundSendMessage(
         \Magento\Framework\Mail\TransportInterface $subject,
@@ -46,8 +45,8 @@ class TransportInterface
             return $proceed();
         }
 
-        if ($this->emailcatcher->blackListEnabled() && in_array($this->getToEmailAddress($subject), $this->getBlacklistEmailAddresses())) {
-            $subject->getMessage()->setSubject('Prevent Being Sent - Blacklisted Email Address');
+        if ($this->emailcatcher->blackListEnabled() && $this->emailInBlacklist($this->getToEmailAddress($subject))) {
+            $subject->getMessage()?->setSubject('Prevent Being Sent - Blacklisted Email Address');
             $this->saveMessage($subject);
 
             return;
@@ -100,5 +99,30 @@ class TransportInterface
     protected function getToEmailAddress($subject): string
     {
         return $subject->getMessage()->getTo()[0]->getEmail() ?? '';
+    }
+
+    /**
+     * @param string $emailAddress
+     * @return bool
+     */
+    private function domainInBlacklist(string $emailAddress): bool
+    {
+        $blacklistedDomains = explode(',', $this->scopeConfig->getValue('emailcatcher/blacklist/block_email_domains'));
+        $emailDomain = substr(strrchr($emailAddress, "@"), 1);
+
+        return in_array($emailDomain, $blacklistedDomains);
+    }
+
+    /**
+     * @param string $emailAddress
+     * @return bool
+     */
+    private function emailInBlacklist(string $emailAddress): bool
+    {
+        if ($this->domainInBlacklist($emailAddress)) {
+            return true;
+        }
+
+        return in_array($emailAddress, $this->getBlacklistEmailAddresses());
     }
 }
