@@ -96,7 +96,7 @@ class TransportInterface
      * @param $subject
      * @return string
      */
-    protected function getToEmailAddress($subject): string
+    private function getToEmailAddress($subject): string
     {
         return $subject->getMessage()->getTo()[0]->getEmail() ?? '';
     }
