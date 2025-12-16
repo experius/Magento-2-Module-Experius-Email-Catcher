@@ -87,7 +87,7 @@ class TransportInterface
     /**
      * @return array
      */
-    protected function getBlacklistEmailAddresses() : array
+    private function getBlacklistEmailAddresses() : array
     {
         return explode(',', $this->scopeConfig->getValue('emailcatcher/blacklist/block_email_addresses'));
     }
@@ -117,7 +117,7 @@ class TransportInterface
      * @param string $emailAddress
      * @return bool
      */
-    private function emailInBlacklist(string $emailAddress): bool
+    public function emailInBlacklist(string $emailAddress): bool
     {
         if ($this->domainInBlacklist($emailAddress)) {
             return true;
