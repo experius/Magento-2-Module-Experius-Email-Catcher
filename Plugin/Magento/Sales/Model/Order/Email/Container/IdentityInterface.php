@@ -30,17 +30,19 @@ class IdentityInterface
     public function afterIsEnabled(
         OriginalIdentityInterface $subject,
                                   $result
-    )
-    {
-        if ($result &&
-            $this->scopeConfig->isSetFlag(
-                self::XML_PATH_SYSTEM_SMTP_DISABLE,
+    ) {
+        if (!$result) {
+            return $result;
+        }
+        if (
+            !$this->scopeConfig->getValue(
+                'emailcatcher/general/enabled',
                 ScopeInterface::SCOPE_STORE,
                 $subject->getStore()->getStoreId()
             )
         ) {
-            $result = (bool)$this->scopeConfig->getValue(
-                'emailcatcher/general/enabled',
+            return !$this->scopeConfig->isSetFlag(
+                self::XML_PATH_SYSTEM_SMTP_DISABLE,
                 ScopeInterface::SCOPE_STORE,
                 $subject->getStore()->getStoreId()
             );
