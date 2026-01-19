@@ -15,11 +15,14 @@ use Magento\Store\Model\ScopeInterface;
 class IdentityInterface
 {
 
+    private const XML_PATH_SYSTEM_SMTP_DISABLE = 'system/smtp/disable';
+
     public function __construct(
         private readonly ScopeConfigInterface $scopeConfig
     ) {}
 
     /**
+     * Since ApplyStoreEmailConfigToSalesEmail plugin from Magento is disabled, partial takeover of that functionality to here.
      * @param OriginalIdentityInterface $subject
      * @param $result
      * @return bool
@@ -27,11 +30,19 @@ class IdentityInterface
     public function afterIsEnabled(
         OriginalIdentityInterface $subject,
                                   $result
-    )
-    {
+    ) {
         if (!$result) {
-            $result = (bool)$this->scopeConfig->getValue(
+            return $result;
+        }
+        if (
+            !$this->scopeConfig->getValue(
                 'emailcatcher/general/enabled',
+                ScopeInterface::SCOPE_STORE,
+                $subject->getStore()->getStoreId()
+            )
+        ) {
+            return !$this->scopeConfig->isSetFlag(
+                self::XML_PATH_SYSTEM_SMTP_DISABLE,
                 ScopeInterface::SCOPE_STORE,
                 $subject->getStore()->getStoreId()
             );
