@@ -33,18 +33,17 @@ class TransportInterfacePlugin
     {
         if (!$this->scopeConfig->isSetFlag('system/smtp/disable', ScopeInterface::SCOPE_STORE)) {
             $proceed();
-            return;
         }
 
         if ($this->emailcatcher->developmentAdminAllowedEnabled()) {
             $emailAddresses = [];
-            foreach ($subject->getMessage()->getTo() ?? [] as $to) {
+            foreach ($subject->getMessage()?->getTo() ?? [] as $to) {
                 $emailAddresses[] = $to->getEmail();
             }
-            foreach ($subject->getMessage()->getCc() ?? [] as $cc) {
+            foreach ($subject->getMessage()?->getCc() ?? [] as $cc) {
                 $emailAddresses[] = $cc->getEmail();
             }
-            foreach ($subject->getMessage()->getBcc() ?? [] as $bcc) {
+            foreach ($subject->getMessage()?->getBcc() ?? [] as $bcc) {
                 $emailAddresses[] = $bcc->getEmail();
             }
             if ($this->containsOnlyAdminUsers($emailAddresses)) {
