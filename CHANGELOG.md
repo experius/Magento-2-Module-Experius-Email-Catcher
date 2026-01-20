@@ -1,3 +1,46 @@
+## 4.5.0 (2026-01-19)
+
+[View Release](git@github.com:experius/Magento-2-Module-Experius-Email-Catcher.git/commits/tag/4.5.0)
+
+*  [FEATURE][IN23-542] added plugin for sales identity interface to make this module work with 2.4.8 again *(Quinn Stadens)*
+*  [FEATURE][IN23-542] changed plugin to properly work with magento 2.4.8 isEnabled structure, without impacting regular enabled flow *(Quinn Stadens)*
+*  [FEATURE][IN23-387] Add CC and BCC to email catcher table, admin grid and resource model *(Maaike)*
+*  [BUGFIX][IN23-542] Made sure the admin allowed functionaltiy properly works and doesn't break due to no CC or BCC in the emails *(Quinn Stadens)*
+*  Update composer.json *(dylanmaurits)*
+*  [FEATURE][DSORG-2274] Fixed transactional emails being sent even when they're set to disabled. Made sure to allow emailcatcher to still work for transactional emails when SMTP is disabled *(Quinn Stadens)*
+*  [FEATURE][DSORG-2274] Changed isEnabled plugin based on PR feedback to make it slighty more performant *(Quinn Stadens)*
+
+
+## 4.2.0 (2025-05-16)
+
+[View Release](git@github.com:experius/Magento-2-Module-Experius-Email-Catcher.git/commits/tag/4.2.0)
+
+*  [FEATURE][NUA-55] Updated Emailcatcher to work with magento 2.4.8 and php 8.4 *(René Schep)*
+*  [FEATURE][NUA-55] Removed unused uses *(René Schep)*
+
+
+## 4.1.1 (2025-03-20)
+
+[View Release](git@github.com:experius/Magento-2-Module-Experius-Email-Catcher.git/commits/tag/4.1.1)
+
+*  [FEATURE][SPC-4932] upped body size *(Dylan Maurits)*
+
+
+## 4.1.0 (2024-11-08)
+
+[View Release](git@github.com:experius/Magento-2-Module-Experius-Email-Catcher.git/commits/tag/4.1.0)
+
+*  [FEATURE][SPC-4644] Started rework *(martijn van haagen)*
+*  [FEATURE][SPC-4644] Extended readme *(martijn van haagen)*
+
+
+## 4.0.1 (2024-01-22)
+
+[View Release](git@github.com:experius/Magento-2-Module-Experius-Email-Catcher.git/commits/tag/4.0.1)
+
+*  feat(req): add php 8 requirement in composer.json *(Boris van Katwijk)*
+
+
 ## 4.0.0 (2023-10-25)
 
 [View Release](git@github.com:experius/Magento-2-Module-Experius-Email-Catcher.git/commits/tag/4.0.0)
