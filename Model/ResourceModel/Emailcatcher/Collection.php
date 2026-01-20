@@ -7,7 +7,8 @@ declare(strict_types=1);
 
 namespace Experius\EmailCatcher\Model\ResourceModel\Emailcatcher;
 
-use Experius\EmailCatcher\Model\ResourceModel\Emailcatcher;
+use Experius\EmailCatcher\Model\Emailcatcher;
+use Experius\EmailCatcher\Model\ResourceModel;
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 
 class Collection extends AbstractCollection
@@ -18,8 +19,8 @@ class Collection extends AbstractCollection
     protected function _construct()
     {
         $this->_init(
-            \Experius\EmailCatcher\Model\Emailcatcher::class,
-            Emailcatcher::class
+            Emailcatcher::class,
+            ResourceModel\Emailcatcher::class
         );
     }
 }

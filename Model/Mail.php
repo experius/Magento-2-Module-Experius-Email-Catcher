@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Experius\EmailCatcher\Model;
 
+use Magento\Framework\Exception\MailException;
 use Magento\Framework\Mail\AddressConverter;
 use Magento\Framework\Mail\EmailMessageInterfaceFactory;
 use Magento\Framework\Mail\MimeMessageInterfaceFactory;
@@ -21,7 +22,7 @@ class Mail
      *
      * @var array
      */
-    private $messageData = [];
+    private array $messageData = [];
 
     /**
      * @param EmailcatcherFactory $emailCatcherFactory
@@ -47,10 +48,11 @@ class Mail
      *
      * @param $emailCatcherId
      * @param $alternativeToAddress
+     * @throws MailException
      */
     public function sendMessage($emailCatcherId, $alternativeToAddress)
     {
-        /** @var \Experius\EmailCatcher\Model\Emailcatcher $emailCatcher */
+        /** @var Emailcatcher $emailCatcher */
         $emailCatcher = $this->emailCatcherFactory->create()->load($emailCatcherId);
         $templateIdentifier = $emailCatcher->getTemplateIdentifier();
         if ($templateIdentifier) {

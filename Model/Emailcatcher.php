@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Experius\EmailCatcher\Model;
 
 use Magento\Framework\Data\Collection\AbstractDb;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\Context;
 use Magento\Framework\Model\ResourceModel\AbstractResource;
@@ -39,9 +40,11 @@ class Emailcatcher extends AbstractModel
      * @param Context $context
      * @param Registry $registry
      * @param CurrentTemplate $currentTemplate
+     * @param ScopeConfigInterface $scopeConfig
      * @param AbstractResource|null $resource
      * @param AbstractDb|null $resourceCollection
      * @param array $data
+     * @throws LocalizedException
      */
     public function __construct(
         Context $context,
@@ -67,6 +70,7 @@ class Emailcatcher extends AbstractModel
      * Save message
      *
      * @param $message
+     * @throws \Exception
      */
     public function saveMessage($message)
     {

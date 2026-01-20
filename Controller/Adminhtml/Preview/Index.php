@@ -42,7 +42,6 @@ class Index extends Action
         } else {
             $body = '<h2>' . __('Something went wrong with rendering the email, please try again') . '</h2>';
         }
-        $resultRaw = $this->resultRawFactory->create();
-        return $resultRaw->setContents($body);
+        return $this->resultRawFactory->create()->setContents($body);
     }
 }

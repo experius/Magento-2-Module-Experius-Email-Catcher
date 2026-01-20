@@ -8,26 +8,27 @@
         {
             "name": "Derrick Heesbeen",
             "email": "derrick@experius.nl"
-        },
-        {
+        },{
             "name": "Boris van Katwijk",
             "email": "borisvankatwijk@happyhorizon.com"
-        },
-        {
-            "name": "Lewis Vonken",
-            "email": "lewis@experius.nl"
-        },
-        {
+        },{
+            "name": "Lewis Voncken",
+            "email": "lewisvoncken@happyhorizon.com"
+        },{
             "name": "Daphne Witmer",
             "email": "daphne.witmer@experius.nl"
-        },
-        {
+        },{
             "name": "Ruben Panis",
             "email": "ruben@experius.nl"
-        },
-        {
-            "name": "Matthijs Breedt",
-            "email": "matthijs.breed@experius.nl"
+        },{
+            "name": "Matthijs Breed",
+            "email": "matthijsbreed@happyhorizon.com"
+        },{
+            "name": "René Schep",
+            "email": "reneschep@happyhorizon.com"
+        },{
+            "name": "Quinn Stadens",
+            "email": "quinnstadens@happyhorizon.com"
         }
     ],
     "minimum-stability": "dev",
@@ -35,7 +36,7 @@
         "php": "^8"
     },
     "conflict": {
-        "experius/module-smtpallowadminemails": "*",
+        "experius/module-smtpallowadminemails": "*"
     },
     "autoload": {
         "files": [
