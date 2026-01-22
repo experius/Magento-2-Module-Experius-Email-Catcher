@@ -76,8 +76,8 @@ class Emailcatcher extends AbstractModel
     {
         $bodyObject = $message->getBody();
 
-        if (!method_exists($bodyObject, 'getRawContent') && method_exists($message, 'getRawMessage')) {
-            $body = $message->getRawMessage();
+        if (!method_exists($bodyObject, 'getRawContent') && method_exists($message, 'getBodyText')) {
+            $body = $message->getBodyText();
             $body = quoted_printable_decode($body);
             $recipient = $this->getEmailAddressesFromObject($message->getTo());
             $cc = $message->getCc() ? $this->getEmailAddressesFromObject($message->getCc()) : null;
