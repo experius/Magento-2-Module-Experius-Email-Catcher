@@ -15,7 +15,7 @@
                 <block_email_addresses/>
             </blacklist>
             <development>
-                <enabled>0</enabled>
+                <enabled>1</enabled>
             </development>
         </emailcatcher>
     </default>
